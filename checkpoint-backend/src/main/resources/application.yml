@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: checkpoint-backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/checkpoint_dev
+    username: checkpoint_user
+    password: devpassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # Flyway owns the schema. Hibernate must never auto-modify it.
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.checkpoint: DEBUG
+    org.hibernate.SQL: DEBUG
