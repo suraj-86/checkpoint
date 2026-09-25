@@ -1,4 +1,4 @@
-# Checkpoint — Phase 0 Documentation
+# Checkpoint
 
 ## What is Checkpoint?
 
@@ -14,6 +14,14 @@ The product combines four major ideas:
 4. **Consistency** — completing the Daily Session builds a separate streak.
 
 The result should feel similar in spirit to a modern learning product while remaining small enough to build, understand and demonstrate as a Java mini project.
+
+---
+
+## Project status
+
+- ✅ **Phase 0** — Planning and architecture complete (D1–D15 finalized).
+- ✅ **Phase 1** — Project foundation complete: backend (Spring Boot + PostgreSQL + Flyway, all 8 tables migrated) and frontend (Vite + React + Tailwind) both run locally. See `SETUP.md` for local setup and `docs/13-Roadmap.md` for the full phase-by-phase plan.
+- ⏳ **Phase 2** — Authentication — up next.
 
 ---
 
