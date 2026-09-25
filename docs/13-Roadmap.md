@@ -1,50 +1,52 @@
 # Checkpoint Implementation Roadmap
 
-## Phase 0 — Planning and Architecture
+## Phase 0 — Planning and Architecture ✅ Complete
 
 Completed when:
 
-- D1–D15 are reviewed;
-- architecture is understood;
-- database model is agreed;
-- API is defined;
-- core algorithms are defined;
-- documentation is updated.
+- [x] D1–D15 are reviewed;
+- [x] architecture is understood;
+- [x] database model is agreed;
+- [x] API is defined;
+- [x] core algorithms are defined;
+- [x] documentation is updated.
 
 No production feature code is required in Phase 0.
 
 ---
 
-# Phase 1 — Project Foundation
+# Phase 1 — Project Foundation ✅ Complete
 
 ## Goals
 
 Create the working repository and development environment.
 
 ### Backend
-- Initialize Maven Spring Boot project.
-- Configure Java 17.
-- Add Spring Web.
-- Add Spring Security.
-- Add JPA.
-- Add PostgreSQL driver.
-- Add Flyway.
-- Add validation.
-- Add JWT dependencies.
-- Create base package/module structure.
+- [x] Initialize Maven Spring Boot project.
+- [x] Configure Java 17.
+- [x] Add Spring Web.
+- [x] Add Spring Security.
+- [x] Add JPA.
+- [x] Add PostgreSQL driver.
+- [x] Add Flyway.
+- [x] Add validation.
+- [ ] Add JWT dependencies. *(deliberately deferred to Phase 2 — kept Phase 1 focused on "does the project build and run")*
+- [x] Create base package/module structure. *(auth, user, question, topic, practice, progress, review, xp, streak, admin, common)*
 
 ### Frontend
-- Initialize Vite React TypeScript project.
-- Configure Tailwind.
-- Configure React Router.
-- Configure TanStack Query.
-- Configure Axios.
-- Create base layout.
+- [x] Initialize Vite React TypeScript project.
+- [x] Configure Tailwind.
+- [x] Configure React Router.
+- [x] Configure TanStack Query.
+- [x] Configure Axios.
+- [x] Create base layout. *(placeholder page; real layout arrives in Phase 7)*
 
 ### Database
-- Create development PostgreSQL database.
-- Configure environment variables.
-- Create initial Flyway migration.
+- [x] Create development PostgreSQL database.
+- [x] Configure environment variables.
+- [x] Create initial Flyway migration. *(full initial schema — all 8 tables — applied and verified)*
+
+**Verified working:** backend boots on port 8080, Flyway migration applies cleanly, frontend runs on port 5173, both confirmed running locally on 2026-09-25.
 
 ---
 
