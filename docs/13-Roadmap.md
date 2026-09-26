@@ -50,21 +50,25 @@ Create the working repository and development environment.
 
 ---
 
-# Phase 2 — Authentication
+# Phase 2 — Authentication ✅ Complete
 
 Implement:
 
-- User entity.
-- Registration.
-- BCrypt.
-- Login.
-- JWT.
-- Spring Security.
-- Role authorization.
-- Admin configuration.
-- Ownership checks.
+- [x] User entity.
+- [x] Registration.
+- [x] BCrypt.
+- [x] Login.
+- [x] JWT.
+- [x] Spring Security.
+- [x] Role authorization.
+- [x] Admin configuration.
+- [ ] Ownership checks. *(no student-data endpoints exist yet to check ownership of — this becomes relevant starting Phase 5/6 when /progress and /practice expose per-student data. Tracking it there instead of falsely checking it off here.)*
 
-Then connect frontend authentication.
+Then connect frontend authentication. — done.
+
+**Verified working:** registration assigns STUDENT regardless of client input, login issues a valid JWT, protected routes correctly redirect unauthenticated users, admin account boots automatically, logout clears the session. Confirmed working locally on 2026-09-26.
+
+---
 
 ---
 

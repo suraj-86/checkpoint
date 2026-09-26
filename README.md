@@ -20,12 +20,13 @@ The result should feel similar in spirit to a modern learning product while rema
 ## Project status
 
 - ✅ **Phase 0** — Planning and architecture complete (D1–D15 finalized).
-- ✅ **Phase 1** — Project foundation complete: backend (Spring Boot + PostgreSQL + Flyway, all 8 tables migrated) and frontend (Vite + React + Tailwind) both run locally. See `SETUP.md` for local setup and `docs/13-Roadmap.md` for the full phase-by-phase plan.
-- ⏳ **Phase 2** — Authentication — up next.
+- ✅ **Phase 1** — Project foundation complete: backend (Spring Boot + PostgreSQL + Flyway, all 8 tables migrated) and frontend (Vite + React + Tailwind) both run locally.
+- ✅ **Phase 2** — Authentication complete: JWT-based register/login, BCrypt password hashing, role-based access (STUDENT/ADMIN), protected frontend routes, automatic admin bootstrap. See `docs/13-Roadmap.md` for full details and `SETUP.md` for local setup.
+- ⏳ **Phase 3** — Question Bank — up next.
 
 ---
 
-## Why Phase 0 exists
+## Why Phase 0 existed
 
 Phase 0 is the planning and architecture stage. No major product feature should be implemented before the important decisions are recorded.
 
