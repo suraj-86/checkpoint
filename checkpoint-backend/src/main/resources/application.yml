@@ -26,6 +26,20 @@ spring:
 server:
   port: 8080
 
+checkpoint:
+  jwt:
+    # Dev-only secret. In a real deployment this comes from an environment
+    # variable, never committed to source control.
+    secret: ${CHECKPOINT_JWT_SECRET:dev-only-secret-key-change-me-please-this-is-not-secure-enough-for-prod-1234567890}
+    expiration-ms: 86400000 # 24 hours, per docs/06-Authentication-and-Security.md
+  admin:
+    # The single V1 administrator, per D3/D8. Never created via public
+    # registration. Values are read from environment variables; the
+    # defaults below are for local dev only.
+    username: ${CHECKPOINT_ADMIN_USERNAME:admin}
+    email: ${CHECKPOINT_ADMIN_EMAIL:admin@checkpoint.local}
+    password: ${CHECKPOINT_ADMIN_PASSWORD:admin123}
+
 logging:
   level:
     com.checkpoint: DEBUG
