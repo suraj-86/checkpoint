@@ -1,5 +1,6 @@
 package com.checkpoint.common.exception;
 
+import com.checkpoint.admin.dto.ValidationResponse;
 import com.checkpoint.common.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -31,10 +32,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(body);
     }
 
+    @ExceptionHandler(DatasetValidationException.class)
+    public ResponseEntity<ValidationResponse> handleDatasetValidation(DatasetValidationException ex) {
+        return ResponseEntity.unprocessableEntity().body(ex.getValidationResponse());
+    }
+
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ErrorResponse> handleConflict(ConflictException ex, HttpServletRequest request) {
         ErrorResponse body = ErrorResponse.of(409, "CONFLICT", ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(NotFoundException ex, HttpServletRequest request) {
+        ErrorResponse body = ErrorResponse.of(404, "NOT_FOUND", ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
 
     @ExceptionHandler(AccountLockedException.class)

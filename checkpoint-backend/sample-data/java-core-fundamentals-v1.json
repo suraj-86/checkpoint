@@ -1,0 +1,251 @@
+{
+  "dataset": {
+    "name": "Java Core Fundamentals",
+    "version": "1.0",
+    "description": "Starter set covering OOP, collections, and exceptions. Expand this file (or add new datasets) to reach the 100-150 question target from docs/07-Question-and-Dataset-Specification.md section 11."
+  },
+  "questions": [
+    {
+      "externalId": "JAVA-OOP-001",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword is used to inherit a class in Java?",
+      "options": ["extends", "implements", "inherits", "super"],
+      "answer": "extends",
+      "explanation": "The extends keyword is used when one class inherits from another."
+    },
+    {
+      "externalId": "JAVA-OOP-002",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword is used to implement an interface in Java?",
+      "options": ["extends", "implements", "interface", "abstract"],
+      "answer": "implements",
+      "explanation": "A class uses implements to fulfil the contract defined by an interface."
+    },
+    {
+      "externalId": "JAVA-OOP-003",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "A Java class can extend more than one class at the same time.",
+      "answer": false,
+      "explanation": "Java supports only single class inheritance. Multiple inheritance of type is achieved through interfaces instead."
+    },
+    {
+      "externalId": "JAVA-OOP-004",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the term for a class that cannot be instantiated directly?",
+      "options": ["final class", "abstract class", "static class", "sealed class"],
+      "answer": "abstract class",
+      "explanation": "An abstract class can define behavior and structure for subclasses but cannot itself be instantiated with new."
+    },
+    {
+      "externalId": "JAVA-OOP-005",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ keyword prevents a method from being overridden in a subclass.",
+      "answer": ["final"],
+      "explanation": "Marking a method final locks its implementation so subclasses cannot override it."
+    },
+    {
+      "externalId": "JAVA-OOP-006",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which of these best describes polymorphism?",
+      "options": [
+        "One method name behaving differently depending on the object it's called on",
+        "Hiding internal implementation details from the caller",
+        "Bundling data and methods that operate on that data together",
+        "Reusing code from a parent class in a child class"
+      ],
+      "answer": "One method name behaving differently depending on the object it's called on",
+      "explanation": "Polymorphism lets the same method call resolve to different behavior depending on the runtime type of the object."
+    },
+    {
+      "externalId": "JAVA-OOP-007",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "Private methods in Java can be overridden by a subclass.",
+      "answer": false,
+      "explanation": "Private methods are not inherited at all, so a subclass cannot override them - it can only define an unrelated method with the same name."
+    },
+    {
+      "externalId": "JAVA-COL-001",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which interface represents a collection that does not allow duplicate elements?",
+      "options": ["List", "Set", "Map", "Queue"],
+      "answer": "Set",
+      "explanation": "Set is specifically defined to disallow duplicate elements, unlike List which permits them."
+    },
+    {
+      "externalId": "JAVA-COL-002",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which class provides a resizable array implementation of the List interface?",
+      "options": ["LinkedList", "ArrayList", "HashSet", "TreeMap"],
+      "answer": "ArrayList",
+      "explanation": "ArrayList backs the List interface with a resizable array, giving fast random access."
+    },
+    {
+      "externalId": "JAVA-COL-003",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A HashMap guarantees the iteration order of its entries matches insertion order.",
+      "answer": false,
+      "explanation": "HashMap makes no ordering guarantee. LinkedHashMap is the variant that preserves insertion order."
+    },
+    {
+      "externalId": "JAVA-COL-004",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which Map implementation keeps its keys sorted?",
+      "options": ["HashMap", "LinkedHashMap", "TreeMap", "IdentityHashMap"],
+      "answer": "TreeMap",
+      "explanation": "TreeMap stores entries in a red-black tree ordered by key, so iteration returns keys in sorted order."
+    },
+    {
+      "externalId": "JAVA-COL-005",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ interface represents a collection designed for holding elements prior to processing, typically in FIFO order.",
+      "answer": ["queue", "Queue"],
+      "explanation": "Queue models a first-in-first-out (or priority-based) collection, commonly implemented by LinkedList or ArrayDeque."
+    },
+    {
+      "externalId": "JAVA-COL-006",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What happens if you modify a List while iterating over it with a for-each loop, without using the iterator's own remove method?",
+      "options": [
+        "It throws ConcurrentModificationException",
+        "It silently skips the modified element",
+        "It compiles but does nothing at runtime",
+        "It automatically restarts the loop"
+      ],
+      "answer": "It throws ConcurrentModificationException",
+      "explanation": "Most List implementations fail-fast: structurally modifying the list outside the iterator during iteration throws ConcurrentModificationException."
+    },
+    {
+      "externalId": "JAVA-EXC-001",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which block always executes, whether or not an exception is thrown?",
+      "options": ["try", "catch", "finally", "throw"],
+      "answer": "finally",
+      "explanation": "The finally block runs regardless of whether the try block completed normally or threw an exception."
+    },
+    {
+      "externalId": "JAVA-EXC-002",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "RuntimeException and its subclasses are checked exceptions.",
+      "answer": false,
+      "explanation": "RuntimeException and its subclasses are unchecked - the compiler does not force you to catch or declare them."
+    },
+    {
+      "externalId": "JAVA-EXC-003",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which exception is thrown when you try to access an array index that doesn't exist?",
+      "options": [
+        "NullPointerException",
+        "ArrayIndexOutOfBoundsException",
+        "ClassCastException",
+        "IllegalStateException"
+      ],
+      "answer": "ArrayIndexOutOfBoundsException",
+      "explanation": "Accessing an out-of-range array index at runtime throws ArrayIndexOutOfBoundsException."
+    },
+    {
+      "externalId": "JAVA-EXC-004",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The keyword used to manually raise an exception in Java is ______.",
+      "answer": ["throw"],
+      "explanation": "throw is used to explicitly raise an exception instance at a specific point in code."
+    },
+    {
+      "externalId": "JAVA-EXC-005",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "If a finally block contains a return statement, what happens to an exception thrown earlier in the try block?",
+      "options": [
+        "The exception propagates normally after finally finishes",
+        "The exception is suppressed and the finally block's return value is used instead",
+        "The program throws a compile-time error",
+        "The exception and the return both propagate together"
+      ],
+      "answer": "The exception is suppressed and the finally block's return value is used instead",
+      "explanation": "A return in finally swallows any exception (or return) from the try/catch block - a classic Java gotcha worth avoiding."
+    },
+    {
+      "externalId": "JAVA-STR-001",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "String objects in Java are immutable.",
+      "answer": true,
+      "explanation": "Once created, a String's internal character data cannot change - operations like concat() return a new String instead."
+    },
+    {
+      "externalId": "JAVA-STR-002",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which class should you use for efficient, repeated string concatenation in a loop?",
+      "options": ["String", "StringBuilder", "StringBuffer", "CharSequence"],
+      "answer": "StringBuilder",
+      "explanation": "StringBuilder is mutable and avoids creating a new String object on every concatenation, making it far more efficient in loops. (StringBuffer works too but adds unnecessary synchronization overhead for single-threaded use.)"
+    },
+    {
+      "externalId": "JAVA-STR-003",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The method used to compare the actual contents of two Strings (not their references) is ______.",
+      "answer": ["equals", ".equals", "equals()"],
+      "explanation": "== compares references; equals() compares the actual character content."
+    }
+  ]
+}
