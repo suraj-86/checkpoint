@@ -70,21 +70,21 @@ Then connect frontend authentication. — done.
 
 ---
 
----
-
-# Phase 3 — Question Bank
+# Phase 3 — Question Bank ✅ Complete
 
 Implement:
 
-- Topic model.
-- Dataset model.
-- Question model.
-- JSON validation.
-- Transactional import.
-- External ID updates.
-- Admin question browser.
-- Soft retirement/restoration.
-- Initial seed dataset.
+- [x] Topic model.
+- [x] Dataset model.
+- [x] Question model.
+- [x] JSON validation.
+- [x] Transactional import.
+- [x] External ID updates.
+- [x] Admin question browser.
+- [x] Soft retirement/restoration.
+- [x] Initial seed dataset. *(21 curated questions across OOP, Collections, Exceptions, Strings — a starter set proving the pipeline, not yet the full 100-150 target from section 11. More datasets can be added the same way.)*
+
+**Verified working:** validate/import/re-import (upsert by externalId, confirmed zero duplicates on re-import), topic auto-creation, admin browser filters + pagination, retire/restore. One real bug found and fixed during testing: a `LazyInitializationException` on the `Question.topic` association, resolved with `@Transactional(readOnly = true)` on the search method. Confirmed working locally on 2026-09-27.
 
 ---
 

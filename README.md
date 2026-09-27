@@ -21,8 +21,9 @@ The result should feel similar in spirit to a modern learning product while rema
 
 - ✅ **Phase 0** — Planning and architecture complete (D1–D15 finalized).
 - ✅ **Phase 1** — Project foundation complete: backend (Spring Boot + PostgreSQL + Flyway, all 8 tables migrated) and frontend (Vite + React + Tailwind) both run locally.
-- ✅ **Phase 2** — Authentication complete: JWT-based register/login, BCrypt password hashing, role-based access (STUDENT/ADMIN), protected frontend routes, automatic admin bootstrap. See `docs/13-Roadmap.md` for full details and `SETUP.md` for local setup.
-- ⏳ **Phase 3** — Question Bank — up next.
+- ✅ **Phase 2** — Authentication complete: JWT-based register/login, BCrypt password hashing, role-based access (STUDENT/ADMIN), protected frontend routes, automatic admin bootstrap.
+- ✅ **Phase 3** — Question Bank complete: topic/dataset/question models, validated transactional dataset import (all-or-nothing, upsert by externalId), admin question browser with filters/pagination, soft retire/restore. See `docs/13-Roadmap.md` for full details and `SETUP.md` for local setup.
+- ⏳ **Phase 4** — Review Engine — up next.
 
 ---
 
