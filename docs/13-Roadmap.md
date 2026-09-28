@@ -88,21 +88,29 @@ Implement:
 
 ---
 
-# Phase 4 — Review Engine
+# Phase 4 — Review Engine ✅ Complete
 
 Implement the learning state first, before the complete UI.
 
 Implement:
 
-- user-question progress;
-- review states;
-- review stages;
-- next-review calculation;
-- due/overdue selection;
-- new-question selection;
-- same-session requeue.
+- [x] user-question progress;
+- [x] review states;
+- [x] review stages;
+- [x] next-review calculation;
+- [x] due/overdue selection;
+- [x] new-question selection;
+- [x] same-session requeue. *(mechanism built and unit tested; wired into real sessions in Phase 5)*
 
-Write unit tests for transitions.
+Write unit tests for transitions. — done (22 tests, all passing).
+
+**Design decisions worth knowing:**
+- `NEW` is never stored. A question with no progress row *is* new, and a row is only created on the first answer.
+- `DUE` is computed at selection time (a STABLE question whose date has arrived) rather than written back to the row.
+- The "at most one stage advance per calendar day" rule is described under Fast Practice in the spec, but is applied to all session types for consistency.
+- The exact "balanced, not all-review" selection rule isn't fully specified in the docs, so it is defined concretely in `QuestionSelectionService`: with a light backlog, about 30% of the session is reserved for new questions; when the backlog fills the whole session, it is all review.
+
+**Verified working:** 22 unit tests pass, and the app boots against the real database schema. One bug was found and fixed while booting: `ReviewTransitionCalculator` was missing `@Component`, so Spring could not inject it into `ReviewProgressService`. Confirmed on 2026-09-28.
 
 ---
 
