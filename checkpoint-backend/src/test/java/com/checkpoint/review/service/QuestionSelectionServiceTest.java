@@ -18,12 +18,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
-/**
- * Verifies docs/08-Review-Learning-Algorithm.md section 11: priority
- * ordering (needs-review > overdue > due > new) and the "balanced, not
- * all-review-unless-extreme-backlog" rule this implementation defines
- * concretely in QuestionSelectionService.balance().
- */
 @ExtendWith(MockitoExtension.class)
 class QuestionSelectionServiceTest {
 
@@ -37,7 +31,6 @@ class QuestionSelectionServiceTest {
     @BeforeEach
     void setUp() {
         service = new QuestionSelectionService(progressRepository);
-        // Default: nothing available anywhere, unless a test overrides.
         lenient().when(progressRepository.findNeedsReview(any())).thenReturn(List.of());
         lenient().when(progressRepository.findOverdue(any(), any())).thenReturn(List.of());
         lenient().when(progressRepository.findDueToday(any(), any(), any())).thenReturn(List.of());
@@ -75,7 +68,6 @@ class QuestionSelectionServiceTest {
 
     @Test
     void lightBacklog_reservesRoughlyThirtyPercentForNewQuestions() {
-        // Backlog of 1, session size 5, plenty of new questions available.
         Question onlyReviewQuestion = question("nr1");
         when(progressRepository.findNeedsReview(userId))
                 .thenReturn(List.of(progressFor(onlyReviewQuestion)));
@@ -88,9 +80,9 @@ class QuestionSelectionServiceTest {
         var result = service.selectForSession(userId, 5, now);
 
         assertThat(result.questions()).hasSize(5);
-        assertThat(result.questions()).contains(onlyReviewQuestion); // the one review question is included
+        assertThat(result.questions()).contains(onlyReviewQuestion);
         long newCount = result.questions().stream().filter(newQuestions::contains).count();
-        assertThat(newCount).isEqualTo(4); // 1 review + 4 new = 5, since backlog couldn't fill its own slot
+        assertThat(newCount).isEqualTo(4);
     }
 
     @Test
@@ -103,7 +95,6 @@ class QuestionSelectionServiceTest {
         when(progressRepository.findOverdue(any(), any())).thenReturn(List.of(progressFor(overdueQ)));
         when(progressRepository.findDueToday(any(), any(), any())).thenReturn(List.of(progressFor(dueQ)));
 
-        // Backlog (3) >= session size (3) -> pure review, in priority order.
         var result = service.selectForSession(userId, 3, now);
 
         assertThat(result.questions()).containsExactly(nr, overdueQ, dueQ);

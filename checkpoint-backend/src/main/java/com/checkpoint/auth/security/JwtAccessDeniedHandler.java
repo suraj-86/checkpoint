@@ -10,11 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/**
- * Authenticated, but wrong role (e.g. a student hitting an admin
- * endpoint). Returns 403 per docs/06-Authentication-and-Security.md
- * section 7.
- */
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 

@@ -13,13 +13,6 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
-/**
- * Records a single answer and applies docs/08-Review-Learning-Algorithm.md
- * via ReviewTransitionCalculator. This does not decide WHICH question to
- * show next (that's QuestionSelectionService) or handle same-session
- * retries (that's SessionRequeueHelper) — it only updates the long-term
- * learning state for one question after one answer.
- */
 @Service
 public class ReviewProgressService {
 

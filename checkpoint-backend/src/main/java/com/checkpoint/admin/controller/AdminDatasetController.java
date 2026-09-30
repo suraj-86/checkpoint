@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * All endpoints require ROLE_ADMIN — enforced in SecurityConfig via the
- * /api/admin/** matcher, not re-checked here.
- * Matches docs/05-API-Specification.md section 7 exactly.
- */
 @RestController
 @RequestMapping("/api/admin/datasets")
 public class AdminDatasetController {

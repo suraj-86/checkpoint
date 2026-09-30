@@ -6,7 +6,7 @@ import com.checkpoint.common.exception.DatasetValidationException;
 import com.checkpoint.question.entity.Difficulty;
 import com.checkpoint.question.entity.Question;
 import com.checkpoint.question.entity.QuestionDataset;
-import com.checkpoint.question.entity.QuestionType;
+import com.checkpoint.question.util.QuestionTypeCodec;
 import com.checkpoint.question.repository.QuestionDatasetRepository;
 import com.checkpoint.question.repository.QuestionRepository;
 import com.checkpoint.topic.entity.Topic;
@@ -38,19 +38,10 @@ public class DatasetImportService {
         this.topicRepository = topicRepository;
     }
 
-    /** POST /api/admin/datasets/validate — read-only, never touches the database. */
     public ValidationResponse validate(DatasetUploadRequest request) {
         return validator.validate(request);
     }
 
-    /**
-     * POST /api/admin/datasets/import.
-     *
-     * Per docs/07-Question-and-Dataset-Specification.md section 8/9: the
-     * server validates again (never trusts a prior validate call), and the
-     * whole import is one transaction — one invalid question anywhere in
-     * the file means zero questions are imported, not a partial import.
-     */
     @Transactional
     public ImportResponse importDataset(DatasetUploadRequest request) {
         ValidationResponse validation = validator.validate(request);
@@ -60,8 +51,6 @@ public class DatasetImportService {
 
         QuestionDataset dataset = findOrCreateDataset(request.dataset());
 
-        // Cache topic lookups within this import so we don't hit the DB
-        // once per question for repeated topic names.
         Map<String, Topic> topicCache = new HashMap<>();
 
         int created = 0;
@@ -100,14 +89,11 @@ public class DatasetImportService {
         question.setDataset(dataset);
         question.setTopic(topic);
         question.setSubtopic(upload.subtopic());
-        question.setQuestionType(mapType(upload.type()));
+        question.setQuestionType(QuestionTypeCodec.decode(upload.type()));
         question.setDifficulty(Difficulty.valueOf(upload.difficulty()));
         question.setQuestionText(upload.question());
         question.setAnswerData(buildAnswerData(upload));
         question.setExplanation(upload.explanation());
-        // Deliberately does NOT touch `active` — re-importing/updating a
-        // question must not silently un-retire it (docs section 12: only
-        // an explicit admin restore action does that).
     }
 
     private Map<String, Object> buildAnswerData(QuestionUpload upload) {
@@ -124,14 +110,6 @@ public class DatasetImportService {
         return data;
     }
 
-    private QuestionType mapType(String jsonType) {
-        return switch (jsonType) {
-            case "MCQ" -> QuestionType.MULTIPLE_CHOICE;
-            case "TRUE_FALSE" -> QuestionType.TRUE_FALSE;
-            case "FILL_IN_BLANK" -> QuestionType.FILL_IN_BLANK;
-            default -> throw new IllegalStateException("Unreachable: type already validated as " + jsonType);
-        };
-    }
 
     private QuestionDataset findOrCreateDataset(DatasetMeta meta) {
         return datasetRepository.findByNameAndVersion(meta.name(), meta.version())

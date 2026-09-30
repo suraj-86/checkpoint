@@ -14,17 +14,6 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * `answerData` holds type-specific data as JSONB, per
- * docs/07-Question-and-Dataset-Specification.md:
- * - MULTIPLE_CHOICE: {"options": [...4 strings...], "correctAnswer": "..."}
- * - TRUE_FALSE:       {"correctAnswer": true|false}
- * - FILL_IN_BLANK:    {"acceptedAnswers": ["...", "..."]}
- *
- * This column is never sent to the student before they answer
- * (docs section 10 — Answer security). Student-facing responses use a
- * separate DTO that strips it.
- */
 @Entity
 @Table(name = "questions")
 @Getter

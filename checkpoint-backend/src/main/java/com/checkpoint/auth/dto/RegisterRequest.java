@@ -4,11 +4,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-/**
- * Note there is deliberately no "role" field here — the client never
- * submits a role. The backend always assigns STUDENT.
- * (docs/06-Authentication-and-Security.md, section 2)
- */
 public record RegisterRequest(
 
         @NotBlank(message = "Username is required")

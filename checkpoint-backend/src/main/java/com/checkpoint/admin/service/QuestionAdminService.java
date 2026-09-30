@@ -22,16 +22,6 @@ public class QuestionAdminService {
         this.questionRepository = questionRepository;
     }
 
-    /**
-     * GET /api/admin/questions — filters per docs/11-Admin-Operations.md
-     * section 9 (Topic / Difficulty / Type / Active), all optional, paginated.
-     *
-     * @Transactional(readOnly = true) matters here: Question.topic is
-     * lazily fetched, and open-in-view is disabled (application.yml), so
-     * without an open session the AdminQuestionSummary::from mapping below
-     * would throw LazyInitializationException the moment it touches
-     * topic.getName() after the repository call returns.
-     */
     @Transactional(readOnly = true)
     public PageResponse<AdminQuestionSummary> search(
             UUID topicId, Difficulty difficulty, QuestionType type, Boolean active, Pageable pageable

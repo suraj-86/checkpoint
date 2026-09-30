@@ -6,13 +6,6 @@ import java.time.Instant;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Deliberately simple, in-memory, per-username failed-attempt tracking.
- * Per docs/06-Authentication-and-Security.md section 11: "reasonable
- * protection... not a full enterprise identity system." This resets on
- * app restart, which is an accepted trade-off for a mini project — a real
- * deployment would back this with Redis or similar.
- */
 @Component
 public class LoginAttemptTracker {
 
@@ -28,7 +21,6 @@ public class LoginAttemptTracker {
             return false;
         }
         if (Instant.now().isAfter(until)) {
-            // Lockout expired — clear it and let them try again.
             lockedUntil.remove(username);
             attempts.remove(username);
             return false;

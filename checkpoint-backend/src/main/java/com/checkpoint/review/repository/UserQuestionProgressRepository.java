@@ -15,7 +15,6 @@ public interface UserQuestionProgressRepository extends JpaRepository<UserQuesti
 
     Optional<UserQuestionProgress> findByUserIdAndQuestionId(UUID userId, UUID questionId);
 
-    /** Highest priority per docs/08-Review-Learning-Algorithm.md section 11: struggling questions. */
     @Query("""
             SELECT p FROM UserQuestionProgress p
             WHERE p.user.id = :userId AND p.reviewState = com.checkpoint.review.entity.ReviewState.NEEDS_REVIEW
@@ -23,7 +22,6 @@ public interface UserQuestionProgressRepository extends JpaRepository<UserQuesti
             """)
     List<UserQuestionProgress> findNeedsReview(@Param("userId") UUID userId);
 
-    /** Second priority: STABLE questions whose scheduled date has already passed. */
     @Query("""
             SELECT p FROM UserQuestionProgress p
             WHERE p.user.id = :userId AND p.reviewState = com.checkpoint.review.entity.ReviewState.STABLE
@@ -32,7 +30,6 @@ public interface UserQuestionProgressRepository extends JpaRepository<UserQuesti
             """)
     List<UserQuestionProgress> findOverdue(@Param("userId") UUID userId, @Param("startOfToday") Instant startOfToday);
 
-    /** Third priority: STABLE questions scheduled for today specifically. */
     @Query("""
             SELECT p FROM UserQuestionProgress p
             WHERE p.user.id = :userId AND p.reviewState = com.checkpoint.review.entity.ReviewState.STABLE
@@ -45,11 +42,6 @@ public interface UserQuestionProgressRepository extends JpaRepository<UserQuesti
             @Param("startOfTomorrow") Instant startOfTomorrow
     );
 
-    /**
-     * Lowest priority: active questions this user has never answered at all
-     * (no progress row exists — see ReviewState.NEW javadoc for why that's
-     * the correct way to detect "new").
-     */
     @Query("""
             SELECT q FROM Question q
             WHERE q.active = true

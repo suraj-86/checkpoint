@@ -5,18 +5,15 @@ import com.checkpoint.common.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Converts exceptions into the one predictable error format defined in
- * docs/05-API-Specification.md section 10, so the frontend never has to
- * guess a response shape.
- */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -39,8 +36,28 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ErrorResponse> handleConflict(ConflictException ex, HttpServletRequest request) {
-        ErrorResponse body = ErrorResponse.of(409, "CONFLICT", ex.getMessage(), request.getRequestURI());
+        ErrorResponse body = ErrorResponse.of(409, ex.getCode(), ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(BadRequestException ex, HttpServletRequest request) {
+        ErrorResponse body = ErrorResponse.of(400, "BAD_REQUEST", ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.badRequest().body(body);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleUnreadableBody(HttpMessageNotReadableException ex, HttpServletRequest request) {
+        ErrorResponse body = ErrorResponse.of(
+                400, "MALFORMED_REQUEST", "The request body could not be read. Check the JSON and field values.", request.getRequestURI());
+        return ResponseEntity.badRequest().body(body);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
+        ErrorResponse body = ErrorResponse.of(
+                400, "BAD_REQUEST", "Invalid value for parameter '" + ex.getName() + "'.", request.getRequestURI());
+        return ResponseEntity.badRequest().body(body);
     }
 
     @ExceptionHandler(NotFoundException.class)

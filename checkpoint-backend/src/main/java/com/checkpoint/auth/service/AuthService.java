@@ -36,8 +36,6 @@ public class AuthService {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-        // Role is never accepted from the client — always STUDENT.
-        // (docs/06-Authentication-and-Security.md section 2)
         if (userRepository.existsByUsername(request.username())) {
             throw new ConflictException("Username is already taken.");
         }
@@ -66,16 +64,12 @@ public class AuthService {
 
         User user = userRepository.findByUsername(request.username())
                 .orElseGet(() -> {
-                    // Still record a failure so a valid-username probe
-                    // and an invalid-username probe look identical.
                     loginAttemptTracker.recordFailure(request.username());
                     throw new InvalidCredentialsException();
                 });
 
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             loginAttemptTracker.recordFailure(request.username());
-            // Deliberately the same generic exception as "user not found"
-            // above — never reveal which part was wrong (section 10).
             throw new InvalidCredentialsException();
         }
 

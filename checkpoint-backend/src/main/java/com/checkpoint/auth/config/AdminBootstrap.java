@@ -10,14 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/**
- * The administrator is configured outside the public signup flow
- * (docs/06-Authentication-and-Security.md section 3) — never created via
- * POST /api/auth/register. This runs once at startup: if no user with the
- * configured admin username exists yet, it creates one from environment
- * config. Safe to leave running on every restart — it's a no-op once the
- * admin already exists.
- */
 @Component
 public class AdminBootstrap implements CommandLineRunner {
 

@@ -15,27 +15,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Chooses which questions a session should show, per
- * docs/08-Review-Learning-Algorithm.md section 11:
- *
- * Priority order: needs-review, then overdue, then due-today, then new.
- * But the result is BALANCED — the docs explicitly warn against an
- * all-review session "unless the student genuinely has an extreme
- * backlog." The exact balancing mechanics aren't specified further, so
- * this implementation documents its own concrete rule (see selectForSession
- * javadoc) rather than silently guessing.
- */
 @Service
 public class QuestionSelectionService {
 
-    /**
-     * When the review backlog (needs-review + overdue + due-today) is
-     * smaller than the session size, we reserve roughly this fraction of
-     * the session for new questions, so a student with a light backlog
-     * still sees fresh material rather than being shown, say, 3 review
-     * questions and nothing else for a requested session of 15.
-     */
     private static final double NEW_QUESTION_RESERVE_FRACTION = 0.3;
 
     private final UserQuestionProgressRepository progressRepository;
@@ -63,9 +45,6 @@ public class QuestionSelectionService {
         List<UserQuestionProgress> dueToday = progressRepository.findDueToday(userId, startOfToday, startOfTomorrow);
         List<Question> neverAttempted = progressRepository.findNeverAttempted(userId);
 
-        // Priority-ordered review pool, de-duplicated (a question can't
-        // realistically be in two of these lists at once given the state
-        // machine, but dedupe defensively rather than assume).
         Set<Question> reviewPool = new LinkedHashSet<>();
         needsReview.forEach(p -> reviewPool.add(p.getQuestion()));
         overdue.forEach(p -> reviewPool.add(p.getQuestion()));
@@ -79,15 +58,6 @@ public class QuestionSelectionService {
         return new SelectionResult(selected, needsReview.size(), overdue.size(), dueToday.size(), neverAttempted.size());
     }
 
-    /**
-     * Concrete balancing rule: if the review backlog alone already meets
-     * or exceeds the requested session size, fill entirely from review
-     * (the "extreme backlog" case — new questions wait). Otherwise reserve
-     * NEW_QUESTION_RESERVE_FRACTION of the session for new questions (at
-     * least one slot, if any new questions exist), and fill the rest from
-     * review, topping up from whichever pool has leftover capacity if the
-     * other runs short.
-     */
     private List<Question> balance(List<Question> reviewPool, List<Question> newPool, int count) {
         List<Question> result = new ArrayList<>();
 
@@ -109,9 +79,6 @@ public class QuestionSelectionService {
         result.addAll(reviewPool.subList(0, reviewQuota));
         result.addAll(newPool.subList(0, newQuota));
 
-        // If either pool came up short of its quota, top up from the
-        // other pool's remainder so we still return `count` questions
-        // whenever enough material exists across both pools combined.
         int shortfall = count - result.size();
         if (shortfall > 0) {
             List<Question> reviewRemainder = reviewPool.subList(reviewQuota, reviewPool.size());

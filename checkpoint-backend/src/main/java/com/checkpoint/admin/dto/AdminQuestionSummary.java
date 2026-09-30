@@ -4,12 +4,6 @@ import com.checkpoint.question.entity.Question;
 
 import java.util.UUID;
 
-/**
- * Admin browser row (docs/11-Admin-Operations.md section 9). Unlike the
- * student-facing question DTO (arrives in Phase 5), this one is allowed to
- * show the answer data — the admin is the one managing content, not
- * answering it.
- */
 public record AdminQuestionSummary(
         UUID id,
         String externalId,

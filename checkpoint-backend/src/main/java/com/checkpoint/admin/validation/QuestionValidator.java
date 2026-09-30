@@ -10,13 +10,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 
-/**
- * Checks every rule listed in docs/07-Question-and-Dataset-Specification.md
- * section 7. Deliberately collects ALL problems with a question rather than
- * stopping at the first, and ALL invalid questions rather than stopping at
- * the first invalid one — so the admin sees the complete picture in one
- * pass (docs/11-Admin-Operations.md section 4).
- */
 @Component
 public class QuestionValidator {
 
@@ -30,11 +23,6 @@ public class QuestionValidator {
         Set<String> seenExternalIds = new HashSet<>();
         Set<String> duplicateExternalIds = new HashSet<>();
 
-        // First pass: find within-batch duplicate external IDs. A duplicate
-        // external ID *within the same upload* is invalid (section 7); an
-        // external ID that already exists in the database from a previous
-        // import is a valid update (section 6) — that's checked separately
-        // at import time, not here.
         for (QuestionUpload q : questions) {
             if (StringUtils.hasText(q.externalId()) && !seenExternalIds.add(q.externalId())) {
                 duplicateExternalIds.add(q.externalId());
@@ -94,7 +82,7 @@ public class QuestionValidator {
 
         if (!StringUtils.hasText(q.type())) {
             messages.add("Question type is required.");
-            return; // Can't validate type-specific rules without a type.
+            return;
         }
         if (!VALID_TYPES.contains(q.type())) {
             messages.add("Question type is invalid: '" + q.type() + "'. Must be one of MCQ, TRUE_FALSE, FILL_IN_BLANK.");
@@ -114,7 +102,7 @@ public class QuestionValidator {
         if (options == null || options.size() != MCQ_OPTION_COUNT) {
             int actual = options == null ? 0 : options.size();
             messages.add("MCQ must contain exactly four options (found " + actual + ").");
-            return; // Can't meaningfully check the answer against broken options.
+            return;
         }
 
         long blankOptions = options.stream().filter(o -> !StringUtils.hasText(o)).count();

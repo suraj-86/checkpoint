@@ -10,11 +10,6 @@ import lombok.Setter;
 import java.time.Instant;
 import java.util.UUID;
 
-/**
- * Maps to the `users` table created in Phase 1 (V1__init.sql).
- * Password is stored as a BCrypt hash only — never plaintext
- * (docs/06-Authentication-and-Security.md, section 4).
- */
 @Entity
 @Table(name = "users")
 @Getter

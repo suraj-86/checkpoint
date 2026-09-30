@@ -12,10 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Matches docs/05-API-Specification.md section 2 exactly:
- * POST /api/auth/register, POST /api/auth/login.
- */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

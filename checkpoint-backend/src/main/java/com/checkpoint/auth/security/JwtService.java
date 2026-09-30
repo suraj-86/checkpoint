@@ -11,13 +11,6 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.function.Function;
 
-/**
- * Issues and validates JWT access tokens.
- *
- * Per docs/06-Authentication-and-Security.md section 5: the token carries
- * only subject, role, issued-at and expiration — nothing else. No refresh
- * tokens in V1 (kept deliberately simple).
- */
 @Service
 public class JwtService {
 

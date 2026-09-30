@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Verifies docs/08-Review-Learning-Algorithm.md section 9 exactly. */
 class SessionRequeueHelperTest {
 
     private Question question(String label) {
@@ -24,10 +23,9 @@ class SessionRequeueHelperTest {
         List<Question> queue = new ArrayList<>(List.of(q5, q6, q7));
 
         SessionRequeueHelper helper = new SessionRequeueHelper();
-        boolean requeued = helper.requeue(queue, 0, q5); // q5 was at index 0, answered wrong
+        boolean requeued = helper.requeue(queue, 0, q5);
 
         assertThat(requeued).isTrue();
-        // Expected order per the doc's own example: Q5, Q6, Q7, Q5(retry)
         assertThat(queue).containsExactly(q5, q6, q7, q5);
     }
 
@@ -39,24 +37,24 @@ class SessionRequeueHelperTest {
 
         boolean first = helper.requeue(queue, 0, q1);
         int sizeAfterFirst = queue.size();
-        boolean second = helper.requeue(queue, 0, q1); // wrong again on the retry
+        boolean second = helper.requeue(queue, 0, q1);
 
         assertThat(first).isTrue();
         assertThat(second).isFalse();
-        assertThat(queue).hasSize(sizeAfterFirst); // unchanged by the rejected second attempt
+        assertThat(queue).hasSize(sizeAfterFirst);
         assertThat(helper.hasBeenRequeued(q1.getId())).isTrue();
     }
 
     @Test
     void insertionNeverGoesPastTheEndOfAShortQueue() {
         Question q1 = question("Q1");
-        List<Question> queue = new ArrayList<>(List.of(q1)); // only one question total
+        List<Question> queue = new ArrayList<>(List.of(q1));
         SessionRequeueHelper helper = new SessionRequeueHelper();
 
         boolean requeued = helper.requeue(queue, 0, q1);
 
         assertThat(requeued).isTrue();
-        assertThat(queue).hasSize(2); // appended at the end, not out of bounds
+        assertThat(queue).hasSize(2);
         assertThat(queue.get(1)).isEqualTo(q1);
     }
 

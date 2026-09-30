@@ -9,11 +9,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Wraps our User entity so Spring Security can work with it. Role is
- * exposed as "ROLE_STUDENT" / "ROLE_ADMIN" (Spring's convention) so
- * hasRole("STUDENT") / hasRole("ADMIN") work in security config.
- */
 public class CheckpointUserDetails implements UserDetails {
 
     private final User user;
@@ -24,6 +19,10 @@ public class CheckpointUserDetails implements UserDetails {
 
     public UUID getId() {
         return user.getId();
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override

@@ -14,12 +14,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-/**
- * Runs once per request. Looks for "Authorization: Bearer <token>", and if
- * a valid token is found, sets the authenticated identity for the rest of
- * the request pipeline (docs/06-Authentication-and-Security.md, section 7:
- * Request -> JWT validation -> Authenticated identity -> Role check -> ...).
- */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -64,8 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception ex) {
-            // Invalid/expired token: leave the context unauthenticated and
-            // let Spring Security's entry point return 401 below.
             SecurityContextHolder.clearContext();
         }
 

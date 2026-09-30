@@ -7,11 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Each test name and comment references the exact section of
- * docs/08-Review-Learning-Algorithm.md it verifies, so a failing test
- * points straight back to the rule it broke.
- */
 class ReviewTransitionCalculatorTest {
 
     private final ReviewTransitionCalculator calculator = new ReviewTransitionCalculator();
@@ -50,7 +45,7 @@ class ReviewTransitionCalculatorTest {
         @DisplayName("correct answers on different days climb every stage in order")
         void climbsAllFiveStages() {
             int stage = 1;
-            int[] expectedIntervals = {3, 7, 14, 30}; // intervals for stages 2,3,4,5
+            int[] expectedIntervals = {3, 7, 14, 30};
 
             for (int expectedInterval : expectedIntervals) {
                 var result = calculator.transition(
@@ -99,7 +94,6 @@ class ReviewTransitionCalculatorTest {
             }
             assertThat(stage).isEqualTo(1);
 
-            // One more wrong answer at stage 1 must stay at 1, not go to 0 or negative.
             var result = calculator.transition(
                     ReviewTransitionCalculator.Input.existing(1, false, false));
             assertThat(result.newStage()).isEqualTo(1);
@@ -109,9 +103,8 @@ class ReviewTransitionCalculatorTest {
         @DisplayName("wrong answer is never capped by same-day history (unlike correct answers)")
         void wrongAnswersIgnoreSameDayFlag() {
             var result = calculator.transition(
-                    ReviewTransitionCalculator.Input.existing(4, false, true)); // sameDay=true
+                    ReviewTransitionCalculator.Input.existing(4, false, true));
 
-            // Should behave identically to sameDay=false: still steps back.
             assertThat(result.newState()).isEqualTo(ReviewState.NEEDS_REVIEW);
             assertThat(result.newStage()).isEqualTo(3);
             assertThat(result.scheduleChanged()).isTrue();
@@ -142,11 +135,11 @@ class ReviewTransitionCalculatorTest {
         @DisplayName("second correct answer same day does not advance the stage further")
         void secondCorrectSameDayDoesNotAdvance() {
             var result = calculator.transition(
-                    ReviewTransitionCalculator.Input.existing(2, true, true)); // sameDay=true
+                    ReviewTransitionCalculator.Input.existing(2, true, true));
 
             assertThat(result.newState()).isEqualTo(ReviewState.STABLE);
-            assertThat(result.newStage()).isEqualTo(2); // unchanged, NOT 3
-            assertThat(result.scheduleChanged()).isFalse(); // caller must not touch nextReviewAt
+            assertThat(result.newStage()).isEqualTo(2);
+            assertThat(result.scheduleChanged()).isFalse();
         }
 
         @Test

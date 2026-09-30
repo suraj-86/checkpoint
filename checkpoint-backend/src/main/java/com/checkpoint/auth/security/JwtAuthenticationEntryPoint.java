@@ -10,11 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/**
- * Any request that fails authentication (missing/invalid/expired token)
- * lands here. Returns 401 with the standard error shape instead of
- * Spring Security's default blank response.
- */
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
