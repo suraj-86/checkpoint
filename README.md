@@ -24,7 +24,8 @@ The result should feel similar in spirit to a modern learning product while rema
 - ✅ **Phase 2** — Authentication complete: JWT-based register/login, BCrypt password hashing, role-based access (STUDENT/ADMIN), protected frontend routes, automatic admin bootstrap.
 - ✅ **Phase 3** — Question Bank complete: topic/dataset/question models, validated transactional dataset import (all-or-nothing, upsert by externalId), admin question browser with filters/pagination, soft retire/restore.
 - ✅ **Phase 4** — Review Engine complete: spaced-review state machine (5 stages, NEEDS_REVIEW/STABLE), prioritized question selection, same-session requeue mechanism, backed by 22 unit tests.
-- ⏳ **Phase 5** — Practice Engine — up next.
+- ✅ **Phase 5** — Practice Engine complete: Daily Session and Fast Practice, question delivery with no answer leakage, answer grading, same-session requeue, session completion. The app is playable end-to-end through the API.
+- ⏳ **Phase 6** — XP and Streak — up next.
 
 ---
 

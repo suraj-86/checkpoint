@@ -114,19 +114,23 @@ Write unit tests for transitions. — done (22 tests, all passing).
 
 ---
 
-# Phase 5 — Practice Engine
+# Phase 5 — Practice Engine ✅ Complete
 
 Implement:
 
-- Daily Session creation;
-- Fast Practice creation;
-- session state;
-- question delivery;
-- answer submission;
-- attempt history;
-- session completion.
+- [x] Daily Session creation. *(fixed 10 questions, prioritized by the Phase 4 review engine)*
+- [x] Fast Practice creation. *(student-chosen count/topic/difficulty/type, random sample)*
+- [x] session state. *(new `session_questions` table — V2 migration, added this phase since V1 had no place for an ordered queue)*
+- [x] question delivery. *(never leaks the answer before submission; MCQ options shuffled per delivery)*
+- [x] answer submission. *(also wired into the Phase 4 review engine and same-session requeue)*
+- [x] attempt history. *(every attempt recorded, primary and retries alike)*
+- [x] session completion. *(accuracy calculated; XP deliberately left null — that's Phase 6)*
 
-At this stage the system should be playable through the API.
+At this stage the system should be playable through the API. — confirmed: full Daily Session played start to finish via the real API (login → start → answer → requeue → resume after a server restart → complete).
+
+**One real bug found and fixed during testing:** Hibernate's generic JSON mapping wrote a bare submitted answer (e.g. the string `super`) to Postgres unserialized, which the `jsonb` column rejected. Fixed by wrapping the submitted answer in `{"value": ...}` before storing — the same technique already used successfully for `answerData`.
+
+Confirmed working locally on 2026-09-30.
 
 ---
 
