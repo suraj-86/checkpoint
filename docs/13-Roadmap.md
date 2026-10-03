@@ -134,20 +134,28 @@ Confirmed working locally on 2026-09-30.
 
 ---
 
-# Phase 6 — XP and Streak
+# Phase 6 — XP and Streak ✅ Complete
 
 Implement:
 
-- difficulty normalization;
-- performance bands;
-- level-specific XP;
-- XP thresholds;
-- promotion/demotion;
-- Fast Practice cap;
-- streak tracking;
-- milestone bonuses.
+- [x] difficulty normalization. *(Easy 0.80 / Medium 1.00 / Hard 1.25 / Expert 1.50)*
+- [x] performance bands. *(Excellent/Good/Fair/Weak/Poor, exact boundary thresholds)*
+- [x] level-specific XP. *(per-level max gain/loss, Levels 1-20)*
+- [x] XP thresholds. *(Levels 0-20)*
+- [x] promotion/demotion. *(level is always derived from total XP, never stored separately)*
+- [x] Fast Practice cap. *(500 positive XP/day; negative XP never capped)*
+- [x] streak tracking. *(Daily Session only; Fast Practice never touches it)*
+- [x] milestone bonuses. *(3/7/14/30/60/100 days; only the newly-reached milestone pays, including on a same-day repeat completion — see bug note below)*
 
-Write extensive tests around edge cases.
+Write extensive tests around edge cases. — done: 27 new unit tests (100 total across the project).
+
+**Two real bugs found and fixed during this phase, both via testing, not after:**
+1. A level-lookup bug: the XP-to-level table was built keyed the wrong direction, so `levelForXp()` returned 20 for almost any XP amount above 20. Every threshold-boundary test failed identically, which pointed straight at the bug. Fixed before merge.
+2. A milestone double-award bug: completing a second Daily Session on the same calendar day, while the streak sat exactly on a milestone value, would have re-paid that milestone's bonus. Caught while writing the "same-day repeat" test, fixed in `StreakCalculator` before merge.
+
+**Design decisions worth knowing:** a Level 0 (brand-new) student uses Level 1's gain/loss range, since the docs' table starts at Level 1. Total XP is floored at 0 (matches a real DB constraint from Phase 1). The student's level for XP-calculation purposes is their level *before* the session, not after.
+
+**Verified working end-to-end** via a real Daily Session played through the live API: 30% accuracy correctly produced -10 XP (Level 0/1's max loss), total XP floored at 0, streak started at 1 with no bonus (1 isn't a milestone). Confirmed on 2026-10-02.
 
 ---
 

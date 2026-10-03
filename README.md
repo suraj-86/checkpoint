@@ -25,7 +25,8 @@ The result should feel similar in spirit to a modern learning product while rema
 - ✅ **Phase 3** — Question Bank complete: topic/dataset/question models, validated transactional dataset import (all-or-nothing, upsert by externalId), admin question browser with filters/pagination, soft retire/restore.
 - ✅ **Phase 4** — Review Engine complete: spaced-review state machine (5 stages, NEEDS_REVIEW/STABLE), prioritized question selection, same-session requeue mechanism, backed by 22 unit tests.
 - ✅ **Phase 5** — Practice Engine complete: Daily Session and Fast Practice, question delivery with no answer leakage, answer grading, same-session requeue, session completion. The app is playable end-to-end through the API.
-- ⏳ **Phase 6** — XP and Streak — up next.
+- ✅ **Phase 6** — XP and Streak complete: difficulty-weighted performance scoring, 20-level progression, Fast Practice's daily XP cap, streak tracking with milestone bonuses. 100 unit tests across the project, two real bugs caught and fixed during development.
+- ⏳ **Phase 7** — Student Experience — up next.
 
 ---
 
