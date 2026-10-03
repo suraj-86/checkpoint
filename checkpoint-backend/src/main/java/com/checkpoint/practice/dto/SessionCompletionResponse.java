@@ -10,6 +10,12 @@ public record SessionCompletionResponse(
         int correctCount,
         int wrongCount,
         BigDecimal accuracy,
-        Integer xpChange
+        int xpChange,
+        int totalXp,
+        int level,
+        boolean leveledUp,
+        int currentStreak,
+        int longestStreak,
+        int streakMilestoneBonus
 ) {
 }

@@ -34,7 +34,6 @@ public class PracticeSession {
     @Builder.Default
     private SessionStatus status = SessionStatus.IN_PROGRESS;
 
-    /** How many DISTINCT questions this session was built with (excludes requeues). */
     @Column(name = "primary_question_count", nullable = false)
     private int primaryQuestionCount;
 
@@ -50,11 +49,9 @@ public class PracticeSession {
     @Builder.Default
     private int wrongCount = 0;
 
-    /** Percentage across PRIMARY attempts only, set once on completion — see docs section 10. */
     @Column(precision = 5, scale = 2)
     private BigDecimal accuracy;
 
-    /** Set by Phase 6 (XP engine). Null until then / until completion. */
     @Column(name = "xp_change")
     private Integer xpChange;
 

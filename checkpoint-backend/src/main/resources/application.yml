@@ -3,7 +3,7 @@ spring:
     name: checkpoint-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/checkpoint_dev
+    url: jdbc:postgresql://localhost:5434/checkpoint_dev
     username: checkpoint_user
     password: devpassword
     driver-class-name: org.postgresql.Driver

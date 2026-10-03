@@ -15,6 +15,7 @@ import com.checkpoint.question.util.QuestionTypeCodec;
 import com.checkpoint.review.service.QuestionSelectionService;
 import com.checkpoint.review.service.ReviewProgressService;
 import com.checkpoint.user.entity.User;
+import com.checkpoint.xp.service.XpAwardService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,7 @@ public class PracticeSessionService {
     private final QuestionSelectionService selectionService;
     private final ReviewProgressService reviewProgressService;
     private final AnswerEvaluator answerEvaluator;
+    private final XpAwardService xpAwardService;
     private final Clock clock;
 
     public PracticeSessionService(
@@ -52,6 +54,7 @@ public class PracticeSessionService {
             QuestionSelectionService selectionService,
             ReviewProgressService reviewProgressService,
             AnswerEvaluator answerEvaluator,
+            XpAwardService xpAwardService,
             Clock clock
     ) {
         this.sessionRepository = sessionRepository;
@@ -61,6 +64,7 @@ public class PracticeSessionService {
         this.selectionService = selectionService;
         this.reviewProgressService = reviewProgressService;
         this.answerEvaluator = answerEvaluator;
+        this.xpAwardService = xpAwardService;
         this.clock = clock;
     }
 
@@ -295,8 +299,11 @@ public class PracticeSessionService {
                         .multiply(BigDecimal.valueOf(100))
                         .setScale(2, RoundingMode.HALF_UP);
 
+        XpAwardService.AwardResult award = xpAwardService.award(session);
+
         session.setStatus(SessionStatus.COMPLETED);
         session.setAccuracy(accuracy);
+        session.setXpChange(award.xpChange());
         session.setCompletedAt(Instant.now(clock));
         sessionRepository.save(session);
 
@@ -307,7 +314,13 @@ public class PracticeSessionService {
                 session.getCorrectCount(),
                 session.getWrongCount(),
                 session.getAccuracy(),
-                session.getXpChange()
+                award.xpChange(),
+                award.totalXp(),
+                award.levelAfter(),
+                award.leveledUp(),
+                award.currentStreak(),
+                award.longestStreak(),
+                award.streakMilestoneBonus()
         );
     }
 }
