@@ -45,6 +45,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // BCrypt, per docs/06-Authentication-and-Security.md section 4.
         return new BCryptPasswordEncoder();
     }
 
@@ -64,7 +65,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // stateless JWT API, no cookies/CSRF concern
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
@@ -74,7 +75,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        // Practice is a student activity; the single admin has no student stats.
                         .requestMatchers("/api/practice/**").hasRole("STUDENT")
+                        .requestMatchers("/api/profile/**", "/api/progress/**").hasRole("STUDENT")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
@@ -83,6 +86,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Allows the Vite dev server (localhost:5173) to call the API during
+     * local development. Tighten this to the real frontend origin(s) when
+     * deploying.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
