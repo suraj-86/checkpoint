@@ -87,14 +87,16 @@ public class SecurityConfig {
     }
 
     /**
-     * Allows the Vite dev server (localhost:5173) to call the API during
+     * Allows the Vite dev server (localhost:5180 — a dedicated port, not
+     * Vite's default 5173, to avoid colliding with other projects) to
+     * call the API during
      * local development. Tighten this to the real frontend origin(s) when
      * deploying.
      */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5180"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

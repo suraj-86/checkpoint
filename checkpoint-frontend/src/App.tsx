@@ -1,47 +1,40 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { LoginPage } from "./features/auth/pages/LoginPage";
 import { RegisterPage } from "./features/auth/pages/RegisterPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { useAuth } from "./features/auth/context/AuthContext";
-
-function HomePage() {
-  const { user, logout } = useAuth();
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50">
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold text-slate-800">Checkpoint</h1>
-        <p className="mt-2 text-slate-500">
-          Logged in as <span className="font-medium text-slate-700">{user?.username}</span>{" "}
-          ({user?.role})
-        </p>
-        <p className="mt-1 text-sm text-slate-400">
-          Dashboard and practice routes arrive in later phases.
-        </p>
-        <button
-          onClick={logout}
-          className="mt-4 rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100"
-        >
-          Log out
-        </button>
-      </div>
-    </div>
-  );
-}
+import { Layout } from "./components/Layout";
+import { DashboardPage } from "./features/dashboard/pages/DashboardPage";
+import { PracticeHubPage } from "./features/practice/pages/PracticeHubPage";
+import { FastPracticeStartPage } from "./features/practice/pages/FastPracticeStartPage";
+import { PracticeSessionPage } from "./features/practice/pages/PracticeSessionPage";
+import { SessionResultPage } from "./features/practice/pages/SessionResultPage";
+import { ActiveSessionRedirect } from "./features/practice/pages/ActiveSessionRedirect";
+import { ProgressPage } from "./features/progress/pages/ProgressPage";
+import { ProfilePage } from "./features/progress/pages/ProfilePage";
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
       <Route
-        path="/"
         element={
           <ProtectedRoute>
-            <HomePage />
+            <Layout />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/practice" element={<PracticeHubPage />} />
+        <Route path="/practice/fast" element={<FastPracticeStartPage />} />
+        <Route path="/practice/active" element={<ActiveSessionRedirect />} />
+        <Route path="/practice/session/:sessionId" element={<PracticeSessionPage />} />
+        <Route path="/practice/result/:sessionId" element={<SessionResultPage />} />
+        <Route path="/progress" element={<ProgressPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Route>
     </Routes>
   );
 }
