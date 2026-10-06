@@ -159,19 +159,24 @@ Write extensive tests around edge cases. — done: 27 new unit tests (100 total 
 
 ---
 
-# Phase 7 — Student Experience
+# Phase 7 — Student Experience ✅ Complete
 
 Build:
 
-- dashboard;
-- Daily Session UI;
-- Fast Practice UI;
-- session result;
-- profile;
-- progress;
-- topic statistics;
-- activity chart;
-- session history.
+- [x] dashboard. *(`GET /api/profile/dashboard` + Dashboard page)*
+- [x] Daily Session UI. *(Practice hub, session play screen, resume of an active session)*
+- [x] Fast Practice UI. *(setup screen: count, topic, difficulty, type)*
+- [x] session result. *(accuracy, XP change and streak shown after completion)*
+- [x] profile. *(`GET /api/profile` + Profile page)*
+- [x] progress. *(`GET /api/progress` + Progress page)*
+- [x] topic statistics. *(`GET /api/progress/topics`)*
+- [x] activity chart. *(`GET /api/progress/activity`, last 30 days)*
+- [x] session history. *(`GET /api/progress/sessions`, paginated)*
+
+**Design decisions worth knowing:**
+- The frontend dev server now runs on a dedicated port, **5180** (`strictPort: true` in `vite.config.ts`), instead of Vite's default 5173, to avoid clashing with other local projects. The backend CORS configuration in `SecurityConfig` allows `http://localhost:5180`.
+
+**Verified working:** all six progress/profile endpoints tested live against the running backend, and every student screen confirmed visually in the browser. Confirmed on 2026-10-05.
 
 ---
 

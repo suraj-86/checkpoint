@@ -11,3 +11,4 @@ checkpoint-frontend/.env.local
 .idea/
 .vscode/
 *.iml
+*.tsbuildinfo
