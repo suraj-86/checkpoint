@@ -15,9 +15,16 @@ public class QuestionValidator {
 
     private static final Set<String> VALID_TYPES = Set.of("MCQ", "TRUE_FALSE", "FILL_IN_BLANK");
     private static final int MCQ_OPTION_COUNT = 4;
+    private static final int MAX_DATASET_NAME = 150;
+    private static final int MAX_DATASET_VERSION = 50;
+    private static final int MAX_EXTERNAL_ID = 100;
+    private static final int MAX_TOPIC = 100;
+    private static final int MAX_SUBTOPIC = 100;
 
     public ValidationResponse validate(DatasetUploadRequest request) {
         List<QuestionUpload> questions = request.questions() == null ? List.of() : request.questions();
+
+        List<String> datasetErrors = validateDataset(request, questions);
 
         List<QuestionValidationError> errors = new ArrayList<>();
         Set<String> seenExternalIds = new HashSet<>();
@@ -52,16 +59,54 @@ public class QuestionValidator {
                 total,
                 total - invalid,
                 invalid,
+                datasetErrors,
                 errors
         );
+    }
+
+    private List<String> validateDataset(DatasetUploadRequest request, List<QuestionUpload> questions) {
+        List<String> problems = new ArrayList<>();
+
+        if (request.dataset() == null) {
+            problems.add("The 'dataset' section (name and version) is missing.");
+        } else {
+            String name = request.dataset().name();
+            String version = request.dataset().version();
+
+            if (!StringUtils.hasText(name)) {
+                problems.add("Dataset name is required.");
+            } else if (name.length() > MAX_DATASET_NAME) {
+                problems.add("Dataset name is too long (max " + MAX_DATASET_NAME + " characters).");
+            }
+
+            if (!StringUtils.hasText(version)) {
+                problems.add("Dataset version is required.");
+            } else if (version.length() > MAX_DATASET_VERSION) {
+                problems.add("Dataset version is too long (max " + MAX_DATASET_VERSION + " characters).");
+            }
+        }
+
+        if (questions.isEmpty()) {
+            problems.add("The dataset contains no questions.");
+        }
+
+        return problems;
     }
 
     private void validateOne(QuestionUpload q, List<String> messages) {
         if (!StringUtils.hasText(q.externalId())) {
             messages.add("externalId is required.");
         }
+        if (StringUtils.hasText(q.externalId()) && q.externalId().length() > MAX_EXTERNAL_ID) {
+            messages.add("externalId is too long (max " + MAX_EXTERNAL_ID + " characters).");
+        }
         if (!StringUtils.hasText(q.topic())) {
             messages.add("topic is required.");
+        } else if (q.topic().length() > MAX_TOPIC) {
+            messages.add("topic is too long (max " + MAX_TOPIC + " characters).");
+        }
+        if (q.subtopic() != null && q.subtopic().length() > MAX_SUBTOPIC) {
+            messages.add("subtopic is too long (max " + MAX_SUBTOPIC + " characters).");
         }
         if (!StringUtils.hasText(q.question())) {
             messages.add("Question text is required.");

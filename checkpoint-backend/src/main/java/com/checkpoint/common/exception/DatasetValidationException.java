@@ -7,7 +7,9 @@ public class DatasetValidationException extends RuntimeException {
     private final ValidationResponse validationResponse;
 
     public DatasetValidationException(ValidationResponse validationResponse) {
-        super("Dataset failed validation: " + validationResponse.invalidCount() + " invalid question(s).");
+        super("Dataset failed validation: " + validationResponse.invalidCount()
+                + " invalid question(s), " + validationResponse.datasetErrors().size()
+                + " dataset-level problem(s).");
         this.validationResponse = validationResponse;
     }
 

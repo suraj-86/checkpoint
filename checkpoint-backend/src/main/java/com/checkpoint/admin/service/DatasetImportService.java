@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class DatasetImportService {
@@ -125,7 +126,17 @@ public class DatasetImportService {
                 .orElseGet(() -> topicRepository.save(Topic.builder().name(name).build()));
     }
 
+    @Transactional(readOnly = true)
     public List<DatasetSummary> listDatasets() {
-        return datasetRepository.findAll().stream().map(DatasetSummary::from).toList();
+        Map<UUID, long[]> counts = new HashMap<>();
+        for (Object[] row : questionRepository.countPerDataset()) {
+            counts.put((UUID) row[0], new long[]{(Long) row[1], (Long) row[2]});
+        }
+        return datasetRepository.findAllByOrderByImportedAtDesc().stream()
+                .map(d -> {
+                    long[] c = counts.getOrDefault(d.getId(), new long[]{0, 0});
+                    return DatasetSummary.from(d, c[0], c[1]);
+                })
+                .toList();
     }
 }

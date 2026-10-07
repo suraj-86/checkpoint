@@ -8,9 +8,10 @@ public record ValidationResponse(
         int total,
         int validCount,
         int invalidCount,
+        List<String> datasetErrors,
         List<QuestionValidationError> errors
 ) {
     public boolean allValid() {
-        return invalidCount == 0;
+        return invalidCount == 0 && datasetErrors.isEmpty();
     }
 }
