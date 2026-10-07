@@ -1,0 +1,1864 @@
+{
+  "dataset": {
+    "name": "SQL Fundamentals",
+    "version": "1.0",
+    "description": "SQL from basics to intermediate: querying, NULL handling, aggregation, joins, subqueries, data changes, functions, window functions and database design."
+  },
+  "questions": [
+    {
+      "externalId": "SQL-BAS-001",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which SQL statement is used to retrieve data from a table?",
+      "options": [
+        "GET",
+        "FETCH",
+        "READ",
+        "SELECT"
+      ],
+      "answer": "SELECT",
+      "explanation": "SELECT is the statement for reading data. INSERT adds rows, UPDATE changes them and DELETE removes them."
+    },
+    {
+      "externalId": "SQL-BAS-002",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ clause filters individual rows before any grouping takes place.",
+      "answer": [
+        "where"
+      ],
+      "explanation": "WHERE restricts which rows are considered. HAVING filters groups after aggregation."
+    },
+    {
+      "externalId": "SQL-BAS-003",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which clause sorts the rows of a result set?",
+      "options": [
+        "ORDER BY",
+        "SORT BY",
+        "ARRANGE",
+        "GROUP BY"
+      ],
+      "answer": "ORDER BY",
+      "explanation": "ORDER BY sorts ascending by default, and DESC reverses the order."
+    },
+    {
+      "externalId": "SQL-BAS-004",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "SQL keywords such as SELECT and FROM must be written in uppercase to work.",
+      "answer": false,
+      "explanation": "Keywords are not case-sensitive in standard SQL. Uppercase is only a readability convention."
+    },
+    {
+      "externalId": "SQL-BAS-005",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE dept = 'IT' ORDER BY name;",
+      "options": [
+        "Asha",
+        "Asha, Ben",
+        "Asha, Ben, Cara",
+        "Ben, Asha"
+      ],
+      "answer": "Asha, Ben",
+      "explanation": "Only the two IT employees match, and ORDER BY name sorts them alphabetically."
+    },
+    {
+      "externalId": "SQL-BAS-006",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT COUNT(*) FROM employees;",
+      "options": [
+        "1",
+        "4",
+        "5",
+        "0"
+      ],
+      "answer": "5",
+      "explanation": "COUNT(*) counts every row, regardless of NULL values."
+    },
+    {
+      "externalId": "SQL-BAS-007",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT DISTINCT dept FROM employees ORDER BY dept;",
+      "options": [
+        "HR, HR, IT, IT, Sales",
+        "IT, HR, Sales",
+        "HR, IT",
+        "HR, IT, Sales"
+      ],
+      "answer": "HR, IT, Sales",
+      "explanation": "DISTINCT removes duplicate values, so each department appears once."
+    },
+    {
+      "externalId": "SQL-BAS-008",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE salary IS NOT NULL ORDER BY salary DESC LIMIT 1;",
+      "options": [
+        "Asha",
+        "Ben",
+        "Esha",
+        "Dev"
+      ],
+      "answer": "Asha",
+      "explanation": "NULL salaries are excluded, the rest are sorted from highest to lowest, and LIMIT 1 keeps the top row."
+    },
+    {
+      "externalId": "SQL-BAS-009",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the AS keyword do in SELECT name AS employee_name?",
+      "options": [
+        "Converts the column to a string",
+        "Gives the column a temporary alias in the result",
+        "Renames the column permanently in the table",
+        "Sorts the column"
+      ],
+      "answer": "Gives the column a temporary alias in the result",
+      "explanation": "An alias only affects the output of that query. The table definition does not change."
+    },
+    {
+      "externalId": "SQL-BAS-010",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees ORDER BY dept, name DESC;",
+      "options": [
+        "Cara, Dev, Asha, Ben, Esha",
+        "Esha, Ben, Asha, Dev, Cara",
+        "Dev, Cara, Ben, Asha, Esha",
+        "Asha, Ben, Cara, Dev, Esha"
+      ],
+      "answer": "Dev, Cara, Ben, Asha, Esha",
+      "explanation": "Rows are sorted by dept first (HR, IT, Sales), and within each dept by name in descending order."
+    },
+    {
+      "externalId": "SQL-BAS-011",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "In PostgreSQL, MySQL and SQLite, which clause restricts the number of rows returned?",
+      "options": [
+        "TOP",
+        "CAP",
+        "MAXROWS",
+        "LIMIT"
+      ],
+      "answer": "LIMIT",
+      "explanation": "LIMIT n returns at most n rows. SQL Server uses TOP instead, and Oracle 12c+ supports FETCH FIRST."
+    },
+    {
+      "externalId": "SQL-BAS-012",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name, salary * 12 FROM employees WHERE id = 2;",
+      "options": [
+        "Ben 48000",
+        "48000",
+        "Ben 4000",
+        "Ben 12"
+      ],
+      "answer": "Ben 48000",
+      "explanation": "Expressions can be computed in the SELECT list, so salary * 12 gives the annual figure."
+    },
+    {
+      "externalId": "SQL-BAS-013",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Using SELECT * in application code can break the code if columns are later added to the table.",
+      "answer": true,
+      "explanation": "The set and order of returned columns changes with the table, so naming the columns you need is safer."
+    },
+    {
+      "externalId": "SQL-BAS-014",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "In the logical processing order of a SQL query, which clause is evaluated first?",
+      "options": [
+        "WHERE",
+        "FROM",
+        "ORDER BY",
+        "SELECT"
+      ],
+      "answer": "FROM",
+      "explanation": "The logical order is FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY. This is why a column alias from SELECT cannot be used in WHERE."
+    },
+    {
+      "externalId": "SQL-BAS-015",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE salary > 4000 ORDER BY id;",
+      "options": [
+        "Asha",
+        "Asha, Ben, Esha",
+        "Asha, Esha",
+        "Asha, Dev, Esha"
+      ],
+      "answer": "Asha, Esha",
+      "explanation": "Only salaries strictly greater than 4000 qualify. Ben has exactly 4000 and Dev has NULL, so both are excluded."
+    },
+    {
+      "externalId": "SQL-BAS-016",
+      "topic": "SQL",
+      "subtopic": "Basics",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "To remove duplicate rows from a result, write SELECT ______ followed by the column list.",
+      "answer": [
+        "distinct"
+      ],
+      "explanation": "SELECT DISTINCT returns each unique combination of the selected columns once."
+    },
+    {
+      "externalId": "SQL-NUL-001",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE salary IS NULL;",
+      "options": [
+        "Nobody (no rows)",
+        "0",
+        "Dev, Cara",
+        "Dev"
+      ],
+      "answer": "Dev",
+      "explanation": "IS NULL finds rows where the value is missing, and only Dev has no salary."
+    },
+    {
+      "externalId": "SQL-NUL-002",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT COUNT(*) FROM employees WHERE salary = NULL;",
+      "options": [
+        "0",
+        "1",
+        "NULL",
+        "5"
+      ],
+      "answer": "0",
+      "explanation": "Comparing anything to NULL with = gives UNKNOWN, never true, so no rows match. IS NULL must be used instead."
+    },
+    {
+      "externalId": "SQL-NUL-003",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "In SQL, NULL = NULL evaluates to TRUE.",
+      "answer": false,
+      "explanation": "The result is UNKNOWN, because NULL represents an unknown value, so two unknowns cannot be said to be equal."
+    },
+    {
+      "externalId": "SQL-NUL-004",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE name LIKE 'A%';",
+      "options": [
+        "Esha",
+        "Asha",
+        "(no rows)",
+        "Asha, Ben"
+      ],
+      "answer": "Asha",
+      "explanation": "LIKE 'A%' matches values that start with A, and % stands for any number of characters."
+    },
+    {
+      "externalId": "SQL-NUL-005",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE name LIKE '_e%' ORDER BY name;",
+      "options": [
+        "Asha, Esha",
+        "Ben",
+        "Ben, Dev",
+        "Cara, Dev"
+      ],
+      "answer": "Ben, Dev",
+      "explanation": "_ matches exactly one character, so '_e%' means any first character, then e, then anything."
+    },
+    {
+      "externalId": "SQL-NUL-006",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE dept IN ('HR', 'Sales') ORDER BY id;",
+      "options": [
+        "Asha, Ben",
+        "Cara, Dev",
+        "Esha",
+        "Cara, Dev, Esha"
+      ],
+      "answer": "Cara, Dev, Esha",
+      "explanation": "IN matches any value in the list, so both HR employees and the Sales employee are returned."
+    },
+    {
+      "externalId": "SQL-NUL-007",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE salary BETWEEN 4000 AND 4500 ORDER BY id;",
+      "options": [
+        "Ben, Esha",
+        "Esha",
+        "Ben, Cara, Esha",
+        "Ben"
+      ],
+      "answer": "Ben, Esha",
+      "explanation": "BETWEEN is inclusive of both ends, so 4000 and 4500 both match."
+    },
+    {
+      "externalId": "SQL-NUL-008",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE salary <> 5000 ORDER BY id;",
+      "options": [
+        "Ben, Esha",
+        "Ben, Cara, Esha",
+        "Asha",
+        "Ben, Cara, Dev, Esha"
+      ],
+      "answer": "Ben, Cara, Esha",
+      "explanation": "Dev's NULL salary makes the comparison UNKNOWN, so Dev is not returned even though it is not 5000."
+    },
+    {
+      "externalId": "SQL-NUL-009",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT COUNT(*) FROM employees WHERE salary > 4000 OR salary <= 4000;",
+      "options": [
+        "0",
+        "1",
+        "4",
+        "5"
+      ],
+      "answer": "4",
+      "explanation": "The two conditions cover every non-NULL salary, but for Dev both comparisons are UNKNOWN. So the row is dropped and 4 rows remain."
+    },
+    {
+      "externalId": "SQL-NUL-010",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT COALESCE(salary, 0) FROM employees WHERE id = 4;",
+      "options": [
+        "4000",
+        "NULL",
+        "(no rows)",
+        "0"
+      ],
+      "answer": "0",
+      "explanation": "COALESCE returns its first non-NULL argument, so a missing salary is replaced by 0."
+    },
+    {
+      "externalId": "SQL-NUL-011",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE dept NOT IN ('IT', NULL);",
+      "options": [
+        "(no rows)",
+        "HR, Sales",
+        "HR",
+        "Asha, Ben"
+      ],
+      "answer": "(no rows)",
+      "explanation": "With NULL in the list, dept NOT IN ('IT', NULL) can never be TRUE: for non-IT rows the NULL comparison makes the whole condition UNKNOWN."
+    },
+    {
+      "externalId": "SQL-NUL-012",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the condition WHERE col IS NOT NULL keep?",
+      "options": [
+        "All rows",
+        "Rows where col has a value",
+        "Rows where col is empty",
+        "Rows where col is zero"
+      ],
+      "answer": "Rows where col has a value",
+      "explanation": "IS NOT NULL removes the rows in which the column is NULL."
+    },
+    {
+      "externalId": "SQL-NUL-013",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "WHERE salary != 4000 also returns rows where salary is NULL.",
+      "answer": false,
+      "explanation": "A NULL salary makes the comparison UNKNOWN, so the row is filtered out."
+    },
+    {
+      "externalId": "SQL-NUL-014",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "To test for a missing value you write column ______ NULL.",
+      "answer": [
+        "is"
+      ],
+      "explanation": "The correct form is column IS NULL. Writing = NULL does not work."
+    },
+    {
+      "externalId": "SQL-NUL-015",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nSELECT NULL + 5;",
+      "options": [
+        "0",
+        "5",
+        "NULL",
+        "Error"
+      ],
+      "answer": "NULL",
+      "explanation": "Any arithmetic with NULL gives NULL."
+    },
+    {
+      "externalId": "SQL-NUL-016",
+      "topic": "SQL",
+      "subtopic": "NULL and Filtering",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE NOT (dept = 'IT') ORDER BY id;",
+      "options": [
+        "Cara, Dev",
+        "Esha",
+        "Asha, Ben",
+        "Cara, Dev, Esha"
+      ],
+      "answer": "Cara, Dev, Esha",
+      "explanation": "NOT negates the condition, so all employees outside IT are returned."
+    },
+    {
+      "externalId": "SQL-AGG-001",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nSELECT SUM(amount) FROM orders;",
+      "options": [
+        "650",
+        "130",
+        "5",
+        "250"
+      ],
+      "answer": "650",
+      "explanation": "SUM adds up all amounts: 100 + 250 + 150 + 50 + 100."
+    },
+    {
+      "externalId": "SQL-AGG-002",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nSELECT MAX(amount) FROM orders;",
+      "options": [
+        "5",
+        "250",
+        "650",
+        "100"
+      ],
+      "answer": "250",
+      "explanation": "MAX returns the largest value in the column."
+    },
+    {
+      "externalId": "SQL-AGG-003",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT COUNT(salary) FROM employees;",
+      "options": [
+        "5",
+        "1",
+        "4",
+        "NULL"
+      ],
+      "answer": "4",
+      "explanation": "COUNT(column) counts only non-NULL values, and Dev's salary is NULL."
+    },
+    {
+      "externalId": "SQL-AGG-004",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "A column holds the values 5000, 4000, 3500, NULL and 4500. AVG(column) divides the total by which number?",
+      "options": [
+        "5",
+        "17000",
+        "3",
+        "4"
+      ],
+      "answer": "4",
+      "explanation": "Aggregate functions other than COUNT(*) ignore NULLs, so only the four real values count towards the average."
+    },
+    {
+      "externalId": "SQL-AGG-005",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT dept, COUNT(*) FROM employees GROUP BY dept ORDER BY dept;",
+      "options": [
+        "HR 2, IT 2, Sales 1",
+        "HR 1, IT 1, Sales 1",
+        "IT 2, HR 2, Sales 1",
+        "HR 2, IT 3, Sales 1"
+      ],
+      "answer": "HR 2, IT 2, Sales 1",
+      "explanation": "GROUP BY forms one group per department, and COUNT(*) counts the rows in each."
+    },
+    {
+      "externalId": "SQL-AGG-006",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nSELECT customer, SUM(amount) FROM orders GROUP BY customer ORDER BY customer;",
+      "options": [
+        "Ann 100, Bob 250, Cy 50",
+        "Ann 250, Bob 350, Cy 50",
+        "Ann 2, Bob 2, Cy 1",
+        "Ann 250, Bob 250, Cy 50"
+      ],
+      "answer": "Ann 250, Bob 350, Cy 50",
+      "explanation": "Each customer's amounts are added up: Ann 100+150, Bob 250+100, Cy 50."
+    },
+    {
+      "externalId": "SQL-AGG-007",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nSELECT customer FROM orders GROUP BY customer HAVING SUM(amount) > 200 ORDER BY customer;",
+      "options": [
+        "Bob",
+        "Ann, Bob, Cy",
+        "Ann, Bob",
+        "Ann"
+      ],
+      "answer": "Ann, Bob",
+      "explanation": "HAVING keeps only groups whose total exceeds 200. Cy's total is 50."
+    },
+    {
+      "externalId": "SQL-AGG-008",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A WHERE clause can filter on an aggregate such as SUM(amount) > 200.",
+      "answer": false,
+      "explanation": "WHERE runs before grouping, so aggregates are not available there. Use HAVING instead."
+    },
+    {
+      "externalId": "SQL-AGG-009",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which clause is used to filter groups after aggregation?",
+      "options": [
+        "FILTER BY",
+        "GROUP WHERE",
+        "WHERE",
+        "HAVING"
+      ],
+      "answer": "HAVING",
+      "explanation": "HAVING applies conditions to the groups produced by GROUP BY."
+    },
+    {
+      "externalId": "SQL-AGG-010",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nSELECT COUNT(*), COUNT(DISTINCT customer) FROM orders;",
+      "options": [
+        "5 3",
+        "3 5",
+        "3 3",
+        "5 5"
+      ],
+      "answer": "5 3",
+      "explanation": "COUNT(*) counts all five orders, while COUNT(DISTINCT customer) counts the three different customers."
+    },
+    {
+      "externalId": "SQL-AGG-011",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT dept, MAX(salary) FROM employees GROUP BY dept ORDER BY dept;",
+      "options": [
+        "HR NULL, IT 5000, Sales 4500",
+        "HR 3500, IT 5000, Sales 4500",
+        "HR 7000, IT 9000, Sales 4500",
+        "HR 3500, IT 4000, Sales 4500"
+      ],
+      "answer": "HR 3500, IT 5000, Sales 4500",
+      "explanation": "MAX ignores NULL, so the HR maximum is Cara's 3500 even though Dev's salary is NULL."
+    },
+    {
+      "externalId": "SQL-AGG-012",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nSELECT COUNT(*) FROM (SELECT customer FROM orders GROUP BY customer HAVING COUNT(*) > 1) AS t;",
+      "options": [
+        "5",
+        "1",
+        "2",
+        "3"
+      ],
+      "answer": "2",
+      "explanation": "The inner query keeps customers with more than one order (Ann and Bob), and the outer query counts those two rows."
+    },
+    {
+      "externalId": "SQL-AGG-013",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "In standard SQL, a SELECT with GROUP BY may list which columns without wrapping them in an aggregate function?",
+      "options": [
+        "Any column of the table",
+        "Only the primary key",
+        "Only numeric columns",
+        "Only the columns that appear in GROUP BY"
+      ],
+      "answer": "Only the columns that appear in GROUP BY",
+      "explanation": "Each group collapses into one row, so a non-grouped column would have several possible values and is not allowed (unless it is functionally dependent on the group)."
+    },
+    {
+      "externalId": "SQL-AGG-014",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The aggregate function ______ returns the number of rows.",
+      "answer": [
+        "count",
+        "count(*)"
+      ],
+      "explanation": "COUNT(*) counts rows, and COUNT(column) counts non-NULL values."
+    },
+    {
+      "externalId": "SQL-AGG-015",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nSELECT MIN(amount), MAX(amount) FROM orders WHERE customer = 'Ann';",
+      "options": [
+        "100 150",
+        "150 100",
+        "100 250",
+        "50 250"
+      ],
+      "answer": "100 150",
+      "explanation": "Ann's two orders are 100 and 150, so the minimum is 100 and the maximum is 150."
+    },
+    {
+      "externalId": "SQL-AGG-016",
+      "topic": "SQL",
+      "subtopic": "Aggregation",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "COUNT(*) includes rows that contain NULL values, but COUNT(column) skips rows where that column is NULL.",
+      "answer": true,
+      "explanation": "COUNT(*) counts rows, while COUNT(column) counts only the non-NULL values in that column."
+    },
+    {
+      "externalId": "SQL-JOI-001",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which join returns only the rows that have a match in both tables?",
+      "options": [
+        "FULL OUTER JOIN",
+        "INNER JOIN",
+        "CROSS JOIN",
+        "LEFT JOIN"
+      ],
+      "answer": "INNER JOIN",
+      "explanation": "INNER JOIN discards rows that have no matching partner on the other side."
+    },
+    {
+      "externalId": "SQL-JOI-002",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT e.name, d.city FROM employees e INNER JOIN departments d ON e.dept = d.dept ORDER BY e.id;",
+      "options": [
+        "Asha IT, Ben IT, Cara HR, Dev HR",
+        "Asha Pune, Ben Pune",
+        "Asha Pune, Ben Pune, Cara Delhi, Dev Delhi",
+        "Asha Pune, Ben Pune, Cara Delhi, Dev Delhi, Esha NULL"
+      ],
+      "answer": "Asha Pune, Ben Pune, Cara Delhi, Dev Delhi",
+      "explanation": "Esha works in Sales, which has no row in departments, so the inner join drops her."
+    },
+    {
+      "externalId": "SQL-JOI-003",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT e.name, d.city FROM employees e LEFT JOIN departments d ON e.dept = d.dept WHERE e.id = 5;",
+      "options": [
+        "(no rows)",
+        "Esha Goa",
+        "Esha Sales",
+        "Esha NULL"
+      ],
+      "answer": "Esha NULL",
+      "explanation": "LEFT JOIN keeps every row from the left table. With no matching department, the right-hand columns are NULL."
+    },
+    {
+      "externalId": "SQL-JOI-004",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT COUNT(*) FROM employees e LEFT JOIN departments d ON e.dept = d.dept;",
+      "options": [
+        "5",
+        "4",
+        "3",
+        "15"
+      ],
+      "answer": "5",
+      "explanation": "Every employee appears exactly once in a left join here, whether or not a department matched."
+    },
+    {
+      "externalId": "SQL-JOI-005",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT d.dept FROM departments d LEFT JOIN employees e ON d.dept = e.dept WHERE e.id IS NULL;",
+      "options": [
+        "HR",
+        "Ops",
+        "Sales",
+        "IT"
+      ],
+      "answer": "Ops",
+      "explanation": "Joining from departments with LEFT JOIN and keeping rows where the employee side is NULL finds departments that have no employees."
+    },
+    {
+      "externalId": "SQL-JOI-006",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT COUNT(*) FROM employees CROSS JOIN departments;",
+      "options": [
+        "3",
+        "8",
+        "15",
+        "5"
+      ],
+      "answer": "15",
+      "explanation": "A CROSS JOIN pairs every row of one table with every row of the other: 5 x 3 = 15."
+    },
+    {
+      "externalId": "SQL-JOI-007",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT COUNT(*) FROM employees e INNER JOIN departments d ON e.dept = d.dept;",
+      "options": [
+        "3",
+        "8",
+        "5",
+        "4"
+      ],
+      "answer": "4",
+      "explanation": "Four employees (Asha, Ben, Cara, Dev) have a matching department."
+    },
+    {
+      "externalId": "SQL-JOI-008",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A LEFT JOIN returns every row from the left table, even when there is no matching row in the right table.",
+      "answer": true,
+      "explanation": "Unmatched left rows are kept, and the right table's columns are filled with NULL."
+    },
+    {
+      "externalId": "SQL-JOI-009",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does a FULL OUTER JOIN return?",
+      "options": [
+        "All rows from both tables, with NULLs where there is no match",
+        "Only matching rows",
+        "Every combination of rows",
+        "Only rows from the left table"
+      ],
+      "answer": "All rows from both tables, with NULLs where there is no match",
+      "explanation": "It combines the results of a LEFT JOIN and a RIGHT JOIN."
+    },
+    {
+      "externalId": "SQL-JOI-010",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT a.name, b.name FROM employees a JOIN employees b ON a.dept = b.dept AND a.id < b.id ORDER BY a.id;",
+      "options": [
+        "Asha Asha, Ben Ben",
+        "Asha Ben, Cara Dev",
+        "Asha Ben",
+        "Asha Ben, Ben Asha, Cara Dev, Dev Cara"
+      ],
+      "answer": "Asha Ben, Cara Dev",
+      "explanation": "Joining employees to itself on the same department, with a.id < b.id, produces each pair once and never pairs someone with themselves."
+    },
+    {
+      "externalId": "SQL-JOI-011",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT COUNT(*) FROM employees e LEFT JOIN departments d ON e.dept = d.dept WHERE d.city = 'Pune';",
+      "options": [
+        "5",
+        "0",
+        "2",
+        "4"
+      ],
+      "answer": "2",
+      "explanation": "The WHERE clause runs after the join and discards rows where city is NULL or not 'Pune', so the LEFT JOIN effectively behaves like an inner join."
+    },
+    {
+      "externalId": "SQL-JOI-012",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT COUNT(*) FROM employees e LEFT JOIN departments d ON e.dept = d.dept AND d.city = 'Pune';",
+      "options": [
+        "4",
+        "2",
+        "3",
+        "5"
+      ],
+      "answer": "5",
+      "explanation": "When the extra condition is in ON, it only controls which rows match. Every employee is still kept by the LEFT JOIN, with NULLs when there is no match."
+    },
+    {
+      "externalId": "SQL-JOI-013",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ keyword introduces the condition that decides which rows of two tables are matched in a join.",
+      "answer": [
+        "on"
+      ],
+      "explanation": "JOIN ... ON a.col = b.col defines the matching rule."
+    },
+    {
+      "externalId": "SQL-JOI-014",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "A join in which a table is joined with itself is called a:",
+      "options": [
+        "Self join",
+        "Cross join",
+        "Natural join",
+        "Outer join"
+      ],
+      "answer": "Self join",
+      "explanation": "Self joins use table aliases so the same table can play two roles, such as employee and manager."
+    },
+    {
+      "externalId": "SQL-JOI-015",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT e.name FROM employees e JOIN departments d USING (dept) WHERE d.city = 'Delhi' ORDER BY e.name;",
+      "options": [
+        "Cara",
+        "Cara, Dev",
+        "Esha",
+        "Asha, Ben"
+      ],
+      "answer": "Cara, Dev",
+      "explanation": "USING (dept) joins on the shared column name. Delhi is the city of HR, whose employees are Cara and Dev."
+    },
+    {
+      "externalId": "SQL-JOI-016",
+      "topic": "SQL",
+      "subtopic": "Joins",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT d.city, COUNT(e.id) FROM departments d LEFT JOIN employees e ON d.dept = e.dept GROUP BY d.city ORDER BY d.city;",
+      "options": [
+        "Delhi 2, Goa 1, Pune 2",
+        "Delhi 2, Pune 2",
+        "Delhi 2, Goa 0, Pune 2",
+        "Delhi 1, Goa 0, Pune 1"
+      ],
+      "answer": "Delhi 2, Goa 0, Pune 2",
+      "explanation": "COUNT(e.id) counts only real employees. Ops (Goa) has none, so its count is 0, while COUNT(*) would have wrongly shown 1."
+    },
+    {
+      "externalId": "SQL-SUB-001",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE salary = (SELECT MAX(salary) FROM employees);",
+      "options": [
+        "NULL",
+        "Esha",
+        "Asha, Esha",
+        "Asha"
+      ],
+      "answer": "Asha",
+      "explanation": "The subquery finds the highest salary (5000), and the outer query returns who earns it."
+    },
+    {
+      "externalId": "SQL-SUB-002",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT name FROM employees WHERE dept IN (SELECT dept FROM departments) ORDER BY id;",
+      "options": [
+        "Asha, Ben, Cara, Dev",
+        "Asha, Ben, Cara, Dev, Esha",
+        "Esha",
+        "(no rows)"
+      ],
+      "answer": "Asha, Ben, Cara, Dev",
+      "explanation": "IN checks membership in the subquery's result. Esha's Sales department is not listed in departments."
+    },
+    {
+      "externalId": "SQL-SUB-003",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT d.dept FROM departments d WHERE EXISTS (SELECT 1 FROM employees e WHERE e.dept = d.dept) ORDER BY d.dept;",
+      "options": [
+        "HR, IT, Ops",
+        "HR, IT",
+        "Ops",
+        "IT"
+      ],
+      "answer": "HR, IT",
+      "explanation": "EXISTS is true when the subquery returns at least one row, so only departments with employees are kept."
+    },
+    {
+      "externalId": "SQL-SUB-004",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name FROM employees WHERE salary > (SELECT AVG(salary) FROM employees) ORDER BY id;",
+      "options": [
+        "Asha",
+        "Ben, Cara",
+        "Asha, Esha",
+        "Asha, Ben, Esha"
+      ],
+      "answer": "Asha, Esha",
+      "explanation": "The average of the four known salaries is 4250, and only Asha (5000) and Esha (4500) are above it."
+    },
+    {
+      "externalId": "SQL-SUB-005",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT dept FROM employees UNION SELECT dept FROM departments ORDER BY dept;",
+      "options": [
+        "HR, HR, IT, IT, Ops, Sales",
+        "HR, IT",
+        "Ops, Sales",
+        "HR, IT, Ops, Sales"
+      ],
+      "answer": "HR, IT, Ops, Sales",
+      "explanation": "UNION combines the two results and removes duplicates."
+    },
+    {
+      "externalId": "SQL-SUB-006",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT COUNT(*) FROM (SELECT dept FROM employees UNION ALL SELECT dept FROM departments) AS t;",
+      "options": [
+        "8",
+        "4",
+        "5",
+        "3"
+      ],
+      "answer": "8",
+      "explanation": "UNION ALL keeps every row, including duplicates: 5 from employees plus 3 from departments."
+    },
+    {
+      "externalId": "SQL-SUB-007",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT dept FROM employees INTERSECT SELECT dept FROM departments ORDER BY dept;",
+      "options": [
+        "IT",
+        "HR, IT",
+        "Ops, Sales",
+        "HR, IT, Ops, Sales"
+      ],
+      "answer": "HR, IT",
+      "explanation": "INTERSECT returns only the rows that appear in both results."
+    },
+    {
+      "externalId": "SQL-SUB-008",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT dept FROM departments EXCEPT SELECT dept FROM employees;",
+      "options": [
+        "HR, IT",
+        "(no rows)",
+        "Ops",
+        "Sales"
+      ],
+      "answer": "Ops",
+      "explanation": "EXCEPT returns rows from the first query that do not appear in the second. Ops is a department with no employees."
+    },
+    {
+      "externalId": "SQL-SUB-009",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "UNION removes duplicate rows from its result, while UNION ALL keeps them.",
+      "answer": true,
+      "explanation": "UNION ALL is faster because it skips the duplicate-removal step."
+    },
+    {
+      "externalId": "SQL-SUB-010",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT e.name FROM employees e WHERE e.salary > (SELECT AVG(x.salary) FROM employees x WHERE x.dept = e.dept) ORDER BY e.name;",
+      "options": [
+        "Ben",
+        "Asha, Esha",
+        "(no rows)",
+        "Asha"
+      ],
+      "answer": "Asha",
+      "explanation": "The inner query is correlated: it computes the average salary of that employee's own department. Only Asha (5000) beats her department's 4500."
+    },
+    {
+      "externalId": "SQL-SUB-011",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name, (SELECT COUNT(*) FROM employees x WHERE x.dept = e.dept) FROM employees e WHERE id IN (1, 5) ORDER BY id;",
+      "options": [
+        "Asha 2, Esha 1",
+        "Asha 5, Esha 5",
+        "Asha 1, Esha 1",
+        "Asha 2, Esha 2"
+      ],
+      "answer": "Asha 2, Esha 1",
+      "explanation": "A scalar subquery in the SELECT list runs once per row and counts the colleagues in the same department."
+    },
+    {
+      "externalId": "SQL-SUB-012",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "A subquery placed in the FROM clause is commonly called a:",
+      "options": [
+        "Stored procedure",
+        "Derived table (inline view)",
+        "Cursor",
+        "Trigger"
+      ],
+      "answer": "Derived table (inline view)",
+      "explanation": "The result of the subquery is treated like a temporary table, and it normally needs an alias."
+    },
+    {
+      "externalId": "SQL-SUB-013",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ operator is true when a subquery returns at least one row.",
+      "answer": [
+        "exists"
+      ],
+      "explanation": "EXISTS only checks whether any row is returned, not the values."
+    },
+    {
+      "externalId": "SQL-SUB-014",
+      "topic": "SQL",
+      "subtopic": "Subqueries and Sets",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nTable departments\ndept | city\nIT   | Pune\nHR   | Delhi\nOps  | Goa\n\nSELECT d.dept FROM departments d WHERE NOT EXISTS (SELECT 1 FROM employees e WHERE e.dept = d.dept);",
+      "options": [
+        "(no rows)",
+        "Sales",
+        "Ops",
+        "HR"
+      ],
+      "answer": "Ops",
+      "explanation": "NOT EXISTS keeps departments for which no employee row matches."
+    },
+    {
+      "externalId": "SQL-DML-001",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which statement adds new rows to a table?",
+      "options": [
+        "CREATE",
+        "APPEND",
+        "ADD ROW",
+        "INSERT"
+      ],
+      "answer": "INSERT",
+      "explanation": "INSERT INTO table (columns) VALUES (...) adds a row."
+    },
+    {
+      "externalId": "SQL-DML-002",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ statement changes the values in existing rows.",
+      "answer": [
+        "update"
+      ],
+      "explanation": "UPDATE table SET column = value WHERE condition modifies rows."
+    },
+    {
+      "externalId": "SQL-DML-003",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "A DELETE statement without a WHERE clause removes every row from the table.",
+      "answer": true,
+      "explanation": "Without a condition, the statement applies to all rows, so always check the WHERE clause before running a DELETE or UPDATE."
+    },
+    {
+      "externalId": "SQL-DML-004",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the final result of the following statements?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nUPDATE employees SET salary = salary + 500 WHERE dept = 'HR';\nSELECT name, salary FROM employees WHERE dept = 'HR' ORDER BY id;",
+      "options": [
+        "Cara 4000, Dev NULL",
+        "Cara 4000, Dev 500",
+        "Cara 4000, Dev 4000",
+        "Cara 3500, Dev NULL"
+      ],
+      "answer": "Cara 4000, Dev NULL",
+      "explanation": "Cara's salary goes up by 500, but NULL + 500 is still NULL, so Dev's salary stays unknown."
+    },
+    {
+      "externalId": "SQL-DML-005",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the final result of the following statements?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nDELETE FROM employees WHERE salary IS NULL;\nSELECT COUNT(*) FROM employees;",
+      "options": [
+        "0",
+        "4",
+        "1",
+        "5"
+      ],
+      "answer": "4",
+      "explanation": "The row whose salary is NULL (Dev) is deleted, leaving four employees."
+    },
+    {
+      "externalId": "SQL-DML-006",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the final result of the following statements?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nINSERT INTO employees (id, name, dept, salary) VALUES (6, 'Fay', 'IT', 4200);\nSELECT COUNT(*) FROM employees WHERE dept = 'IT';",
+      "options": [
+        "6",
+        "1",
+        "3",
+        "2"
+      ],
+      "answer": "3",
+      "explanation": "The new IT employee joins Asha and Ben, giving three IT employees."
+    },
+    {
+      "externalId": "SQL-DML-007",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "How does TRUNCATE TABLE differ from DELETE FROM table (without WHERE) in most databases?",
+      "options": [
+        "There is no difference",
+        "TRUNCATE removes only the first row",
+        "TRUNCATE deletes the table structure too",
+        "TRUNCATE removes all rows quickly and cannot filter with WHERE"
+      ],
+      "answer": "TRUNCATE removes all rows quickly and cannot filter with WHERE",
+      "explanation": "TRUNCATE empties the table in bulk, is typically faster and cannot take a WHERE clause. DROP TABLE is what removes the structure."
+    },
+    {
+      "externalId": "SQL-DML-008",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which constraint guarantees that a column's values are unique and not NULL, and identifies each row?",
+      "options": [
+        "PRIMARY KEY",
+        "CHECK",
+        "INDEX",
+        "DEFAULT"
+      ],
+      "answer": "PRIMARY KEY",
+      "explanation": "A primary key uniquely identifies each row and cannot be NULL."
+    },
+    {
+      "externalId": "SQL-DML-009",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the purpose of a FOREIGN KEY constraint?",
+      "options": [
+        "To speed up queries",
+        "To enforce that a value refers to an existing row in another table",
+        "To encrypt a column",
+        "To make a column unique"
+      ],
+      "answer": "To enforce that a value refers to an existing row in another table",
+      "explanation": "A foreign key enforces referential integrity between tables."
+    },
+    {
+      "externalId": "SQL-DML-010",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A table can have several UNIQUE constraints but only one PRIMARY KEY.",
+      "answer": true,
+      "explanation": "Any number of columns or column sets can be unique, but a table has just one primary key."
+    },
+    {
+      "externalId": "SQL-DML-011",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ TABLE statement removes a table and all its data permanently.",
+      "answer": [
+        "drop"
+      ],
+      "explanation": "DROP TABLE deletes the table definition together with its rows. DELETE only removes rows."
+    },
+    {
+      "externalId": "SQL-DML-012",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which statement adds a new column to an existing table?",
+      "options": [
+        "MODIFY TABLE ... INSERT COLUMN",
+        "UPDATE TABLE ... ADD",
+        "ALTER TABLE ... ADD COLUMN",
+        "INSERT COLUMN"
+      ],
+      "answer": "ALTER TABLE ... ADD COLUMN",
+      "explanation": "ALTER TABLE changes the structure of an existing table."
+    },
+    {
+      "externalId": "SQL-DML-013",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the final result of the following statements?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nBEGIN;\nDELETE FROM employees;\nROLLBACK;\nSELECT COUNT(*) FROM employees;",
+      "options": [
+        "4",
+        "0",
+        "1",
+        "5"
+      ],
+      "answer": "5",
+      "explanation": "The DELETE is undone by ROLLBACK, so the table still has all five rows."
+    },
+    {
+      "externalId": "SQL-DML-014",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the acronym ACID describe in databases?",
+      "options": [
+        "Atomicity, Consistency, Isolation, Durability",
+        "Atomicity, Concurrency, Isolation, Data",
+        "Access, Control, Integrity, Data",
+        "Aggregation, Constraint, Index, Delete"
+      ],
+      "answer": "Atomicity, Consistency, Isolation, Durability",
+      "explanation": "These are the four properties that make transactions reliable."
+    },
+    {
+      "externalId": "SQL-DML-015",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "An UPDATE statement without a WHERE clause changes every row in the table.",
+      "answer": true,
+      "explanation": "The WHERE clause is what limits which rows are changed."
+    },
+    {
+      "externalId": "SQL-DML-016",
+      "topic": "SQL",
+      "subtopic": "Data Changes and DDL",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which constraint supplies a value for a column when an INSERT does not provide one?",
+      "options": [
+        "CHECK",
+        "DEFAULT",
+        "REFERENCES",
+        "UNIQUE"
+      ],
+      "answer": "DEFAULT",
+      "explanation": "DEFAULT specifies the value used when none is given."
+    },
+    {
+      "externalId": "SQL-ADV-001",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following query return?\n\nSELECT UPPER('sql'), LENGTH('sql');",
+      "options": [
+        "Sql 3",
+        "SQL 4",
+        "SQL 3",
+        "sql 3"
+      ],
+      "answer": "SQL 3",
+      "explanation": "UPPER converts to uppercase and LENGTH counts the characters."
+    },
+    {
+      "externalId": "SQL-ADV-002",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nSELECT SUBSTR('database', 1, 4);",
+      "options": [
+        "base",
+        "dat",
+        "atab",
+        "data"
+      ],
+      "answer": "data",
+      "explanation": "SUBSTR(text, start, length) uses 1-based positions, so it returns four characters from the first position."
+    },
+    {
+      "externalId": "SQL-ADV-003",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name, CASE WHEN salary >= 4500 THEN 'high' ELSE 'normal' END FROM employees WHERE id IN (1, 2, 4) ORDER BY id;",
+      "options": [
+        "Asha high, Ben normal, Dev normal",
+        "Asha normal, Ben normal, Dev normal",
+        "Asha high, Ben high, Dev normal",
+        "Asha high, Ben normal, Dev NULL"
+      ],
+      "answer": "Asha high, Ben normal, Dev normal",
+      "explanation": "For Dev, salary >= 4500 is UNKNOWN, which is not true, so CASE falls through to the ELSE branch."
+    },
+    {
+      "externalId": "SQL-ADV-004",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nSELECT REPLACE('a-b-c', '-', '+');",
+      "options": [
+        "abc",
+        "a+b+c",
+        "a-b-c",
+        "a+b-c"
+      ],
+      "answer": "a+b+c",
+      "explanation": "REPLACE substitutes every occurrence of the search text."
+    },
+    {
+      "externalId": "SQL-ADV-005",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "In standard SQL (as in PostgreSQL and SQLite), what does this return?\n\nSELECT 'Hello' || ' ' || 'World';",
+      "options": [
+        "HelloWorld",
+        "Hello  World",
+        "Hello World",
+        "NULL"
+      ],
+      "answer": "Hello World",
+      "explanation": "The || operator concatenates strings. (MySQL uses CONCAT instead by default.)"
+    },
+    {
+      "externalId": "SQL-ADV-006",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT name, RANK() OVER (ORDER BY salary DESC) AS r FROM employees WHERE salary IS NOT NULL ORDER BY r;",
+      "options": [
+        "Asha 1, Esha 1, Ben 2, Cara 3",
+        "Esha 1, Asha 2, Ben 3, Cara 4",
+        "Asha 1, Ben 2, Cara 3, Esha 4",
+        "Asha 1, Esha 2, Ben 3, Cara 4"
+      ],
+      "answer": "Asha 1, Esha 2, Ben 3, Cara 4",
+      "explanation": "RANK() OVER (ORDER BY salary DESC) numbers rows by salary from highest to lowest, without collapsing them."
+    },
+    {
+      "externalId": "SQL-ADV-007",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable employees\nid | name | dept  | salary\n1  | Asha | IT    | 5000\n2  | Ben  | IT    | 4000\n3  | Cara | HR    | 3500\n4  | Dev  | HR    | NULL\n5  | Esha | Sales | 4500\n\nSELECT dept, name, ROW_NUMBER() OVER (PARTITION BY dept ORDER BY id) FROM employees WHERE dept = 'IT' ORDER BY id;",
+      "options": [
+        "IT Asha 1, IT Ben 2",
+        "IT Asha 2, IT Ben 1",
+        "IT Asha 1, IT Asha 2",
+        "IT Asha 1, IT Ben 1"
+      ],
+      "answer": "IT Asha 1, IT Ben 2",
+      "explanation": "PARTITION BY restarts the numbering for each department, and ROW_NUMBER assigns 1, 2, ... in id order."
+    },
+    {
+      "externalId": "SQL-ADV-008",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nSELECT id, SUM(amount) OVER (ORDER BY id) FROM orders ORDER BY id;",
+      "options": [
+        "1 100, 2 350, 3 600, 4 650, 5 750",
+        "1 100, 2 350, 3 500, 4 550, 5 650",
+        "1 650, 2 650, 3 650, 4 650, 5 650",
+        "1 100, 2 250, 3 150, 4 50, 5 100"
+      ],
+      "answer": "1 100, 2 350, 3 500, 4 550, 5 650",
+      "explanation": "With ORDER BY inside OVER, SUM becomes a running total: each row adds its own amount to the earlier ones."
+    },
+    {
+      "externalId": "SQL-ADV-009",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nWITH big AS (SELECT * FROM orders WHERE amount >= 100) SELECT COUNT(*) FROM big;",
+      "options": [
+        "5",
+        "1",
+        "4",
+        "2"
+      ],
+      "answer": "4",
+      "explanation": "The CTE named big contains the four orders with amount of at least 100, and the main query counts them."
+    },
+    {
+      "externalId": "SQL-ADV-010",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nSELECT COALESCE(NULL, NULL, 'x', 'y');",
+      "options": [
+        "y",
+        "NULL",
+        "xy",
+        "x"
+      ],
+      "answer": "x",
+      "explanation": "COALESCE returns the first argument that is not NULL."
+    },
+    {
+      "externalId": "SQL-ADV-011",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nTable orders\nid | customer | amount\n1  | Ann      | 100\n2  | Bob      | 250\n3  | Ann      | 150\n4  | Cy       | 50\n5  | Bob      | 100\n\nSELECT DISTINCT amount, RANK() OVER (ORDER BY amount) FROM orders ORDER BY amount;",
+      "options": [
+        "50 1, 100 2, 150 4, 250 5",
+        "50 1, 100 1, 150 2, 250 3",
+        "50 1, 100 2, 150 3, 250 4",
+        "50 1, 100 3, 150 4, 250 5"
+      ],
+      "answer": "50 1, 100 2, 150 4, 250 5",
+      "explanation": "RANK leaves gaps after ties. The two 100s share rank 2, so the next value gets rank 4. (DENSE_RANK would give 3.)"
+    },
+    {
+      "externalId": "SQL-ADV-012",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nSELECT NULLIF(5, 5), NULLIF(5, 3);",
+      "options": [
+        "5 NULL",
+        "NULL 5",
+        "NULL NULL",
+        "5 3"
+      ],
+      "answer": "NULL 5",
+      "explanation": "NULLIF(a, b) returns NULL when the two values are equal, and the first value otherwise."
+    },
+    {
+      "externalId": "SQL-ADV-013",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Window functions collapse rows into one row per group, just like GROUP BY does.",
+      "answer": false,
+      "explanation": "Window functions compute a value over a set of rows while keeping every row in the result."
+    },
+    {
+      "externalId": "SQL-ADV-014",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following query return?\n\nSELECT ABS(-7), ROUND(2.567, 1);",
+      "options": [
+        "-7 2.6",
+        "7 2.5",
+        "7 2.6",
+        "7 3"
+      ],
+      "answer": "7 2.6",
+      "explanation": "ABS removes the sign, and ROUND(x, 1) rounds to one decimal place."
+    },
+    {
+      "externalId": "SQL-ADV-015",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ BY clause inside OVER(...) splits the rows into groups for a window function without collapsing them.",
+      "answer": [
+        "partition"
+      ],
+      "explanation": "PARTITION BY defines the groups, and the function is computed separately within each one."
+    },
+    {
+      "externalId": "SQL-ADV-016",
+      "topic": "SQL",
+      "subtopic": "Functions and Windows",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following query return?\n\nSELECT LENGTH(TRIM('  hi  '));",
+      "options": [
+        "4",
+        "6",
+        "1",
+        "2"
+      ],
+      "answer": "2",
+      "explanation": "TRIM removes the surrounding spaces first, leaving 'hi', which has two characters."
+    },
+    {
+      "externalId": "SQL-DES-001",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which of these is a DML (data manipulation) statement?",
+      "options": [
+        "INSERT",
+        "CREATE",
+        "ALTER",
+        "DROP"
+      ],
+      "answer": "INSERT",
+      "explanation": "DML works with data (INSERT, UPDATE, DELETE), while CREATE, ALTER and DROP are DDL statements that change structure."
+    },
+    {
+      "externalId": "SQL-DES-002",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "CREATE TABLE belongs to which category of SQL statements?",
+      "options": [
+        "DCL (data control language)",
+        "DDL (data definition language)",
+        "DML (data manipulation language)",
+        "TCL (transaction control language)"
+      ],
+      "answer": "DDL (data definition language)",
+      "explanation": "DDL defines or changes database objects such as tables."
+    },
+    {
+      "externalId": "SQL-DES-003",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the main trade-off of adding an index to a table column?",
+      "options": [
+        "Smaller table size",
+        "No trade-off",
+        "Faster lookups but extra storage and slower writes",
+        "Faster writes but slower reads"
+      ],
+      "answer": "Faster lookups but extra storage and slower writes",
+      "explanation": "The database must maintain the index on every INSERT, UPDATE and DELETE."
+    },
+    {
+      "externalId": "SQL-DES-004",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Adding more indexes to a table always makes the database faster.",
+      "answer": false,
+      "explanation": "Each index speeds up some reads but adds storage cost and slows writes. Unused indexes are pure overhead."
+    },
+    {
+      "externalId": "SQL-DES-005",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "A table is in first normal form (1NF) when:",
+      "options": [
+        "It has only one column",
+        "It has no foreign keys",
+        "Every column is indexed",
+        "Every column holds atomic values and there are no repeating groups"
+      ],
+      "answer": "Every column holds atomic values and there are no repeating groups",
+      "explanation": "1NF means each cell holds a single value, not a list."
+    },
+    {
+      "externalId": "SQL-DES-006",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "A column that refers to the primary key of another table is called a:",
+      "options": [
+        "Foreign key",
+        "Surrogate index",
+        "Composite index",
+        "Candidate key"
+      ],
+      "answer": "Foreign key",
+      "explanation": "Foreign keys link rows across tables."
+    },
+    {
+      "externalId": "SQL-DES-007",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is a view?",
+      "options": [
+        "A type of index",
+        "A stored query that behaves like a virtual table",
+        "A backup of the database",
+        "A physical copy of a table"
+      ],
+      "answer": "A stored query that behaves like a virtual table",
+      "explanation": "A view stores the query definition, not the data (unless it is a materialized view)."
+    },
+    {
+      "externalId": "SQL-DES-008",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Reading data that another transaction has changed but not yet committed is known as a:",
+      "options": [
+        "Lost update",
+        "Phantom read",
+        "Dirty read",
+        "Deadlock"
+      ],
+      "answer": "Dirty read",
+      "explanation": "Higher isolation levels prevent dirty reads."
+    },
+    {
+      "externalId": "SQL-DES-009",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which ACID property guarantees that committed data survives a crash?",
+      "options": [
+        "Isolation",
+        "Consistency",
+        "Atomicity",
+        "Durability"
+      ],
+      "answer": "Durability",
+      "explanation": "Durability means that once a transaction is committed, its changes are permanent, typically through a write-ahead log."
+    },
+    {
+      "externalId": "SQL-DES-010",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A primary key column can contain NULL values.",
+      "answer": false,
+      "explanation": "Primary key columns are implicitly NOT NULL, because the key must identify every row."
+    },
+    {
+      "externalId": "SQL-DES-011",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which type of relationship normally requires a junction (link) table?",
+      "options": [
+        "Many-to-many",
+        "One-to-one",
+        "Self-referencing",
+        "One-to-many"
+      ],
+      "answer": "Many-to-many",
+      "explanation": "A junction table holds foreign keys to both sides, for example students and courses."
+    },
+    {
+      "externalId": "SQL-DES-012",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Third normal form (3NF) removes which kind of dependency?",
+      "options": [
+        "All NULL values",
+        "Transitive dependencies of non-key columns on the key",
+        "Duplicate rows",
+        "Foreign keys"
+      ],
+      "answer": "Transitive dependencies of non-key columns on the key",
+      "explanation": "In 3NF, non-key columns depend only on the key, not on other non-key columns."
+    },
+    {
+      "externalId": "SQL-DES-013",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "A ______ key uniquely identifies each row in a table.",
+      "answer": [
+        "primary"
+      ],
+      "explanation": "The primary key is the chosen unique identifier of a row."
+    },
+    {
+      "externalId": "SQL-DES-014",
+      "topic": "SQL",
+      "subtopic": "Database Design",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "Using parameterized queries (prepared statements) is the main defence against SQL injection.",
+      "answer": true,
+      "explanation": "Parameters are sent separately from the SQL text, so user input can never be interpreted as SQL commands."
+    }
+  ]
+}

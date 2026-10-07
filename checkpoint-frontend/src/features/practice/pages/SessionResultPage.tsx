@@ -88,7 +88,7 @@ export function SessionResultPage() {
         {result.currentStreak > 0 && result.streakMilestoneBonus === 0 && (
           <p className="mt-3 flex items-center justify-center gap-1.5 text-sm text-slate-500">
             <Flame size={14} className="text-orange-400" />
-            Current streak: {result.currentStreak} days
+            Current streak: {result.currentStreak} {result.currentStreak === 1 ? "day" : "days"}
           </p>
         )}
       </div>

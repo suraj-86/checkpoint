@@ -1,0 +1,951 @@
+{
+  "dataset": {
+    "name": "Python Fundamentals",
+    "version": "1.0",
+    "description": "Python basics: types, strings, collections, functions, OOP and exceptions."
+  },
+  "questions": [
+    {
+      "externalId": "PY-BAS-001",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which of the following is a valid Python variable name?",
+      "options": [
+        "my_var",
+        "2var",
+        "class",
+        "my-var"
+      ],
+      "answer": "my_var",
+      "explanation": "Names may contain letters, digits and underscores but cannot start with a digit, contain hyphens, or be a reserved keyword such as class."
+    },
+    {
+      "externalId": "PY-BAS-002",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "Python is dynamically typed, so a variable can refer to values of different types at different times.",
+      "answer": true,
+      "explanation": "Types belong to values, not variables. The same name can be bound to an int and later to a string."
+    },
+    {
+      "externalId": "PY-BAS-003",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the output of the following code?\n\nprint(type(3.0))",
+      "options": [
+        "<class 'double'>",
+        "<class 'int'>",
+        "<class 'float'>",
+        "<class 'decimal'>"
+      ],
+      "answer": "<class 'float'>",
+      "explanation": "A number written with a decimal point is a float. Python has no separate double type; float is a 64-bit double-precision value."
+    },
+    {
+      "externalId": "PY-BAS-004",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ keyword is used to define a function in Python.",
+      "answer": [
+        "def"
+      ],
+      "explanation": "A function is defined with def, followed by the name, parameters and a colon."
+    },
+    {
+      "externalId": "PY-BAS-005",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(7 // 2, 7 % 2, 7 / 2)",
+      "options": [
+        "3 1 3.5",
+        "3.5 1 3.5",
+        "4 1 3.5",
+        "3 1 3"
+      ],
+      "answer": "3 1 3.5",
+      "explanation": "// is floor division (3), % is the remainder (1), and / is true division, which always returns a float (3.5)."
+    },
+    {
+      "externalId": "PY-BAS-006",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(-7 // 2)",
+      "options": [
+        "-3.5",
+        "-4",
+        "-3",
+        "3"
+      ],
+      "answer": "-4",
+      "explanation": "Floor division rounds toward negative infinity, so -7 // 2 is -4, not -3."
+    },
+    {
+      "externalId": "PY-BAS-007",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(2 ** 3 ** 2)",
+      "options": [
+        "Error",
+        "512",
+        "64",
+        "81"
+      ],
+      "answer": "512",
+      "explanation": "The ** operator is right-associative, so 2 ** 3 ** 2 is 2 ** (3 ** 2) = 2 ** 9 = 512."
+    },
+    {
+      "externalId": "PY-BAS-008",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "In Python, the == operator checks whether two variables refer to the exact same object.",
+      "answer": false,
+      "explanation": "== compares values for equality. The is operator checks identity (same object)."
+    },
+    {
+      "externalId": "PY-BAS-009",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(bool([]), bool(\"0\"), bool(0.0))",
+      "options": [
+        "False True True",
+        "True True False",
+        "False False False",
+        "False True False"
+      ],
+      "answer": "False True False",
+      "explanation": "An empty list is falsy, any non-empty string (even \"0\") is truthy, and 0.0 is falsy."
+    },
+    {
+      "externalId": "PY-BAS-010",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nprint(0.1 + 0.2 == 0.3)",
+      "options": [
+        "False",
+        "Error",
+        "0.30000000000000004",
+        "True"
+      ],
+      "answer": "False",
+      "explanation": "0.1 and 0.2 have no exact binary representation, so their sum is 0.30000000000000004, which is not equal to 0.3."
+    },
+    {
+      "externalId": "PY-BAS-011",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nx = [1, 2, 3]\ny = x\ny += [4]\nprint(x)",
+      "options": [
+        "[1, 2, 3, 4]",
+        "[4]",
+        "[1, 2, 3]",
+        "Error"
+      ],
+      "answer": "[1, 2, 3, 4]",
+      "explanation": "+= on a list extends it in place, so x and y refer to the same list and both see the change."
+    },
+    {
+      "externalId": "PY-BAS-012",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nx = (1, 2)\ny = x\ny += (3,)\nprint(x)",
+      "options": [
+        "(1, 2)",
+        "Error",
+        "(1, 2, 3)",
+        "(3,)"
+      ],
+      "answer": "(1, 2)",
+      "explanation": "Tuples are immutable, so += builds a new tuple and rebinds y. The tuple that x refers to is unchanged."
+    },
+    {
+      "externalId": "PY-BAS-013",
+      "topic": "Python",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\ndef add(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n\nprint(add(1), add(2))",
+      "options": [
+        "[1] [1, 2]",
+        "[2] [2]",
+        "[1, 2] [1, 2]",
+        "[1] [2]"
+      ],
+      "answer": "[1, 2] [1, 2]",
+      "explanation": "The default list is created once, when the function is defined, and shared by all calls. Both calls return that same list, which holds [1, 2] by the time print runs."
+    },
+    {
+      "externalId": "PY-STR-001",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the output of the following code?\n\nprint(len(\"Python\"))",
+      "options": [
+        "Error",
+        "6",
+        "5",
+        "7"
+      ],
+      "answer": "6",
+      "explanation": "len returns the number of characters, and \"Python\" has six."
+    },
+    {
+      "externalId": "PY-STR-002",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "Strings in Python are immutable.",
+      "answer": true,
+      "explanation": "You cannot change a string in place. Operations such as replace or upper return a new string."
+    },
+    {
+      "externalId": "PY-STR-003",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the output of the following code?\n\nprint(\"Hi\" * 3)",
+      "options": [
+        "Error",
+        "Hi3",
+        "HiHiHi",
+        "Hi Hi Hi"
+      ],
+      "answer": "HiHiHi",
+      "explanation": "Multiplying a string by an integer repeats it."
+    },
+    {
+      "externalId": "PY-STR-004",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(\"python\"[1:4])",
+      "options": [
+        "tho",
+        "yth",
+        "ytho",
+        "pyt"
+      ],
+      "answer": "yth",
+      "explanation": "A slice includes the start index and excludes the end: indexes 1, 2 and 3 of \"python\" are y, t, h."
+    },
+    {
+      "externalId": "PY-STR-005",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(\"hello\"[::-1])",
+      "options": [
+        "olleh",
+        "hello",
+        "ellho",
+        "Error"
+      ],
+      "answer": "olleh",
+      "explanation": "A step of -1 walks the string backwards, which reverses it."
+    },
+    {
+      "externalId": "PY-STR-006",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(\"a,b,,c\".split(\",\"))",
+      "options": [
+        "['a', 'b', 'c']",
+        "['a,b,,c']",
+        "['a', 'b', '', 'c']",
+        "['a', 'b', ' ', 'c']"
+      ],
+      "answer": "['a', 'b', '', 'c']",
+      "explanation": "split(\",\") keeps empty strings between consecutive separators."
+    },
+    {
+      "externalId": "PY-STR-007",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nname = \"Sam\"\nprint(f\"{name.upper()}!\")",
+      "options": [
+        "{name.upper()}!",
+        "SAM!",
+        "Sam!",
+        "sam!"
+      ],
+      "answer": "SAM!",
+      "explanation": "Expressions inside the braces of an f-string are evaluated, so name.upper() is called."
+    },
+    {
+      "externalId": "PY-STR-008",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The string method ______ returns a copy with leading and trailing whitespace removed.",
+      "answer": [
+        "strip",
+        "strip()"
+      ],
+      "explanation": "strip() removes whitespace from both ends. lstrip and rstrip remove it from one side only."
+    },
+    {
+      "externalId": "PY-STR-009",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\ns = \"banana\"\nprint(s.replace(\"a\", \"o\", 2))",
+      "options": [
+        "bonona",
+        "bonono",
+        "banana",
+        "bononaa"
+      ],
+      "answer": "bonona",
+      "explanation": "The third argument limits the number of replacements, so only the first two a characters become o."
+    },
+    {
+      "externalId": "PY-STR-010",
+      "topic": "Python",
+      "subtopic": "Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "In Python, \"abc\" < \"abd\" evaluates to True.",
+      "answer": true,
+      "explanation": "Strings are compared lexicographically by character code, and \"c\" comes before \"d\"."
+    },
+    {
+      "externalId": "PY-COL-001",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which built-in type is an ordered, mutable collection that allows duplicate elements?",
+      "options": [
+        "set",
+        "frozenset",
+        "tuple",
+        "list"
+      ],
+      "answer": "list",
+      "explanation": "Lists keep insertion order, can be changed after creation, and may contain duplicates."
+    },
+    {
+      "externalId": "PY-COL-002",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which of these built-in types is immutable?",
+      "options": [
+        "tuple",
+        "list",
+        "dict",
+        "set"
+      ],
+      "answer": "tuple",
+      "explanation": "Tuples cannot be changed after creation. Lists, dicts and sets are mutable."
+    },
+    {
+      "externalId": "PY-COL-003",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "A Python set can contain duplicate elements.",
+      "answer": false,
+      "explanation": "A set stores only unique elements, and adding an existing element has no effect."
+    },
+    {
+      "externalId": "PY-COL-004",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the output of the following code?\n\nd = {\"a\": 1}\nprint(d.get(\"b\"))",
+      "options": [
+        "\"\"",
+        "KeyError",
+        "None",
+        "0"
+      ],
+      "answer": "None",
+      "explanation": "dict.get returns None for a missing key instead of raising KeyError (unless you pass a default)."
+    },
+    {
+      "externalId": "PY-COL-005",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(len({1, 2, 2, 3}))",
+      "options": [
+        "3",
+        "4",
+        "Error",
+        "2"
+      ],
+      "answer": "3",
+      "explanation": "Duplicates are discarded when the set is created, leaving {1, 2, 3}."
+    },
+    {
+      "externalId": "PY-COL-006",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(sorted([3, 1, 2], reverse=True))",
+      "options": [
+        "[3, 2, 1]",
+        "[2, 1, 3]",
+        "None",
+        "[1, 2, 3]"
+      ],
+      "answer": "[3, 2, 1]",
+      "explanation": "sorted returns a new list. reverse=True sorts in descending order."
+    },
+    {
+      "externalId": "PY-COL-007",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\na = [1, 2, 3]\nprint(a[-1], a[1:])",
+      "options": [
+        "3 [2, 3]",
+        "1 [2, 3]",
+        "2 [2, 3]",
+        "3 [1, 2]"
+      ],
+      "answer": "3 [2, 3]",
+      "explanation": "Index -1 is the last element, and the slice a[1:] starts at index 1 and runs to the end."
+    },
+    {
+      "externalId": "PY-COL-008",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint({k: v * 2 for k, v in {\"a\": 1, \"b\": 2}.items()})",
+      "options": [
+        "{2: 'a', 4: 'b'}",
+        "{'a': 2, 'b': 4}",
+        "{'a': 1, 'b': 2}",
+        "[2, 4]"
+      ],
+      "answer": "{'a': 2, 'b': 4}",
+      "explanation": "The dict comprehension builds a new dictionary with every value doubled."
+    },
+    {
+      "externalId": "PY-COL-009",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "To add an element to the end of a list, use the list method ______.",
+      "answer": [
+        "append",
+        "append()"
+      ],
+      "explanation": "list.append(x) adds one element at the end. extend adds each element of an iterable."
+    },
+    {
+      "externalId": "PY-COL-010",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\na = [[0] * 2] * 2\na[0][0] = 1\nprint(a)",
+      "options": [
+        "[[1, 0], [0, 0]]",
+        "[[0, 0], [0, 0]]",
+        "[[1, 0], [1, 0]]",
+        "[[1, 1], [0, 0]]"
+      ],
+      "answer": "[[1, 0], [1, 0]]",
+      "explanation": "[[0] * 2] * 2 repeats a reference to the same inner list, so both rows are the same object and the change shows in both."
+    },
+    {
+      "externalId": "PY-COL-011",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nprint({1, 2, 3} & {2, 3, 4})",
+      "options": [
+        "{1, 4}",
+        "{2}",
+        "{2, 3}",
+        "{1, 2, 3, 4}"
+      ],
+      "answer": "{2, 3}",
+      "explanation": "The & operator on sets returns their intersection."
+    },
+    {
+      "externalId": "PY-COL-012",
+      "topic": "Python",
+      "subtopic": "Collections",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "A list can be used as a key in a Python dictionary.",
+      "answer": false,
+      "explanation": "Dictionary keys must be hashable. Lists are mutable and therefore unhashable, while tuples of hashable items are allowed."
+    },
+    {
+      "externalId": "PY-FUN-001",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "Python uses indentation to define code blocks.",
+      "answer": true,
+      "explanation": "Indentation is part of the syntax. Consistent indentation marks the body of functions, loops and conditionals."
+    },
+    {
+      "externalId": "PY-FUN-002",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword creates an anonymous (unnamed) function in Python?",
+      "options": [
+        "anon",
+        "func",
+        "def",
+        "lambda"
+      ],
+      "answer": "lambda",
+      "explanation": "A lambda expression defines a small anonymous function, for example lambda x: x + 1."
+    },
+    {
+      "externalId": "PY-FUN-003",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ statement skips the rest of the current loop iteration and moves to the next one.",
+      "answer": [
+        "continue"
+      ],
+      "explanation": "continue jumps straight to the next iteration, while break exits the loop entirely."
+    },
+    {
+      "externalId": "PY-FUN-004",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(list(range(2, 10, 3)))",
+      "options": [
+        "[2, 5, 8, 10]",
+        "[2, 5, 8]",
+        "[3, 6, 9]",
+        "[2, 3, 4]"
+      ],
+      "answer": "[2, 5, 8]",
+      "explanation": "range(2, 10, 3) starts at 2, steps by 3, and stops before 10."
+    },
+    {
+      "externalId": "PY-FUN-005",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\ndef f(a, b=2, *args):\n    return (a, b, args)\n\nprint(f(1, 3, 4, 5))",
+      "options": [
+        "(1, 2, (3, 4, 5))",
+        "(1, 3, [4, 5])",
+        "(1, 3, (4, 5))",
+        "(1, 3, 4, 5)"
+      ],
+      "answer": "(1, 3, (4, 5))",
+      "explanation": "The positional values fill a and b first (overriding the default 2). The remaining values are collected into the tuple args."
+    },
+    {
+      "externalId": "PY-FUN-006",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint([x * x for x in range(5) if x % 2 == 0])",
+      "options": [
+        "[0, 4, 16]",
+        "[0, 1, 4, 9, 16]",
+        "[0, 2, 4]",
+        "[1, 9]"
+      ],
+      "answer": "[0, 4, 16]",
+      "explanation": "The comprehension squares only the even numbers 0, 2 and 4."
+    },
+    {
+      "externalId": "PY-FUN-007",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nprint(list(map(lambda x: x + 1, [1, 2, 3])))",
+      "options": [
+        "[0, 1, 2]",
+        "[2, 3, 4]",
+        "[1, 2, 3]",
+        "<map object>"
+      ],
+      "answer": "[2, 3, 4]",
+      "explanation": "map applies the lambda to each element, and list converts the lazy result into a list."
+    },
+    {
+      "externalId": "PY-FUN-008",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nfor i in range(3):\n    pass\nprint(i)",
+      "options": [
+        "3",
+        "NameError",
+        "0",
+        "2"
+      ],
+      "answer": "2",
+      "explanation": "Unlike some languages, a for loop variable stays defined after the loop and keeps its last value."
+    },
+    {
+      "externalId": "PY-FUN-009",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nfor i in range(3):\n    if i == 5:\n        break\nelse:\n    print(\"done\")",
+      "options": [
+        "done",
+        "Nothing is printed",
+        "Error",
+        "None"
+      ],
+      "answer": "done",
+      "explanation": "The else block of a loop runs when the loop finishes without hitting break. Here break never happens, so \"done\" is printed."
+    },
+    {
+      "externalId": "PY-FUN-010",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nfs = [lambda: i for i in range(3)]\nprint([f() for f in fs])",
+      "options": [
+        "[0, 1, 2]",
+        "[3, 3, 3]",
+        "[2, 2, 2]",
+        "[0, 0, 0]"
+      ],
+      "answer": "[2, 2, 2]",
+      "explanation": "Each lambda looks up i when it is called, not when it was created. By then the loop has ended with i equal to 2."
+    },
+    {
+      "externalId": "PY-FUN-011",
+      "topic": "Python",
+      "subtopic": "Functions",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\ndef g():\n    x = 1\n    def h():\n        nonlocal x\n        x += 1\n    h()\n    return x\n\nprint(g())",
+      "options": [
+        "1",
+        "None",
+        "2",
+        "UnboundLocalError"
+      ],
+      "answer": "2",
+      "explanation": "nonlocal lets the inner function rebind the variable x from the enclosing function, so g returns 2."
+    },
+    {
+      "externalId": "PY-OOP-001",
+      "topic": "Python",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which special method is called to initialize a new instance of a class?",
+      "options": [
+        "__new_object__",
+        "__start__",
+        "__init__",
+        "__create__"
+      ],
+      "answer": "__init__",
+      "explanation": "__init__ runs right after an object is created and sets up its initial state."
+    },
+    {
+      "externalId": "PY-OOP-002",
+      "topic": "Python",
+      "subtopic": "OOP",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "By convention, the first parameter of an instance method is named ______.",
+      "answer": [
+        "self"
+      ],
+      "explanation": "self refers to the instance the method is called on. Python passes it automatically."
+    },
+    {
+      "externalId": "PY-OOP-003",
+      "topic": "Python",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nclass A:\n    count = 0\n    def __init__(self):\n        A.count += 1\n\nA()\nA()\nprint(A.count)",
+      "options": [
+        "Error",
+        "2",
+        "0",
+        "1"
+      ],
+      "answer": "2",
+      "explanation": "count is a class attribute shared by all instances. Each construction increments A.count, and two objects were created."
+    },
+    {
+      "externalId": "PY-OOP-004",
+      "topic": "Python",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nclass A:\n    def hi(self):\n        return \"A\"\n\nclass B(A):\n    def hi(self):\n        return super().hi() + \"B\"\n\nprint(B().hi())",
+      "options": [
+        "AB",
+        "A",
+        "B",
+        "BA"
+      ],
+      "answer": "AB",
+      "explanation": "super().hi() calls the parent's version, which returns \"A\", and then \"B\" is appended."
+    },
+    {
+      "externalId": "PY-OOP-005",
+      "topic": "Python",
+      "subtopic": "OOP",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Python supports multiple inheritance.",
+      "answer": true,
+      "explanation": "A class can list several base classes, and Python resolves method lookup using the method resolution order (MRO)."
+    },
+    {
+      "externalId": "PY-OOP-006",
+      "topic": "Python",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which special method controls the text shown by print(obj) for a custom class?",
+      "options": [
+        "__show__",
+        "__text__",
+        "__str__",
+        "__print__"
+      ],
+      "answer": "__str__",
+      "explanation": "print calls str(obj), which uses __str__. If it is missing, __repr__ is used as a fallback."
+    },
+    {
+      "externalId": "PY-OOP-007",
+      "topic": "Python",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which decorator defines a method that receives the class itself (cls) as its first argument?",
+      "options": [
+        "@classmethod",
+        "@staticmethod",
+        "@property",
+        "@abstractmethod"
+      ],
+      "answer": "@classmethod",
+      "explanation": "@classmethod passes the class as the first argument. @staticmethod receives neither the instance nor the class."
+    },
+    {
+      "externalId": "PY-OOP-008",
+      "topic": "Python",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nclass A:\n    def f(self): return \"A\"\n\nclass B(A):\n    pass\n\nclass C(A):\n    def f(self): return \"C\"\n\nclass D(B, C):\n    pass\n\nprint(D().f())",
+      "options": [
+        "C",
+        "A",
+        "Error",
+        "None"
+      ],
+      "answer": "C",
+      "explanation": "The MRO for D is D, B, C, A. B does not define f, so Python finds C.f before reaching A.f."
+    },
+    {
+      "externalId": "PY-OOP-009",
+      "topic": "Python",
+      "subtopic": "OOP",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "Inside a class body, an attribute named __x (two leading underscores, no trailing ones) is name-mangled to _ClassName__x.",
+      "answer": true,
+      "explanation": "Name mangling makes accidental clashes with subclass attributes less likely. It is not true privacy, since the mangled name is still reachable."
+    },
+    {
+      "externalId": "PY-EXC-001",
+      "topic": "Python",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword is used to catch exceptions in Python?",
+      "options": [
+        "except",
+        "catch",
+        "rescue",
+        "handle"
+      ],
+      "answer": "except",
+      "explanation": "Python uses try and except blocks. catch is used in other languages such as Java."
+    },
+    {
+      "externalId": "PY-EXC-002",
+      "topic": "Python",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the output of the following code?\n\ntry:\n    print(1 / 0)\nexcept ZeroDivisionError:\n    print(\"zero\")",
+      "options": [
+        "Infinity",
+        "ZeroDivisionError",
+        "zero",
+        "Nothing is printed"
+      ],
+      "answer": "zero",
+      "explanation": "Dividing by zero raises ZeroDivisionError, which the except block catches."
+    },
+    {
+      "externalId": "PY-EXC-003",
+      "topic": "Python",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\ndef f():\n    try:\n        return \"try\"\n    finally:\n        print(\"finally\", end=\" \")\n\nprint(f())",
+      "options": [
+        "try finally",
+        "finally try",
+        "finally",
+        "try"
+      ],
+      "answer": "finally try",
+      "explanation": "The finally block runs before the function actually returns to the caller, so \"finally\" is printed first, then print shows the returned value."
+    },
+    {
+      "externalId": "PY-EXC-004",
+      "topic": "Python",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\ntry:\n    x = int(\"5\")\nexcept ValueError:\n    print(\"bad\")\nelse:\n    print(\"ok\", x)",
+      "options": [
+        "Error",
+        "bad",
+        "ok",
+        "ok 5"
+      ],
+      "answer": "ok 5",
+      "explanation": "The else block runs only when the try block raised no exception."
+    },
+    {
+      "externalId": "PY-EXC-005",
+      "topic": "Python",
+      "subtopic": "Exceptions",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ statement is used to raise an exception manually.",
+      "answer": [
+        "raise"
+      ],
+      "explanation": "raise throws an exception, for example raise ValueError(\"bad value\")."
+    },
+    {
+      "externalId": "PY-EXC-006",
+      "topic": "Python",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\ndef gen():\n    yield 1\n    yield 2\n\nprint(sum(gen()))",
+      "options": [
+        "[1, 2]",
+        "3",
+        "None",
+        "Error"
+      ],
+      "answer": "3",
+      "explanation": "gen is a generator that yields 1 and then 2, and sum consumes it, adding the values."
+    },
+    {
+      "externalId": "PY-EXC-007",
+      "topic": "Python",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\ng = (x for x in range(3))\nprint(list(g), list(g))",
+      "options": [
+        "[0, 1, 2] []",
+        "[] []",
+        "[0, 1, 2] [0, 1, 2]",
+        "[0, 1, 2] None"
+      ],
+      "answer": "[0, 1, 2] []",
+      "explanation": "A generator can be consumed only once. The first list(g) exhausts it, so the second call finds nothing left."
+    },
+    {
+      "externalId": "PY-EXC-008",
+      "topic": "Python",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which exception does int(\"abc\") raise?",
+      "options": [
+        "ValueError",
+        "NameError",
+        "TypeError",
+        "SyntaxError"
+      ],
+      "answer": "ValueError",
+      "explanation": "The argument has the right type (a string) but an inappropriate value, which raises ValueError."
+    },
+    {
+      "externalId": "PY-EXC-009",
+      "topic": "Python",
+      "subtopic": "Exceptions",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A with statement guarantees that the context manager's __exit__ method runs even if the block raises an exception.",
+      "answer": true,
+      "explanation": "That is the purpose of context managers, such as closing a file reliably when you leave the with block."
+    }
+  ]
+}

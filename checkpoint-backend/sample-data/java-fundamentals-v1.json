@@ -1,0 +1,934 @@
+{
+  "dataset": {
+    "name": "Java Fundamentals",
+    "version": "1.0",
+    "description": "Java language basics: data types, operators, control flow, arrays, methods and strings."
+  },
+  "questions": [
+    {
+      "externalId": "JAVA-DT-001",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which of the following is NOT a primitive data type in Java?",
+      "options": [
+        "boolean",
+        "String",
+        "int",
+        "char"
+      ],
+      "answer": "String",
+      "explanation": "String is a class, so it is a reference type. Java's eight primitives are byte, short, int, long, float, double, char and boolean."
+    },
+    {
+      "externalId": "JAVA-DT-002",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "How many primitive data types does Java have?",
+      "options": [
+        "8",
+        "4",
+        "10",
+        "6"
+      ],
+      "answer": "8",
+      "explanation": "Java has eight primitive types: byte, short, int, long, float, double, char and boolean."
+    },
+    {
+      "externalId": "JAVA-DT-003",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "An uninitialized instance field of type int has the default value 0.",
+      "answer": true,
+      "explanation": "Instance and static fields receive default values (0 for numeric types, false for boolean, null for references). Local variables do not."
+    },
+    {
+      "externalId": "JAVA-DT-004",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ keyword declares a variable whose value cannot be reassigned after initialization.",
+      "answer": [
+        "final"
+      ],
+      "explanation": "A final variable can be assigned only once. For reference variables this means the reference cannot change, though the object it points to still can."
+    },
+    {
+      "externalId": "JAVA-DT-005",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nint x = 7 / 2;\nSystem.out.println(x);",
+      "options": [
+        "3",
+        "4",
+        "3.5",
+        "3.0"
+      ],
+      "answer": "3",
+      "explanation": "Both operands are int, so Java performs integer division and discards the fractional part: 7 / 2 is 3."
+    },
+    {
+      "externalId": "JAVA-DT-006",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println((byte) 130);",
+      "options": [
+        "-126",
+        "-130",
+        "130",
+        "126"
+      ],
+      "answer": "-126",
+      "explanation": "A byte holds -128 to 127. Casting 130 wraps around modulo 256, giving 130 - 256 = -126."
+    },
+    {
+      "externalId": "JAVA-DT-007",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A local variable that is declared but never assigned is automatically given the value 0 in Java.",
+      "answer": false,
+      "explanation": "Local variables get no default value. Reading one before it is definitely assigned is a compile-time error."
+    },
+    {
+      "externalId": "JAVA-DT-008",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which of the following statements compiles without error?",
+      "options": [
+        "long a = 3000000000;",
+        "int a = 3000000000;",
+        "int a = 3000000000L;",
+        "long a = 3000000000L;"
+      ],
+      "answer": "long a = 3000000000L;",
+      "explanation": "An integer literal is an int by default and 3000000000 is too large for int. The L suffix makes it a long literal."
+    },
+    {
+      "externalId": "JAVA-DT-009",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nchar c = 'A';\nc += 2;\nSystem.out.println(c);",
+      "options": [
+        "C",
+        "67",
+        "A2",
+        "Compile error"
+      ],
+      "answer": "C",
+      "explanation": "Compound assignment (+=) includes an implicit cast back to the left-hand type, so c becomes the char 'C' (65 + 2 = 67)."
+    },
+    {
+      "externalId": "JAVA-DT-010",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nSystem.out.println(0.1 + 0.2 == 0.3);",
+      "options": [
+        "Compile error",
+        "0.30000000000000004",
+        "true",
+        "false"
+      ],
+      "answer": "false",
+      "explanation": "0.1 and 0.2 cannot be represented exactly in binary floating point, so their sum is slightly more than 0.3 and the comparison is false."
+    },
+    {
+      "externalId": "JAVA-DT-011",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "HARD",
+      "question": "The wrapper class for the primitive type int is ______.",
+      "answer": [
+        "Integer"
+      ],
+      "explanation": "Each primitive has a wrapper class: Integer for int, Double for double, Character for char, Boolean for boolean, and so on."
+    },
+    {
+      "externalId": "JAVA-DT-012",
+      "topic": "Java",
+      "subtopic": "Data Types",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nInteger a = 127, b = 127;\nInteger c = 128, d = 128;\nSystem.out.println((a == b) + \" \" + (c == d));",
+      "options": [
+        "true true",
+        "false true",
+        "false false",
+        "true false"
+      ],
+      "answer": "true false",
+      "explanation": "Autoboxing uses Integer.valueOf, which caches values from -128 to 127. a and b share one cached object, but 128 is outside the cache so c and d are different objects."
+    },
+    {
+      "externalId": "JAVA-OPS-001",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which operator returns the remainder of a division in Java?",
+      "options": [
+        "/",
+        "//",
+        "mod",
+        "%"
+      ],
+      "answer": "%",
+      "explanation": "The % operator gives the remainder, for example 10 % 3 is 1."
+    },
+    {
+      "externalId": "JAVA-OPS-002",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "In the expression (a && b), b is still evaluated when a is false.",
+      "answer": false,
+      "explanation": "&& short-circuits: if the left operand is false, the result is already false and the right operand is skipped. The non-short-circuit form is &."
+    },
+    {
+      "externalId": "JAVA-OPS-003",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which of the following is Java's ternary (conditional) operator?",
+      "options": [
+        "? :",
+        "=>",
+        "->",
+        "::"
+      ],
+      "answer": "? :",
+      "explanation": "The ternary operator has the form condition ? valueIfTrue : valueIfFalse."
+    },
+    {
+      "externalId": "JAVA-OPS-004",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nint i = 5;\nint r = i++ + ++i;\nSystem.out.println(r);",
+      "options": [
+        "11",
+        "13",
+        "10",
+        "12"
+      ],
+      "answer": "12",
+      "explanation": "i++ yields 5 and then i becomes 6. ++i increments first, making i 7, and yields 7. The sum is 5 + 7 = 12."
+    },
+    {
+      "externalId": "JAVA-OPS-005",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(10 + 5 + \"Java\");",
+      "options": [
+        "Java15",
+        "Compile error",
+        "15Java",
+        "105Java"
+      ],
+      "answer": "15Java",
+      "explanation": "Evaluation is left to right. 10 + 5 is added numerically first (15), and only then is the result concatenated with the string."
+    },
+    {
+      "externalId": "JAVA-OPS-006",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(\"Java\" + 10 + 5);",
+      "options": [
+        "Java15",
+        "Java10 5",
+        "Compile error",
+        "Java105"
+      ],
+      "answer": "Java105",
+      "explanation": "Once the left operand is a String, + means concatenation, so 10 and then 5 are appended as text."
+    },
+    {
+      "externalId": "JAVA-OPS-007",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(-7 % 3);",
+      "options": [
+        "2",
+        "-2",
+        "-1",
+        "1"
+      ],
+      "answer": "-1",
+      "explanation": "In Java the result of % takes the sign of the dividend (left operand): -7 % 3 is -1."
+    },
+    {
+      "externalId": "JAVA-OPS-008",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(-16 >> 2);",
+      "options": [
+        "-4",
+        "-3",
+        "-8",
+        "4"
+      ],
+      "answer": "-4",
+      "explanation": "The signed right shift >> keeps the sign bit, so -16 >> 2 is -16 / 4 = -4."
+    },
+    {
+      "externalId": "JAVA-OPS-009",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "The expression 5 / 2.0 evaluates to 2.5.",
+      "answer": true,
+      "explanation": "If either operand is a floating-point type, the other is promoted to double and floating-point division is used."
+    },
+    {
+      "externalId": "JAVA-OPS-010",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nboolean b = false;\nif (b = true) {\n    System.out.println(\"yes\");\n} else {\n    System.out.println(\"no\");\n}",
+      "options": [
+        "no",
+        "yes",
+        "Compile error",
+        "Nothing is printed"
+      ],
+      "answer": "yes",
+      "explanation": "A single = is assignment, not comparison. The expression b = true assigns true to b and also evaluates to true, so the if branch runs."
+    },
+    {
+      "externalId": "JAVA-OPS-011",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "HARD",
+      "question": "The ______ operator checks whether an object is an instance of a particular class or interface.",
+      "answer": [
+        "instanceof"
+      ],
+      "explanation": "obj instanceof Type returns true if obj is non-null and can be cast to Type."
+    },
+    {
+      "externalId": "JAVA-OPS-012",
+      "topic": "Java",
+      "subtopic": "Operators",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nSystem.out.println(-1 >>> 28);",
+      "options": [
+        "-1",
+        "15",
+        "268435455",
+        "0"
+      ],
+      "answer": "15",
+      "explanation": "The unsigned right shift >>> fills with zeros. -1 is 32 one-bits, and shifting right by 28 leaves the low 4 bits set, which is 15."
+    },
+    {
+      "externalId": "JAVA-CTL-001",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which loop is guaranteed to execute its body at least once?",
+      "options": [
+        "enhanced for",
+        "while",
+        "do-while",
+        "for"
+      ],
+      "answer": "do-while",
+      "explanation": "A do-while loop checks its condition after running the body, so the body always runs once."
+    },
+    {
+      "externalId": "JAVA-CTL-002",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ statement immediately terminates the innermost enclosing loop or switch.",
+      "answer": [
+        "break"
+      ],
+      "explanation": "break exits the nearest enclosing loop or switch statement."
+    },
+    {
+      "externalId": "JAVA-CTL-003",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "A switch statement must always include a default case.",
+      "answer": false,
+      "explanation": "The default case is optional in a switch statement."
+    },
+    {
+      "externalId": "JAVA-CTL-004",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nfor (int i = 0; i < 5; i++) {\n    if (i == 2) continue;\n    System.out.print(i);\n}",
+      "options": [
+        "1234",
+        "0134",
+        "0124",
+        "01234"
+      ],
+      "answer": "0134",
+      "explanation": "When i is 2, continue skips the print and jumps to the next iteration, so 2 is missing."
+    },
+    {
+      "externalId": "JAVA-CTL-005",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nint n = 2;\nswitch (n) {\n    case 1: System.out.print(\"A\");\n    case 2: System.out.print(\"B\");\n    case 3: System.out.print(\"C\"); break;\n    default: System.out.print(\"D\");\n}",
+      "options": [
+        "BCD",
+        "BC",
+        "B",
+        "ABC"
+      ],
+      "answer": "BC",
+      "explanation": "Without a break, execution falls through from the matching case. case 2 prints B, falls into case 3 which prints C, and then break stops it."
+    },
+    {
+      "externalId": "JAVA-CTL-006",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the continue statement do inside a loop?",
+      "options": [
+        "Skips the rest of the current iteration and moves on to the next one",
+        "Pauses the loop until the next call",
+        "Exits the loop completely",
+        "Restarts the loop from the very beginning"
+      ],
+      "answer": "Skips the rest of the current iteration and moves on to the next one",
+      "explanation": "continue abandons the remainder of the current iteration. In a for loop the update expression then runs before the condition is checked again."
+    },
+    {
+      "externalId": "JAVA-CTL-007",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nouter:\nfor (int i = 0; i < 3; i++) {\n    for (int j = 0; j < 3; j++) {\n        if (j == 2) break outer;\n        System.out.print(i + \"\" + j + \" \");\n    }\n}",
+      "options": [
+        "00 01 10 11 20 21",
+        "00 01 02",
+        "00 01 10 11",
+        "00 01"
+      ],
+      "answer": "00 01",
+      "explanation": "break outer leaves both loops at once. For i = 0 it prints 00 and 01, and when j reaches 2 the labeled break ends the whole nested loop."
+    },
+    {
+      "externalId": "JAVA-CTL-008",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Assigning a new value to the loop variable of an enhanced for loop over an int[] changes the elements of the array.",
+      "answer": false,
+      "explanation": "The loop variable is a copy of each element, so assigning to it does not modify the array. Use an indexed loop to change elements."
+    },
+    {
+      "externalId": "JAVA-CTL-009",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "In a switch that uses arrow labels (case X ->), execution falls through to the next case if there is no break.",
+      "answer": false,
+      "explanation": "Arrow-form cases (Java 14+) do not fall through, so no break is needed."
+    },
+    {
+      "externalId": "JAVA-CTL-010",
+      "topic": "Java",
+      "subtopic": "Control Flow",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nfor (int i = 0, j = 10; i < j; i += 3, j -= 3) {\n    System.out.print(i + \":\" + j + \" \");\n}",
+      "options": [
+        "0:10",
+        "0:10 3:7",
+        "0:10 3:7 6:4 9:1",
+        "0:10 3:7 6:4"
+      ],
+      "answer": "0:10 3:7",
+      "explanation": "i grows by 3 and j shrinks by 3 each time. After 0:10 and 3:7 the values become i=6, j=4, so i < j is false and the loop ends."
+    },
+    {
+      "externalId": "JAVA-ARR-001",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the index of the first element of a Java array?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "It depends on the declaration"
+      ],
+      "answer": "0",
+      "explanation": "Java arrays are zero-indexed, so the first element is at index 0 and the last at length - 1."
+    },
+    {
+      "externalId": "JAVA-ARR-002",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "The length of a Java array is fixed once the array has been created.",
+      "answer": true,
+      "explanation": "Arrays cannot grow or shrink. To get a different size you create a new array (or use a collection such as ArrayList)."
+    },
+    {
+      "externalId": "JAVA-ARR-003",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "To get the number of elements in an array named arr, you write arr.______ (without parentheses).",
+      "answer": [
+        "length"
+      ],
+      "explanation": "length is a field of arrays, not a method. Strings use the length() method instead."
+    },
+    {
+      "externalId": "JAVA-ARR-004",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nint[] a = new int[3];\nSystem.out.println(a[1]);",
+      "options": [
+        "null",
+        "Compile error",
+        "0",
+        "1"
+      ],
+      "answer": "0",
+      "explanation": "new int[3] creates an array whose elements are initialized to the default value of int, which is 0."
+    },
+    {
+      "externalId": "JAVA-ARR-005",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What happens when you access a[3] on an array that was created with new int[3]?",
+      "options": [
+        "An ArrayIndexOutOfBoundsException is thrown",
+        "A compile-time error occurs",
+        "It returns null",
+        "It returns 0"
+      ],
+      "answer": "An ArrayIndexOutOfBoundsException is thrown",
+      "explanation": "Valid indices are 0 to 2. Out-of-range access compiles fine but throws ArrayIndexOutOfBoundsException at run time."
+    },
+    {
+      "externalId": "JAVA-ARR-006",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nint[] a = {1, 2, 3};\nint[] b = a;\nb[0] = 99;\nSystem.out.println(a[0]);",
+      "options": [
+        "Compile error",
+        "0",
+        "99",
+        "1"
+      ],
+      "answer": "99",
+      "explanation": "Assigning one array variable to another copies the reference, not the contents. a and b refer to the same array, so changing b[0] also changes a[0]."
+    },
+    {
+      "externalId": "JAVA-ARR-007",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which method sorts the elements of an int array in place?",
+      "options": [
+        "arr.sort()",
+        "Arrays.sort(arr)",
+        "Collections.sort(arr)",
+        "Arrays.order(arr)"
+      ],
+      "answer": "Arrays.sort(arr)",
+      "explanation": "java.util.Arrays.sort sorts primitive arrays in ascending order. Arrays have no sort() method, and Collections.sort works on Lists."
+    },
+    {
+      "externalId": "JAVA-ARR-008",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nString[] s = new String[2];\nSystem.out.println(s[0]);",
+      "options": [
+        "Compile error",
+        "0",
+        "null",
+        "\"\" (an empty string)"
+      ],
+      "answer": "null",
+      "explanation": "The elements of an object array default to null, so printing s[0] prints null."
+    },
+    {
+      "externalId": "JAVA-ARR-009",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nint[] a = {1, 2, 3};\nint[] b = {1, 2, 3};\nSystem.out.println((a == b) + \" \" + a.equals(b) + \" \" + Arrays.equals(a, b));",
+      "options": [
+        "false true true",
+        "true false true",
+        "false false true",
+        "true true true"
+      ],
+      "answer": "false false true",
+      "explanation": "== compares references and the two arrays are different objects. Array.equals is inherited from Object, so it also compares references. Arrays.equals compares the contents."
+    },
+    {
+      "externalId": "JAVA-ARR-010",
+      "topic": "Java",
+      "subtopic": "Arrays",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "A two-dimensional array in Java must have the same number of columns in every row.",
+      "answer": false,
+      "explanation": "A 2D array is an array of arrays, and each row can have a different length (a jagged array), for example new int[3][] with rows allocated separately."
+    },
+    {
+      "externalId": "JAVA-MTH-001",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which return type does a method use when it returns no value?",
+      "options": [
+        "empty",
+        "null",
+        "void",
+        "none"
+      ],
+      "answer": "void",
+      "explanation": "A method that returns nothing is declared with the return type void."
+    },
+    {
+      "externalId": "JAVA-MTH-002",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "Java always passes arguments by value.",
+      "answer": true,
+      "explanation": "Java copies the argument value into the parameter. For objects, the value copied is the reference, so the method can modify the object but cannot change which object the caller's variable refers to."
+    },
+    {
+      "externalId": "JAVA-MTH-003",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ keyword sends a value back to the caller of a method.",
+      "answer": [
+        "return"
+      ],
+      "explanation": "return ends the method and, if the method has a non-void type, provides the result."
+    },
+    {
+      "externalId": "JAVA-MTH-004",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nstatic void inc(int x) {\n    x++;\n}\n\nint n = 5;\ninc(n);\nSystem.out.println(n);",
+      "options": [
+        "5",
+        "0",
+        "Compile error",
+        "6"
+      ],
+      "answer": "5",
+      "explanation": "The parameter x is a copy of n. Incrementing the copy has no effect on the caller's variable."
+    },
+    {
+      "externalId": "JAVA-MTH-005",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nstatic void add(StringBuilder sb) {\n    sb.append(\"!\");\n}\n\nStringBuilder sb = new StringBuilder(\"Hi\");\nadd(sb);\nSystem.out.println(sb);",
+      "options": [
+        "Hi",
+        "!",
+        "Compile error",
+        "Hi!"
+      ],
+      "answer": "Hi!",
+      "explanation": "The method receives a copy of the reference, but it points to the same StringBuilder object. Appending through it changes the shared object."
+    },
+    {
+      "externalId": "JAVA-MTH-006",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Method overloading requires the overloaded methods to differ in which of the following?",
+      "options": [
+        "Access modifier only",
+        "Return type only",
+        "Method body only",
+        "Parameter list (number, types or order of parameters)"
+      ],
+      "answer": "Parameter list (number, types or order of parameters)",
+      "explanation": "Overloaded methods share a name but must have different parameter lists. The return type alone is not enough."
+    },
+    {
+      "externalId": "JAVA-MTH-007",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nstatic void change(String s) {\n    s = \"new\";\n}\n\nString t = \"old\";\nchange(t);\nSystem.out.println(t);",
+      "options": [
+        "old",
+        "new",
+        "null",
+        "Compile error"
+      ],
+      "answer": "old",
+      "explanation": "Reassigning the parameter s only changes the method's local copy of the reference. The caller's variable t still refers to \"old\"."
+    },
+    {
+      "externalId": "JAVA-MTH-008",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Two methods in the same class can be overloaded by changing only their return type.",
+      "answer": false,
+      "explanation": "The compiler cannot choose between methods based on return type, so methods with the same name and parameter list but different return types cause a compile error."
+    },
+    {
+      "externalId": "JAVA-MTH-009",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nstatic int sum(int... n) {\n    int total = 0;\n    for (int v : n) total += v;\n    return total;\n}\n\nSystem.out.println(sum() + sum(1, 2, 3));",
+      "options": [
+        "0",
+        "Compile error",
+        "3",
+        "6"
+      ],
+      "answer": "6",
+      "explanation": "A varargs call with no arguments passes an empty array, so sum() is 0 and sum(1, 2, 3) is 6."
+    },
+    {
+      "externalId": "JAVA-MTH-010",
+      "topic": "Java",
+      "subtopic": "Methods",
+      "type": "MCQ",
+      "difficulty": "EXPERT",
+      "question": "What is the output of the following code?\n\nstatic void f(int x)     { System.out.print(\"int\"); }\nstatic void f(long x)    { System.out.print(\"long\"); }\nstatic void f(Integer x) { System.out.print(\"Integer\"); }\n\nbyte b = 1;\nf(b);",
+      "options": [
+        "Compile error",
+        "long",
+        "Integer",
+        "int"
+      ],
+      "answer": "int",
+      "explanation": "Overload resolution first tries widening primitive conversion, before boxing. A byte widens to int, and f(int) is the most specific applicable method, so it is chosen over f(long) and f(Integer)."
+    },
+    {
+      "externalId": "JAVA-STR-101",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which statement about the String class in Java is true?",
+      "options": [
+        "Strings are primitive types",
+        "Strings are mutable",
+        "Strings cannot be compared",
+        "Strings are immutable"
+      ],
+      "answer": "Strings are immutable",
+      "explanation": "Once created, a String object cannot be changed. Methods such as concat or toUpperCase return a new String."
+    },
+    {
+      "externalId": "JAVA-STR-102",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the output of the following code?\n\nSystem.out.println(\"Hello\".length());",
+      "options": [
+        "Compile error",
+        "5",
+        "6",
+        "4"
+      ],
+      "answer": "5",
+      "explanation": "length() returns the number of characters, and \"Hello\" has five."
+    },
+    {
+      "externalId": "JAVA-STR-103",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ method of String returns the number of characters in the string.",
+      "answer": [
+        "length",
+        "length()"
+      ],
+      "explanation": "String.length() returns the character count. (Arrays use the length field without parentheses.)"
+    },
+    {
+      "externalId": "JAVA-STR-104",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nString a = \"hi\";\nString b = new String(\"hi\");\nSystem.out.println((a == b) + \" \" + a.equals(b));",
+      "options": [
+        "true true",
+        "true false",
+        "false true",
+        "false false"
+      ],
+      "answer": "false true",
+      "explanation": "new String(\"hi\") creates a separate object, so == (reference comparison) is false, but equals compares the characters and is true."
+    },
+    {
+      "externalId": "JAVA-STR-105",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nString s = \"Java\";\ns.concat(\" 21\");\nSystem.out.println(s);",
+      "options": [
+        "Compile error",
+        "java",
+        "Java",
+        "Java 21"
+      ],
+      "answer": "Java",
+      "explanation": "concat returns a new String and leaves the original unchanged. The result was discarded, so s is still \"Java\"."
+    },
+    {
+      "externalId": "JAVA-STR-106",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(\"Hello\".substring(1, 3));",
+      "options": [
+        "He",
+        "ello",
+        "ell",
+        "el"
+      ],
+      "answer": "el",
+      "explanation": "substring(start, end) includes the start index and excludes the end index, so it returns the characters at positions 1 and 2."
+    },
+    {
+      "externalId": "JAVA-STR-107",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which of the following classes represents a mutable sequence of characters?",
+      "options": [
+        "String",
+        "StringBuilder",
+        "Character",
+        "CharSequence literal"
+      ],
+      "answer": "StringBuilder",
+      "explanation": "StringBuilder lets you modify its contents in place with methods like append, insert and reverse."
+    },
+    {
+      "externalId": "JAVA-STR-108",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "\"abc\".compareTo(\"abd\") returns a negative number.",
+      "answer": true,
+      "explanation": "compareTo compares lexicographically. 'c' comes before 'd', so the result is negative (specifically -1)."
+    },
+    {
+      "externalId": "JAVA-STR-109",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nString a = \"ja\" + \"va\";\nString b = \"java\";\nSystem.out.println(a == b);",
+      "options": [
+        "Compile error",
+        "false",
+        "true",
+        "null"
+      ],
+      "answer": "true",
+      "explanation": "\"ja\" + \"va\" is a compile-time constant expression, so the compiler folds it into \"java\", which is the same pooled literal as b."
+    },
+    {
+      "externalId": "JAVA-STR-110",
+      "topic": "Java",
+      "subtopic": "Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nString s1 = new String(\"x\").intern();\nString s2 = \"x\";\nSystem.out.println(s1 == s2);",
+      "options": [
+        "false",
+        "Compile error",
+        "null",
+        "true"
+      ],
+      "answer": "true",
+      "explanation": "intern() returns the canonical instance from the string pool, which is the same object as the literal \"x\"."
+    }
+  ]
+}

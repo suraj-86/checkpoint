@@ -1,0 +1,951 @@
+{
+  "dataset": {
+    "name": "JavaScript Fundamentals",
+    "version": "1.0",
+    "description": "JavaScript basics: types and coercion, arrays, functions and scope, objects and classes, async code and modern syntax."
+  },
+  "questions": [
+    {
+      "externalId": "JS-BAS-001",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword declares a block-scoped variable that can be reassigned?",
+      "options": [
+        "const",
+        "let",
+        "def",
+        "var"
+      ],
+      "answer": "let",
+      "explanation": "let is block-scoped and reassignable. const is block-scoped but cannot be reassigned, and var is function-scoped."
+    },
+    {
+      "externalId": "JS-BAS-002",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the output of the following code?\n\nconsole.log(typeof null);",
+      "options": [
+        "object",
+        "number",
+        "undefined",
+        "null"
+      ],
+      "answer": "object",
+      "explanation": "typeof null returns \"object\". This is a long-standing quirk of the language kept for backward compatibility."
+    },
+    {
+      "externalId": "JS-BAS-003",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "Declaring an object with const prevents you from changing the object's properties.",
+      "answer": false,
+      "explanation": "const prevents reassigning the variable, but the object it points to can still be modified. Object.freeze prevents property changes."
+    },
+    {
+      "externalId": "JS-BAS-004",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ operator compares two values for equality without performing type coercion.",
+      "answer": [
+        "===",
+        "strict equality",
+        "strict equals"
+      ],
+      "explanation": "=== is strict equality and returns false if the types differ, while == converts types before comparing."
+    },
+    {
+      "externalId": "JS-BAS-005",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log(0.1 + 0.2);",
+      "options": [
+        "0.30",
+        "0.3",
+        "0.30000000000000004",
+        "NaN"
+      ],
+      "answer": "0.30000000000000004",
+      "explanation": "JavaScript numbers are 64-bit floating point values, so 0.1 + 0.2 has a tiny rounding error."
+    },
+    {
+      "externalId": "JS-BAS-006",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log(\"5\" + 3, \"5\" - 3);",
+      "options": [
+        "8 8",
+        "8 2",
+        "53 53",
+        "53 2"
+      ],
+      "answer": "53 2",
+      "explanation": "With +, a string operand makes it concatenation (\"5\" + 3 is \"53\"). The - operator always converts to numbers, so \"5\" - 3 is 2."
+    },
+    {
+      "externalId": "JS-BAS-007",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log([] + {});",
+      "options": [
+        "0",
+        "[object Object]",
+        "[]",
+        "NaN"
+      ],
+      "answer": "[object Object]",
+      "explanation": "Both operands are converted to strings: [] becomes \"\" and {} becomes \"[object Object]\", then they are concatenated."
+    },
+    {
+      "externalId": "JS-BAS-008",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log(null == undefined, null === undefined);",
+      "options": [
+        "true false",
+        "false true",
+        "false false",
+        "true true"
+      ],
+      "answer": "true false",
+      "explanation": "== treats null and undefined as equal to each other, but === also compares types, and they are different types."
+    },
+    {
+      "externalId": "JS-BAS-009",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log(NaN === NaN);",
+      "options": [
+        "NaN",
+        "true",
+        "false",
+        "undefined"
+      ],
+      "answer": "false",
+      "explanation": "NaN is the only JavaScript value that is not equal to itself. Use Number.isNaN to test for it."
+    },
+    {
+      "externalId": "JS-BAS-010",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconsole.log(typeof NaN);",
+      "options": [
+        "object",
+        "undefined",
+        "NaN",
+        "number"
+      ],
+      "answer": "number",
+      "explanation": "NaN stands for \"not a number\" but its type is still number."
+    },
+    {
+      "externalId": "JS-BAS-011",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconsole.log(1 < 2 < 3, 3 > 2 > 1);",
+      "options": [
+        "false true",
+        "true false",
+        "false false",
+        "true true"
+      ],
+      "answer": "true false",
+      "explanation": "1 < 2 is true, and true < 3 becomes 1 < 3, which is true. 3 > 2 is true, and true > 1 becomes 1 > 1, which is false."
+    },
+    {
+      "externalId": "JS-BAS-012",
+      "topic": "JavaScript",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconsole.log([10, 9, 1].sort());",
+      "options": [
+        "[ 1, 10, 9 ]",
+        "[ 9, 10, 1 ]",
+        "[ 10, 9, 1 ]",
+        "[ 1, 9, 10 ]"
+      ],
+      "answer": "[ 1, 10, 9 ]",
+      "explanation": "Without a comparator, sort converts elements to strings and compares them alphabetically, so \"10\" comes before \"9\"."
+    },
+    {
+      "externalId": "JS-ARR-001",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which array method adds an element to the end of the array?",
+      "options": [
+        "pop",
+        "shift",
+        "push",
+        "unshift"
+      ],
+      "answer": "push",
+      "explanation": "push appends to the end. pop removes the last element, shift removes the first, and unshift adds to the front."
+    },
+    {
+      "externalId": "JS-ARR-002",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the output of the following code?\n\nconsole.log(\"hello\".toUpperCase());",
+      "options": [
+        "Hello",
+        "undefined",
+        "hello",
+        "HELLO"
+      ],
+      "answer": "HELLO",
+      "explanation": "toUpperCase returns a new uppercase string."
+    },
+    {
+      "externalId": "JS-ARR-003",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log([1, 2, 3, 4].filter(n => n % 2 === 0));",
+      "options": [
+        "[ 1, 2, 3, 4 ]",
+        "[ 2, 4 ]",
+        "[ true, false ]",
+        "[ 1, 3 ]"
+      ],
+      "answer": "[ 2, 4 ]",
+      "explanation": "filter keeps the elements for which the callback returns true, here the even numbers."
+    },
+    {
+      "externalId": "JS-ARR-004",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log([1, 2, 3].map(n => n * 2));",
+      "options": [
+        "[ 2, 4, 6 ]",
+        "[ 1, 2, 3 ]",
+        "6",
+        "[ 1, 4, 9 ]"
+      ],
+      "answer": "[ 2, 4, 6 ]",
+      "explanation": "map returns a new array with the callback applied to every element."
+    },
+    {
+      "externalId": "JS-ARR-005",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log([1, 2, 3, 4].reduce((a, b) => a + b, 0));",
+      "options": [
+        "0",
+        "4",
+        "10",
+        "[ 1, 2, 3, 4 ]"
+      ],
+      "answer": "10",
+      "explanation": "reduce combines all elements into one value. Starting at 0, it adds 1, 2, 3 and 4."
+    },
+    {
+      "externalId": "JS-ARR-006",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconst a = [1, 2, 3];\nconst b = [...a, 4];\nconsole.log(a.length, b.length);",
+      "options": [
+        "3 3",
+        "4 3",
+        "4 4",
+        "3 4"
+      ],
+      "answer": "3 4",
+      "explanation": "The spread operator copies a's elements into a new array and adds 4. The original a is unchanged."
+    },
+    {
+      "externalId": "JS-ARR-007",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Array.prototype.map modifies the original array in place.",
+      "answer": false,
+      "explanation": "map returns a new array and leaves the original unchanged."
+    },
+    {
+      "externalId": "JS-ARR-008",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log(\"a-b-c\".split(\"-\").join(\"+\"));",
+      "options": [
+        "a-b-c",
+        "a+b+c",
+        "[ 'a', 'b', 'c' ]",
+        "abc"
+      ],
+      "answer": "a+b+c",
+      "explanation": "split breaks the string into an array on \"-\", and join glues the pieces back together with \"+\"."
+    },
+    {
+      "externalId": "JS-ARR-009",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The array method ______ removes and returns the last element.",
+      "answer": [
+        "pop",
+        "pop()"
+      ],
+      "explanation": "pop removes the last element. shift removes the first."
+    },
+    {
+      "externalId": "JS-ARR-010",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconsole.log([1, 2, 3].indexOf(4), [NaN].includes(NaN), [NaN].indexOf(NaN));",
+      "options": [
+        "-1 true -1",
+        "0 true -1",
+        "-1 true 0",
+        "-1 false -1"
+      ],
+      "answer": "-1 true -1",
+      "explanation": "includes uses SameValueZero, which treats NaN as equal to NaN. indexOf uses strict equality, and NaN === NaN is false, so it finds nothing."
+    },
+    {
+      "externalId": "JS-ARR-011",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconst arr = [1, 2, 3];\narr.length = 1;\nconsole.log(arr);",
+      "options": [
+        "[ 1, 2, 3 ]",
+        "1",
+        "[ 1 ]",
+        "[ 3 ]"
+      ],
+      "answer": "[ 1 ]",
+      "explanation": "Setting length to a smaller number truncates the array."
+    },
+    {
+      "externalId": "JS-ARR-012",
+      "topic": "JavaScript",
+      "subtopic": "Arrays and Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "In JavaScript, arrays are a separate primitive type, not objects.",
+      "answer": false,
+      "explanation": "Arrays are objects. typeof [] returns \"object\", and Array.isArray is used to tell arrays apart from other objects."
+    },
+    {
+      "externalId": "JS-FUN-001",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which of the following is a valid arrow function that returns the sum of a and b?",
+      "options": [
+        "function => (a, b) a + b",
+        "(a, b) = > a + b",
+        "(a, b) -> a + b",
+        "(a, b) => a + b"
+      ],
+      "answer": "(a, b) => a + b",
+      "explanation": "Arrow functions use =>. An expression after the arrow is returned automatically."
+    },
+    {
+      "externalId": "JS-FUN-002",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log(x);\nvar x = 5;",
+      "options": [
+        "5",
+        "undefined",
+        "ReferenceError",
+        "null"
+      ],
+      "answer": "undefined",
+      "explanation": "var declarations are hoisted and initialized to undefined, but the assignment of 5 happens later."
+    },
+    {
+      "externalId": "JS-FUN-003",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\ntry {\n  console.log(y);\n  let y = 5;\n} catch (e) {\n  console.log(e.name);\n}",
+      "options": [
+        "ReferenceError",
+        "TypeError",
+        "undefined",
+        "5"
+      ],
+      "answer": "ReferenceError",
+      "explanation": "let variables are hoisted but cannot be accessed before their declaration (the temporal dead zone), which throws a ReferenceError."
+    },
+    {
+      "externalId": "JS-FUN-004",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nfunction counter() {\n  let c = 0;\n  return () => ++c;\n}\nconst next = counter();\nnext();\nnext();\nconsole.log(next());",
+      "options": [
+        "0",
+        "2",
+        "3",
+        "1"
+      ],
+      "answer": "3",
+      "explanation": "The returned arrow function closes over c, so the count persists between calls. The third call returns 3."
+    },
+    {
+      "externalId": "JS-FUN-005",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nfunction f(a, b = 2) {\n  return a + b;\n}\nconsole.log(f(1), f(1, 5));",
+      "options": [
+        "3 3",
+        "NaN 6",
+        "3 NaN",
+        "3 6"
+      ],
+      "answer": "3 6",
+      "explanation": "When b is not passed, its default value 2 is used. f(1) gives 3, and f(1, 5) gives 6."
+    },
+    {
+      "externalId": "JS-FUN-006",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does IIFE stand for?",
+      "options": [
+        "Indexed Inline Function Element",
+        "Immediately Invoked Function Expression",
+        "Inherited Interface Function Expression",
+        "Internal Instance Function Execution"
+      ],
+      "answer": "Immediately Invoked Function Expression",
+      "explanation": "An IIFE is a function that is defined and called right away, such as (function () { ... })(). It is often used to create a private scope."
+    },
+    {
+      "externalId": "JS-FUN-007",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nvar fns = [];\nfor (var i = 0; i < 3; i++) {\n  fns.push(() => i);\n}\nconsole.log(fns.map(f => f()));",
+      "options": [
+        "[ 3, 3, 3 ]",
+        "[ 0, 1, 2 ]",
+        "[ 2, 2, 2 ]",
+        "[ undefined, undefined, undefined ]"
+      ],
+      "answer": "[ 3, 3, 3 ]",
+      "explanation": "var is function-scoped, so all three closures share one i. By the time they run, the loop has ended with i equal to 3."
+    },
+    {
+      "externalId": "JS-FUN-008",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconst fns = [];\nfor (let i = 0; i < 3; i++) {\n  fns.push(() => i);\n}\nconsole.log(fns.map(f => f()));",
+      "options": [
+        "[ 3, 3, 3 ]",
+        "[ 2, 2, 2 ]",
+        "[ 0, 1, 2 ]",
+        "[ 1, 2, 3 ]"
+      ],
+      "answer": "[ 0, 1, 2 ]",
+      "explanation": "let creates a new binding for each loop iteration, so each closure captures its own value of i."
+    },
+    {
+      "externalId": "JS-FUN-009",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconsole.log(typeof f);\nvar f = 1;\nfunction f() {}",
+      "options": [
+        "object",
+        "undefined",
+        "number",
+        "function"
+      ],
+      "answer": "function",
+      "explanation": "Function declarations are hoisted together with their body. The var f declaration adds nothing new, and the assignment f = 1 has not run yet."
+    },
+    {
+      "externalId": "JS-FUN-010",
+      "topic": "JavaScript",
+      "subtopic": "Functions and Scope",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "Arrow functions have their own this binding, just like regular functions.",
+      "answer": false,
+      "explanation": "Arrow functions do not create their own this. They use the this of the surrounding scope."
+    },
+    {
+      "externalId": "JS-OBJ-001",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which syntax reads a property whose name is stored in a variable called key?",
+      "options": [
+        "obj.key",
+        "obj[key]",
+        "obj->key",
+        "obj::key"
+      ],
+      "answer": "obj[key]",
+      "explanation": "Bracket notation evaluates the expression inside the brackets. obj.key would look for a property literally named \"key\"."
+    },
+    {
+      "externalId": "JS-OBJ-002",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconst {a, b: c = 5} = {a: 1};\nconsole.log(a, c);",
+      "options": [
+        "1 5",
+        "1 b",
+        "1 undefined",
+        "undefined 5"
+      ],
+      "answer": "1 5",
+      "explanation": "The pattern takes a from the object. For b: c = 5, the property b is missing, so the default value 5 is used for c."
+    },
+    {
+      "externalId": "JS-OBJ-003",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconst o = {...{x: 1, y: 2}, y: 3};\nconsole.log(o);",
+      "options": [
+        "{ x: 1, y: 2, y: 3 }",
+        "{ x: 1, y: 2 }",
+        "{ x: 1, y: 3 }",
+        "{ y: 3 }"
+      ],
+      "answer": "{ x: 1, y: 3 }",
+      "explanation": "With spread, later properties override earlier ones, so y becomes 3."
+    },
+    {
+      "externalId": "JS-OBJ-004",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Object.freeze makes an object deeply immutable, including nested objects.",
+      "answer": false,
+      "explanation": "Object.freeze is shallow. Nested objects can still be changed unless they are frozen too."
+    },
+    {
+      "externalId": "JS-OBJ-005",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the name of the method that initializes a new instance of a JavaScript class?",
+      "options": [
+        "init",
+        "create",
+        "__init__",
+        "constructor"
+      ],
+      "answer": "constructor",
+      "explanation": "A class defines its initialization logic in the constructor method, which runs when new is used."
+    },
+    {
+      "externalId": "JS-OBJ-006",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nclass A {\n  hi() { return \"A\"; }\n}\nclass B extends A {\n  hi() { return super.hi() + \"B\"; }\n}\nconsole.log(new B().hi());",
+      "options": [
+        "B",
+        "AB",
+        "A",
+        "BA"
+      ],
+      "answer": "AB",
+      "explanation": "super.hi() calls the parent class's method, which returns \"A\", and \"B\" is appended."
+    },
+    {
+      "externalId": "JS-OBJ-007",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconst o = {\n  n: \"obj\",\n  f() { return this.n; },\n  g: () => typeof this.n\n};\nconsole.log(o.f(), o.g());",
+      "options": [
+        "obj undefined",
+        "undefined obj",
+        "undefined undefined",
+        "obj obj"
+      ],
+      "answer": "obj undefined",
+      "explanation": "In the regular method, this is the object, so this.n is \"obj\". The arrow function takes this from the enclosing scope, not from o, so this.n is undefined."
+    },
+    {
+      "externalId": "JS-OBJ-008",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconst o = {\n  n: 1,\n  f() { return this && this.n; }\n};\nconst f = o.f;\nconsole.log(f());",
+      "options": [
+        "TypeError",
+        "null",
+        "undefined",
+        "1"
+      ],
+      "answer": "undefined",
+      "explanation": "Calling f() as a plain function loses the object, so this is no longer o (it is the global object, or undefined in strict mode), and the result is undefined."
+    },
+    {
+      "externalId": "JS-OBJ-009",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconsole.log(JSON.stringify({a: [1, {b: 2}], c: undefined}));",
+      "options": [
+        "{\"a\":[1,{\"b\":2}],\"c\":null}",
+        "{a:[1,{b:2}]}",
+        "{\"a\":[1,{\"b\":2}],\"c\":undefined}",
+        "{\"a\":[1,{\"b\":2}]}"
+      ],
+      "answer": "{\"a\":[1,{\"b\":2}]}",
+      "explanation": "JSON.stringify omits properties whose value is undefined."
+    },
+    {
+      "externalId": "JS-OBJ-010",
+      "topic": "JavaScript",
+      "subtopic": "Objects and Classes",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "JavaScript classes are syntactic sugar over prototype-based inheritance.",
+      "answer": true,
+      "explanation": "The class syntax is a cleaner way to write constructor functions and prototype chains. The underlying model is still prototypal."
+    },
+    {
+      "externalId": "JS-ASY-001",
+      "topic": "JavaScript",
+      "subtopic": "Async",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which built-in object represents a value that will be available in the future (or an error)?",
+      "options": [
+        "Future",
+        "Promise",
+        "Observer",
+        "Callback"
+      ],
+      "answer": "Promise",
+      "explanation": "A Promise represents the eventual result of an asynchronous operation and is either pending, fulfilled or rejected."
+    },
+    {
+      "externalId": "JS-ASY-002",
+      "topic": "JavaScript",
+      "subtopic": "Async",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log(\"A\");\nsetTimeout(() => console.log(\"B\"), 0);\nPromise.resolve().then(() => console.log(\"C\"));\nconsole.log(\"D\");",
+      "options": [
+        "A D C B",
+        "A C D B",
+        "A B C D",
+        "A D B C"
+      ],
+      "answer": "A D C B",
+      "explanation": "Synchronous code runs first (A, D). Then the microtask queue (promise callbacks) runs before the timer callback, so C comes before B."
+    },
+    {
+      "externalId": "JS-ASY-003",
+      "topic": "JavaScript",
+      "subtopic": "Async",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Using await inside a regular (non-async) function is a syntax error.",
+      "answer": true,
+      "explanation": "await is allowed only inside async functions (and at the top level of ES modules)."
+    },
+    {
+      "externalId": "JS-ASY-004",
+      "topic": "JavaScript",
+      "subtopic": "Async",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nasync function f() {\n  return 1;\n}\nconsole.log(f() instanceof Promise);",
+      "options": [
+        "1",
+        "undefined",
+        "true",
+        "false"
+      ],
+      "answer": "true",
+      "explanation": "An async function always returns a Promise, even if it returns a plain value."
+    },
+    {
+      "externalId": "JS-ASY-005",
+      "topic": "JavaScript",
+      "subtopic": "Async",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nPromise.all([Promise.resolve(1), Promise.reject(\"x\"), Promise.resolve(3)])\n  .then(console.log)\n  .catch(e => console.log(\"err\", e));",
+      "options": [
+        "1 x 3",
+        "[ 1, 3 ]",
+        "err 1",
+        "err x"
+      ],
+      "answer": "err x",
+      "explanation": "Promise.all rejects as soon as any promise rejects, so the catch handler runs with the reason \"x\"."
+    },
+    {
+      "externalId": "JS-ASY-006",
+      "topic": "JavaScript",
+      "subtopic": "Async",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nasync function f() {\n  console.log(\"1\");\n  await null;\n  console.log(\"2\");\n}\nf();\nconsole.log(\"3\");",
+      "options": [
+        "3 1 2",
+        "1 3 2",
+        "1 2 3",
+        "2 1 3"
+      ],
+      "answer": "1 3 2",
+      "explanation": "The function runs synchronously until await, printing 1. At await it pauses and returns to the caller, which prints 3. The rest of the function (2) resumes afterwards."
+    },
+    {
+      "externalId": "JS-ASY-007",
+      "topic": "JavaScript",
+      "subtopic": "Async",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ method of a promise registers a handler for when the promise is rejected.",
+      "answer": [
+        "catch",
+        "catch()",
+        ".catch",
+        "catch()"
+      ],
+      "explanation": "promise.catch(handler) handles rejections and is equivalent to then(undefined, handler)."
+    },
+    {
+      "externalId": "JS-ASY-008",
+      "topic": "JavaScript",
+      "subtopic": "Async",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nsetTimeout(() => console.log(\"t1\"), 10);\nsetTimeout(() => console.log(\"t2\"), 0);\nconsole.log(\"sync\");",
+      "options": [
+        "sync t2 t1",
+        "t1 t2 sync",
+        "sync t1 t2",
+        "t2 t1 sync"
+      ],
+      "answer": "sync t2 t1",
+      "explanation": "Timers run after the current synchronous code, in order of their delay. The 0 ms timer fires before the 10 ms one."
+    },
+    {
+      "externalId": "JS-ASY-009",
+      "topic": "JavaScript",
+      "subtopic": "Async",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "JavaScript runs your code on multiple threads at once, so two callbacks can execute at exactly the same time.",
+      "answer": false,
+      "explanation": "JavaScript uses a single-threaded event loop. Callbacks run one at a time, though asynchronous work such as I/O can proceed in the background."
+    },
+    {
+      "externalId": "JS-ES6-001",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which characters delimit a template literal in JavaScript?",
+      "options": [
+        "Double quotes (\")",
+        "Single quotes (')",
+        "Backticks (`)",
+        "Forward slashes (/)"
+      ],
+      "answer": "Backticks (`)",
+      "explanation": "Template literals use backticks and support interpolation with ${...} and multi-line strings."
+    },
+    {
+      "externalId": "JS-ES6-002",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconst [a, , b] = [1, 2, 3];\nconsole.log(a, b);",
+      "options": [
+        "1 undefined",
+        "2 3",
+        "1 2",
+        "1 3"
+      ],
+      "answer": "1 3",
+      "explanation": "The empty slot between the commas skips the second element, so a is 1 and b is 3."
+    },
+    {
+      "externalId": "JS-ES6-003",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconst o = {};\nconsole.log(o?.a?.b);",
+      "options": [
+        "TypeError",
+        "undefined",
+        "null",
+        "{}"
+      ],
+      "answer": "undefined",
+      "explanation": "Optional chaining stops and returns undefined if a part of the chain is null or undefined, instead of throwing."
+    },
+    {
+      "externalId": "JS-ES6-004",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log(0 ?? 5, 0 || 5);",
+      "options": [
+        "0 5",
+        "5 0",
+        "0 0",
+        "5 5"
+      ],
+      "answer": "0 5",
+      "explanation": "?? only falls back for null or undefined, so 0 is kept. || falls back for any falsy value, so 0 || 5 is 5."
+    },
+    {
+      "externalId": "JS-ES6-005",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconsole.log([...new Set([1, 2, 2, 3])]);",
+      "options": [
+        "3",
+        "Set(3) { 1, 2, 3 }",
+        "[ 1, 2, 3 ]",
+        "[ 1, 2, 2, 3 ]"
+      ],
+      "answer": "[ 1, 2, 3 ]",
+      "explanation": "A Set removes duplicates, and spreading it turns it back into an array."
+    },
+    {
+      "externalId": "JS-ES6-006",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nconst m = new Map([[\"a\", 1]]);\nm.set(\"b\", 2);\nconsole.log(m.size, m.get(\"b\"));",
+      "options": [
+        "1 2",
+        "3 2",
+        "2 undefined",
+        "2 2"
+      ],
+      "answer": "2 2",
+      "explanation": "After set, the Map has two entries, and get(\"b\") returns 2."
+    },
+    {
+      "externalId": "JS-ES6-007",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconsole.log(Array.from({length: 3}, (_, i) => i * 2));",
+      "options": [
+        "[ undefined, undefined, undefined ]",
+        "[ 0, 2, 4 ]",
+        "[ 0, 1, 2 ]",
+        "[ 2, 4, 6 ]"
+      ],
+      "answer": "[ 0, 2, 4 ]",
+      "explanation": "Array.from accepts an array-like object ({ length: 3 }) and a mapping function. The mapper receives the index i, so the result is 0, 2, 4."
+    },
+    {
+      "externalId": "JS-ES6-008",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nconst s = Symbol(\"x\");\nconsole.log(typeof s, Symbol(\"x\") === Symbol(\"x\"));",
+      "options": [
+        "symbol false",
+        "symbol true",
+        "object true",
+        "string false"
+      ],
+      "answer": "symbol false",
+      "explanation": "Symbols are a primitive type, and every Symbol() call creates a unique value, even with the same description."
+    },
+    {
+      "externalId": "JS-ES6-009",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A for...of loop over a plain object iterates over its property names.",
+      "answer": false,
+      "explanation": "for...of works on iterables (arrays, strings, Maps, Sets) and a plain object is not iterable, so it throws a TypeError. for...in iterates over property names."
+    },
+    {
+      "externalId": "JS-ES6-010",
+      "topic": "JavaScript",
+      "subtopic": "Modern JavaScript",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "let and const declarations are hoisted, but cannot be used before their declaration line runs.",
+      "answer": true,
+      "explanation": "They exist from the start of their scope but are in the temporal dead zone until the declaration executes."
+    }
+  ]
+}

@@ -36,8 +36,8 @@ export function ProfilePage() {
       <div className="rounded-lg border border-slate-200 bg-white px-4">
         <Row icon={Award} label="Level" value={data.level} />
         <Row icon={Zap} label="Total XP" value={data.totalXp} />
-        <Row icon={Flame} label="Current streak" value={`${data.currentStreak} days`} />
-        <Row icon={Flame} label="Longest streak" value={`${data.longestStreak} days`} />
+        <Row icon={Flame} label="Current streak" value={`${data.currentStreak} ${data.currentStreak === 1 ? "day" : "days"}`} />
+        <Row icon={Flame} label="Longest streak" value={`${data.longestStreak} ${data.longestStreak === 1 ? "day" : "days"}`} />
         <Row icon={Calendar} label="Daily Sessions completed" value={data.totalDailySessions} />
         <Row icon={User} label="Fast Practice sessions" value={data.totalFastSessions} />
       </div>

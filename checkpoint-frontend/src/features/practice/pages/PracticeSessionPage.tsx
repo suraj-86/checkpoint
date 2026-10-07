@@ -16,7 +16,7 @@ export function PracticeSessionPage() {
   const { data: active, isLoading } = useQuery({
     queryKey: ["active-session"],
     queryFn: getActiveSession,
-    enabled: !feedback, // don't refetch out from under an answer the student is reviewing
+    enabled: !feedback,
   });
 
   const answerMutation = useMutation({
@@ -40,9 +40,6 @@ export function PracticeSessionPage() {
   const allAnswered = !isLoading && !active?.currentQuestion && !feedback;
 
   useEffect(() => {
-    // Every slot already answered (e.g. the student refreshed right at
-    // the end). Done as an effect, not during render, so this is a
-    // proper navigation side-effect rather than one that fires mid-render.
     if (allAnswered) {
       navigate(`/practice/result/${sessionId}`);
     }
@@ -79,7 +76,7 @@ export function PracticeSessionPage() {
       </div>
 
       <div className="mt-6 rounded-lg border border-slate-200 bg-white p-6">
-        <p className="text-lg font-medium text-slate-800">{q?.question}</p>
+      <p className="whitespace-pre-wrap text-lg font-medium text-slate-800">{q?.question}</p>
 
         {!feedback && q?.type === "MCQ" && q.options && (
           <div className="mt-4 space-y-2">
