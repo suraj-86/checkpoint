@@ -52,7 +52,7 @@ public interface PracticeSessionRepository extends JpaRepository<PracticeSession
      * QuestionRepository (Postgres is this project's one supported DB).
      */
     @Query(value = """
-            SELECT date_trunc('day', completed_at) AS activity_date,
+            SELECT CAST(completed_at AT TIME ZONE 'UTC' AS date) AS activity_date,
                    COUNT(*) AS session_count,
                    COALESCE(SUM(xp_change), 0) AS xp_total
             FROM practice_sessions

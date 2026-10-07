@@ -94,15 +94,31 @@ public class ProgressService {
         Instant since = Instant.now(clock).truncatedTo(ChronoUnit.DAYS).minus(days, ChronoUnit.DAYS);
 
         return sessionRepository.findActivitySince(user.getId(), since).stream()
-                .map(row -> {
-                    // Native query row: [0]=timestamp, [1]=count (bigint), [2]=xp sum (bigint).
-                    Instant bucketStart = ((java.sql.Timestamp) row[0]).toInstant();
-                    LocalDate date = bucketStart.atZone(ZoneOffset.UTC).toLocalDate();
-                    long sessionCount = ((Number) row[1]).longValue();
-                    int xpTotal = ((Number) row[2]).intValue();
-                    return new ActivityDayPoint(date, sessionCount, xpTotal);
-                })
+                .map(row -> new ActivityDayPoint(
+                        toLocalDate(row[0]),
+                        ((Number) row[1]).longValue(),
+                        ((Number) row[2]).intValue()))
                 .toList();
+    }
+
+    static LocalDate toLocalDate(Object value) {
+        if (value instanceof LocalDate date) {
+            return date;
+        }
+        if (value instanceof java.sql.Date date) {
+            return date.toLocalDate();
+        }
+        if (value instanceof Instant instant) {
+            return instant.atZone(ZoneOffset.UTC).toLocalDate();
+        }
+        if (value instanceof java.sql.Timestamp timestamp) {
+            return timestamp.toInstant().atZone(ZoneOffset.UTC).toLocalDate();
+        }
+        if (value instanceof java.time.OffsetDateTime dateTime) {
+            return dateTime.withOffsetSameInstant(ZoneOffset.UTC).toLocalDate();
+        }
+        throw new IllegalStateException("Unsupported activity date type: "
+                + (value == null ? "null" : value.getClass().getName()));
     }
 
     @Transactional(readOnly = true)
