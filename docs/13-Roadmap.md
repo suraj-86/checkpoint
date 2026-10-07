@@ -203,36 +203,13 @@ Build:
 
 ---
 
-# Phase 9 — Integration and Hardening
+# Phase 9 — Integration and Hardening ✅ Complete
 
-Test complete flows:
+**Verified working (manual, in the browser, 2026-10-07):** the full flow (register → login → Daily Session → answer → complete → XP → level → streak → progress → next-day review) and the extra checks (unauthorized requests, student/admin separation, duplicate datasets, invalid questions, retired questions, XP caps and boundaries, level boundaries, review transitions, interrupted sessions).
 
-```text
-Register
-→ Login
-→ Daily Session
-→ Answer
-→ Complete
-→ XP
-→ Level
-→ Streak
-→ Progress
-→ Return next day
-→ Review
-```
+**Bug found and fixed:** the Progress page Activity chart stayed on "Loading..." because the activity query returned a date type the code did not expect (`Instant` instead of `Timestamp`), which crashed the endpoint. Fixed by grouping on the UTC calendar day directly in SQL and reading the result through a type-tolerant helper (`ProgressService.toLocalDate`). This also fixed a latent time-zone mismatch, where days were cut at the database's local midnight but read as UTC. 6 new unit tests cover the helper; the project now has 115 tests.
 
-Also test:
-
-- unauthorized requests;
-- student/admin separation;
-- duplicate datasets;
-- invalid questions;
-- retired questions;
-- XP caps;
-- XP boundaries;
-- level boundaries;
-- review transitions;
-- interrupted sessions.
+**Known gap:** all integration testing is manual. The 115 automated tests are unit tests, with no tests that start the full app against a database.
 
 ---
 

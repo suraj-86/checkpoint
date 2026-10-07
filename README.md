@@ -28,7 +28,8 @@ The result should feel similar in spirit to a modern learning product while rema
 - ✅ **Phase 6** — XP and Streak complete: difficulty-weighted performance scoring, 20-level progression, Fast Practice's daily XP cap, streak tracking with milestone bonuses. 100 unit tests across the project, two real bugs caught and fixed during development.
 - ✅ **Phase 7** — Student Experience complete: dashboard, Daily Session and Fast Practice screens, session result, progress page (topic statistics, 30-day activity chart, session history) and profile. The frontend dev server runs on port 5180.
 - ✅ **Phase 8** — Admin Experience complete: role-aware admin area with dashboard, dataset upload with validate-then-import, dataset history, and a filterable question browser with retire/restore. 109 tests across the project.
-- ⏳ **Phase 9** — Integration and Hardening — up next.
+- ✅ **Phase 9** — Integration and Hardening complete: full student and admin flows verified manually in the browser, plus the Activity chart date bug fixed. 115 unit tests across the project.
+- ⏳ **Phase 10** — Deployment and Release — up next.
   
 ---
 
