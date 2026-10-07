@@ -180,18 +180,26 @@ Build:
 
 ---
 
-# Phase 8 — Admin Experience
+# Phase 8 — Admin Experience ✅ Complete
 
 Build:
 
-- admin dashboard;
-- dataset upload;
-- validation result;
-- import result;
-- dataset history;
-- question browser;
-- filters;
-- retire/restore actions.
+- [x] admin dashboard. *(`GET /api/admin/dashboard` + Admin Dashboard page: question, topic, dataset and student counts, active questions by difficulty/type/topic, latest dataset)*
+- [x] dataset upload. *(JSON file chosen in the browser, parsed client-side, then validated and imported)*
+- [x] validation result. *(total/valid/invalid counts, dataset-level problems, and every invalid question with its reasons)*
+- [x] import result. *(created/updated counts; Import is only enabled after a clean validation)*
+- [x] dataset history. *(`GET /api/admin/datasets`, newest first, with total/active/retired question counts)*
+- [x] question browser. *(pagination, expandable rows showing options, correct answer and explanation)*
+- [x] filters. *(topic, difficulty, type, active/retired)*
+- [x] retire/restore actions. *(retire asks for confirmation)*
+
+**Design decisions worth knowing:**
+- The frontend is now role-aware. `/` sends an admin to `/admin` and a student to `/dashboard`, student routes require `STUDENT`, admin routes require `ADMIN`, and the layout shows a different menu for each. Before this phase, an admin logging in was sent to the student dashboard and hit a 403.
+- Dataset-level validation was added. A missing dataset name or version, an empty question list, or a value longer than its database column used to pass validation and then fail with a 500 on import. These are now reported in a separate `datasetErrors` list.
+- Dataset history shows the time a dataset was *first* imported. Re-importing the same name and version updates its questions but is not logged as a separate event.
+- Retirement reasons (mentioned in `docs/11-Admin-Operations.md`) are not stored, because the schema has no column for them.
+
+**Verified working:** 109 backend tests pass (9 new validator tests). Every admin screen was tested live in the browser: dashboard, upload with a clean file (21 valid, 0 created, 21 updated), upload with a deliberately broken file (2 invalid questions, Import disabled), all four filters, row expansion, and retire/restore with the dashboard counts updating. Role redirects were confirmed for both admin and student. Confirmed on 2026-10-07.
 
 ---
 
