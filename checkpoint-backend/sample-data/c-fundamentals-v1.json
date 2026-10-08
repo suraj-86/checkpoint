@@ -1,0 +1,1606 @@
+{
+  "dataset": {
+    "name": "C Programming Fundamentals",
+    "version": "1.0",
+    "description": "C basics, operators and control flow, pointers, arrays and strings, functions and dynamic memory, structs, unions and enums, and the preprocessor."
+  },
+  "questions": [
+    {
+      "externalId": "C-BAS-001",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which header declares the printf function?",
+      "options": [
+        "<stdlib.h>",
+        "<stdio.h>",
+        "<string.h>",
+        "<math.h>"
+      ],
+      "answer": "<stdio.h>",
+      "explanation": "stdio.h provides standard input and output functions such as printf and scanf."
+    },
+    {
+      "externalId": "C-BAS-002",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Where does the execution of a C program begin?",
+      "options": [
+        "The first #include line",
+        "The first function in the file",
+        "The main function",
+        "The function named start"
+      ],
+      "answer": "The main function",
+      "explanation": "Every hosted C program must define main, which is where execution starts."
+    },
+    {
+      "externalId": "C-BAS-003",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "C is a case-sensitive language, so Count and count are different identifiers.",
+      "answer": true,
+      "explanation": "Identifiers, keywords and function names are all case-sensitive."
+    },
+    {
+      "externalId": "C-BAS-004",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%d\", 7 / 2);",
+      "options": [
+        "3.5",
+        "3.0",
+        "4",
+        "3"
+      ],
+      "answer": "3",
+      "explanation": "Both operands are int, so C performs integer division and drops the fractional part."
+    },
+    {
+      "externalId": "C-BAS-005",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "Every simple statement in C must end with a ______.",
+      "answer": [
+        "semicolon",
+        ";"
+      ],
+      "explanation": "The semicolon terminates a statement, for example int x = 5;."
+    },
+    {
+      "externalId": "C-BAS-006",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%.2f\", 3.14159);",
+      "options": [
+        "3.14",
+        "3.14159",
+        "3.1",
+        "3.15"
+      ],
+      "answer": "3.14",
+      "explanation": "The %.2f format prints a floating-point number rounded to two decimal places."
+    },
+    {
+      "externalId": "C-BAS-007",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%zu\", sizeof(char));",
+      "options": [
+        "4",
+        "1",
+        "2",
+        "8"
+      ],
+      "answer": "1",
+      "explanation": "sizeof(char) is 1 by definition in C. The size of every other type is measured in units of char."
+    },
+    {
+      "externalId": "C-BAS-008",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint x = 5;\nprintf(\"%d\", x / 2.0 > 2);",
+      "options": [
+        "2.5",
+        "2",
+        "1",
+        "0"
+      ],
+      "answer": "1",
+      "explanation": "x / 2.0 is 2.5 because one operand is a double. The comparison 2.5 > 2 is true, which prints as 1."
+    },
+    {
+      "externalId": "C-BAS-009",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nchar c = 'A' + 2;\nprintf(\"%c %d\", c, c);",
+      "options": [
+        "C 65",
+        "67 C",
+        "A 67",
+        "C 67"
+      ],
+      "answer": "C 67",
+      "explanation": "A char is a small integer. 'A' is 65, adding 2 gives 67, which is the code for the letter C."
+    },
+    {
+      "externalId": "C-BAS-010",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%d\", -7 / 2);",
+      "options": [
+        "-3",
+        "3",
+        "-4",
+        "-3.5"
+      ],
+      "answer": "-3",
+      "explanation": "Since C99, integer division truncates toward zero, so -7 / 2 is -3 (not -4 as in floor division)."
+    },
+    {
+      "externalId": "C-BAS-011",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nunsigned char u = 255;\nu++;\nprintf(\"%d\", u);",
+      "options": [
+        "-1",
+        "0",
+        "255",
+        "256"
+      ],
+      "answer": "0",
+      "explanation": "Unsigned arithmetic wraps around modulo 256 for unsigned char, so 255 + 1 becomes 0."
+    },
+    {
+      "externalId": "C-BAS-012",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%d\", (int)3.99);",
+      "options": [
+        "3.99",
+        "3.9",
+        "3",
+        "4"
+      ],
+      "answer": "3",
+      "explanation": "Casting a double to int truncates the fractional part, it does not round."
+    },
+    {
+      "externalId": "C-BAS-013",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%d\", 'a' < 'b');",
+      "options": [
+        "a",
+        "0",
+        "-1",
+        "1"
+      ],
+      "answer": "1",
+      "explanation": "Character constants are integers. 'a' is 97 and 'b' is 98, so the comparison is true, which is 1."
+    },
+    {
+      "externalId": "C-BAS-014",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "In C, the value 0 is treated as false and any non-zero value is treated as true.",
+      "answer": true,
+      "explanation": "Conditions in C are integer expressions, and only zero counts as false."
+    },
+    {
+      "externalId": "C-BAS-015",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint a = 10, b = 3;\nprintf(\"%d %d\", a / b, a % b);",
+      "options": [
+        "3 1",
+        "3 3",
+        "1 3",
+        "3.33 1"
+      ],
+      "answer": "3 1",
+      "explanation": "/ gives the integer quotient (3) and % gives the remainder (1)."
+    },
+    {
+      "externalId": "C-BAS-016",
+      "topic": "C",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%05d\", 42);",
+      "options": [
+        "0042",
+        "00042",
+        "42000",
+        "42"
+      ],
+      "answer": "00042",
+      "explanation": "In %05d, the 0 flag pads with zeros and 5 is the minimum field width, so 42 becomes 00042."
+    },
+    {
+      "externalId": "C-OPS-001",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which operator gives the memory address of a variable?",
+      "options": [
+        "*",
+        "->",
+        "&",
+        "%"
+      ],
+      "answer": "&",
+      "explanation": "The address-of operator & returns a pointer to its operand."
+    },
+    {
+      "externalId": "C-OPS-002",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint i = 5;\nint j = i++;\nprintf(\"%d %d\", i, j);",
+      "options": [
+        "5 5",
+        "5 6",
+        "6 6",
+        "6 5"
+      ],
+      "answer": "6 5",
+      "explanation": "i++ yields the old value (5) which is stored in j, and then i is incremented to 6."
+    },
+    {
+      "externalId": "C-OPS-003",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint a = 6;\na += a * 2;\nprintf(\"%d\", a);",
+      "options": [
+        "18",
+        "8",
+        "12",
+        "24"
+      ],
+      "answer": "18",
+      "explanation": "a += a * 2 means a = a + (a * 2), which is 6 + 12 = 18."
+    },
+    {
+      "externalId": "C-OPS-004",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%d %d %d\", 6 & 3, 6 | 3, 6 ^ 3);",
+      "options": [
+        "3 7 5",
+        "2 7 5",
+        "6 3 9",
+        "2 5 7"
+      ],
+      "answer": "2 7 5",
+      "explanation": "With 6 = 110 and 3 = 011 in binary, AND gives 010 (2), OR gives 111 (7) and XOR gives 101 (5)."
+    },
+    {
+      "externalId": "C-OPS-005",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%d %d\", 1 << 4, 64 >> 3);",
+      "options": [
+        "16 32",
+        "8 16",
+        "16 8",
+        "4 8"
+      ],
+      "answer": "16 8",
+      "explanation": "Shifting left by n multiplies by 2^n and shifting right by n divides by 2^n."
+    },
+    {
+      "externalId": "C-OPS-006",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint n = 7;\nprintf(\"%s\", n % 2 ? \"odd\" : \"even\");",
+      "options": [
+        "1",
+        "even",
+        "7",
+        "odd"
+      ],
+      "answer": "odd",
+      "explanation": "7 % 2 is 1, which is true, so the ternary operator picks the first string."
+    },
+    {
+      "externalId": "C-OPS-007",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint k = 1;\nswitch (k) {\n    case 1: printf(\"A\");\n    case 2: printf(\"B\"); break;\n    case 3: printf(\"C\");\n}",
+      "options": [
+        "AB",
+        "ABC",
+        "A",
+        "B"
+      ],
+      "answer": "AB",
+      "explanation": "Without a break after case 1, execution falls through into case 2. The break in case 2 then stops it."
+    },
+    {
+      "externalId": "C-OPS-008",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nfor (int i = 10; i > 0; i /= 2)\n    printf(\"%d \", i);",
+      "options": [
+        "5 2 1",
+        "10 5 2 1",
+        "10 9 8 7",
+        "10 5 2 1 0"
+      ],
+      "answer": "10 5 2 1",
+      "explanation": "i is halved each time with integer division (10, 5, 2, 1), and the loop stops when it reaches 0."
+    },
+    {
+      "externalId": "C-OPS-009",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint s = 0;\nfor (int i = 1; ; i++) {\n    s += i;\n    if (s > 10) break;\n}\nprintf(\"%d\", s);",
+      "options": [
+        "11",
+        "21",
+        "15",
+        "10"
+      ],
+      "answer": "15",
+      "explanation": "The sum goes 1, 3, 6, 10, 15. The first time it exceeds 10 is when it reaches 15, then the loop breaks."
+    },
+    {
+      "externalId": "C-OPS-010",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "In C, the single equals sign (=) tests whether two values are equal.",
+      "answer": false,
+      "explanation": "= is assignment. Equality is tested with ==."
+    },
+    {
+      "externalId": "C-OPS-011",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint x = 0;\nif (x = 5)\n    printf(\"yes\");\nelse\n    printf(\"no\");",
+      "options": [
+        "Compile error",
+        "no",
+        "Nothing is printed",
+        "yes"
+      ],
+      "answer": "yes",
+      "explanation": "x = 5 assigns 5 to x and the whole expression evaluates to 5, which is non-zero and therefore true."
+    },
+    {
+      "externalId": "C-OPS-012",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint a = 0, b = 0;\nif (a++ && b++) { }\nprintf(\"%d %d\", a, b);",
+      "options": [
+        "1 0",
+        "1 1",
+        "0 0",
+        "0 1"
+      ],
+      "answer": "1 0",
+      "explanation": "&& short-circuits: a++ yields 0 (false), so b++ is never evaluated. a still gets incremented, b does not."
+    },
+    {
+      "externalId": "C-OPS-013",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint x = (1, 2, 3);\nprintf(\"%d\", x);",
+      "options": [
+        "6",
+        "3",
+        "1",
+        "2"
+      ],
+      "answer": "3",
+      "explanation": "The comma operator evaluates its operands left to right and yields the last one."
+    },
+    {
+      "externalId": "C-OPS-014",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%d\", 2 + 3 * 4 - 6 / 2);",
+      "options": [
+        "5",
+        "9",
+        "11",
+        "3"
+      ],
+      "answer": "11",
+      "explanation": "Multiplication and division bind tighter than addition and subtraction: 2 + 12 - 3 = 11."
+    },
+    {
+      "externalId": "C-OPS-015",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ statement skips the rest of the current loop iteration and moves on to the next one.",
+      "answer": [
+        "continue"
+      ],
+      "explanation": "continue jumps to the next iteration, while break leaves the loop."
+    },
+    {
+      "externalId": "C-OPS-016",
+      "topic": "C",
+      "subtopic": "Operators and Control Flow",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint i = 10;\ndo {\n    printf(\"%d\", i);\n} while (i < 5);",
+      "options": [
+        "5",
+        "Nothing is printed",
+        "10 10",
+        "10"
+      ],
+      "answer": "10",
+      "explanation": "A do-while loop always runs its body once before checking the condition."
+    },
+    {
+      "externalId": "C-PTR-001",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does a pointer variable store?",
+      "options": [
+        "The memory address of another variable",
+        "The value of another variable",
+        "A copy of an array",
+        "The size of a variable"
+      ],
+      "answer": "The memory address of another variable",
+      "explanation": "A pointer holds an address, and you use * to access the value stored there."
+    },
+    {
+      "externalId": "C-PTR-002",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which operator dereferences a pointer, giving access to the value it points to?",
+      "options": [
+        "->>",
+        "*",
+        "#",
+        "&"
+      ],
+      "answer": "*",
+      "explanation": "*p reads or writes the object that p points to."
+    },
+    {
+      "externalId": "C-PTR-003",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "A NULL pointer points to a valid object.",
+      "answer": false,
+      "explanation": "NULL means the pointer does not point to any object, and dereferencing it is undefined behaviour."
+    },
+    {
+      "externalId": "C-PTR-004",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint x = 10;\nint *p = &x;\n*p = 20;\nprintf(\"%d\", x);",
+      "options": [
+        "Address of x",
+        "10",
+        "20",
+        "Compile error"
+      ],
+      "answer": "20",
+      "explanation": "p points to x, so assigning through *p changes x itself."
+    },
+    {
+      "externalId": "C-PTR-005",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint a[] = {10, 20, 30};\nint *p = a;\nprintf(\"%d\", *(p + 2));",
+      "options": [
+        "10",
+        "Address of the third element",
+        "20",
+        "30"
+      ],
+      "answer": "30",
+      "explanation": "Pointer arithmetic scales by the element size. p + 2 points to the third int in the array."
+    },
+    {
+      "externalId": "C-PTR-006",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint a[] = {1, 2, 3, 4};\nint *p = a + 3;\nprintf(\"%d\", (int)(p - a));",
+      "options": [
+        "3",
+        "12",
+        "4",
+        "0"
+      ],
+      "answer": "3",
+      "explanation": "Subtracting two pointers into the same array gives the number of elements between them, not bytes."
+    },
+    {
+      "externalId": "C-PTR-007",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nvoid swap(int *a, int *b) {\n    int t = *a;\n    *a = *b;\n    *b = t;\n}\n\nint x = 1, y = 2;\nswap(&x, &y);\nprintf(\"%d %d\", x, y);",
+      "options": [
+        "1 1",
+        "2 1",
+        "1 2",
+        "2 2"
+      ],
+      "answer": "2 1",
+      "explanation": "The function receives the addresses of x and y and exchanges the values stored there, which is how C simulates pass-by-reference."
+    },
+    {
+      "externalId": "C-PTR-008",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint x = 5;\nint *p = &x;\nint **pp = &p;\nprintf(\"%d\", **pp);",
+      "options": [
+        "Address of p",
+        "0",
+        "5",
+        "Address of x"
+      ],
+      "answer": "5",
+      "explanation": "pp points to p, and p points to x, so two dereferences reach the value 5."
+    },
+    {
+      "externalId": "C-PTR-009",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nchar *s = \"hi\";\nprintf(\"%c\", *(s + 1));",
+      "options": [
+        "h",
+        "hi",
+        "0",
+        "i"
+      ],
+      "answer": "i",
+      "explanation": "s + 1 points to the second character of the string, and * reads it."
+    },
+    {
+      "externalId": "C-PTR-010",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint a[3] = {1, 2, 3};\nprintf(\"%zu\", sizeof(a) / sizeof(a[0]));",
+      "options": [
+        "3",
+        "1",
+        "12",
+        "4"
+      ],
+      "answer": "3",
+      "explanation": "sizeof(a) is the total array size in bytes (12) and sizeof(a[0]) is the size of one element (4), so the division gives the element count."
+    },
+    {
+      "externalId": "C-PTR-011",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "On a typical 64-bit system, what does this print?\n\nint *p;\nprintf(\"%zu\", sizeof(p));",
+      "options": [
+        "4",
+        "8",
+        "2",
+        "16"
+      ],
+      "answer": "8",
+      "explanation": "A pointer holds a memory address, which takes 8 bytes on a 64-bit platform regardless of the type it points to."
+    },
+    {
+      "externalId": "C-PTR-012",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint a[] = {5, 6, 7};\nint *p = a;\nint v = *p++;\nprintf(\"%d %d\", v, *p);",
+      "options": [
+        "6 7",
+        "6 6",
+        "5 6",
+        "5 5"
+      ],
+      "answer": "5 6",
+      "explanation": "*p++ reads the value p points to (5) and then advances p to the next element, so *p now reads 6."
+    },
+    {
+      "externalId": "C-PTR-013",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is a dangling pointer?",
+      "options": [
+        "A pointer that is NULL",
+        "A pointer declared but never used",
+        "A pointer to a function",
+        "A pointer to memory that has been freed or has gone out of scope"
+      ],
+      "answer": "A pointer to memory that has been freed or has gone out of scope",
+      "explanation": "Using a dangling pointer is undefined behaviour."
+    },
+    {
+      "externalId": "C-PTR-014",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "A void * pointer can be dereferenced directly without casting it to another pointer type.",
+      "answer": false,
+      "explanation": "The compiler does not know the size or type of the pointed-to object, so it must be cast first."
+    },
+    {
+      "externalId": "C-PTR-015",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The unary operator that gives the address of a variable is written with the symbol ______.",
+      "answer": [
+        "&"
+      ],
+      "explanation": "&x produces a pointer to x."
+    },
+    {
+      "externalId": "C-PTR-016",
+      "topic": "C",
+      "subtopic": "Pointers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the declaration const int *p mean?",
+      "options": [
+        "The int that p points to cannot be modified through p",
+        "Both p and the int are constant",
+        "p must be NULL",
+        "p itself cannot be reassigned"
+      ],
+      "answer": "The int that p points to cannot be modified through p",
+      "explanation": "Here the const applies to the int. A pointer that cannot be reassigned is written int *const p."
+    },
+    {
+      "externalId": "C-ARR-001",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint a[5] = {1, 2};\nprintf(\"%d\", a[3]);",
+      "options": [
+        "2",
+        "0",
+        "Undefined",
+        "1"
+      ],
+      "answer": "0",
+      "explanation": "When an array has an initializer list that is shorter than its size, the remaining elements are set to zero."
+    },
+    {
+      "externalId": "C-ARR-002",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "C checks array bounds at run time and throws an exception for invalid indexes.",
+      "answer": false,
+      "explanation": "C performs no bounds checking. Out-of-range access is undefined behaviour."
+    },
+    {
+      "externalId": "C-ARR-003",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nchar s[] = \"hello\";\nprintf(\"%zu\", strlen(s));",
+      "options": [
+        "4",
+        "6",
+        "5",
+        "Undefined"
+      ],
+      "answer": "5",
+      "explanation": "strlen counts the characters up to, but not including, the terminating null character."
+    },
+    {
+      "externalId": "C-ARR-004",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nchar s[] = \"hello\";\nprintf(\"%zu\", sizeof(s));",
+      "options": [
+        "5",
+        "4",
+        "8",
+        "6"
+      ],
+      "answer": "6",
+      "explanation": "sizeof includes the hidden null terminator, so the array holds 5 letters plus '\\0'."
+    },
+    {
+      "externalId": "C-ARR-005",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which character marks the end of a C string?",
+      "options": [
+        "'\\0'",
+        "'\\e'",
+        "'\\n'",
+        "' '"
+      ],
+      "answer": "'\\0'",
+      "explanation": "The null character is how string functions know where a string ends."
+    },
+    {
+      "externalId": "C-ARR-006",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nchar s[10] = \"abc\";\ns[1] = 'X';\nprintf(\"%s\", s);",
+      "options": [
+        "Xbc",
+        "aXc",
+        "abX",
+        "abc"
+      ],
+      "answer": "aXc",
+      "explanation": "An array initialized from a string literal is modifiable, so the second character can be replaced."
+    },
+    {
+      "externalId": "C-ARR-007",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%d\", strcmp(\"abc\", \"abc\"));",
+      "options": [
+        "-1",
+        "1",
+        "0",
+        "abc"
+      ],
+      "answer": "0",
+      "explanation": "strcmp returns 0 when the two strings are equal."
+    },
+    {
+      "externalId": "C-ARR-008",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nchar s[20] = \"Hello\";\nstrcat(s, \" C\");\nprintf(\"%s\", s);",
+      "options": [
+        "Hello",
+        "C",
+        "HelloC",
+        "Hello C"
+      ],
+      "answer": "Hello C",
+      "explanation": "strcat appends the second string to the end of the first (the buffer must be large enough)."
+    },
+    {
+      "externalId": "C-ARR-009",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint m[2][3] = {{1, 2, 3}, {4, 5, 6}};\nprintf(\"%d\", m[1][2]);",
+      "options": [
+        "6",
+        "4",
+        "5",
+        "3"
+      ],
+      "answer": "6",
+      "explanation": "m[1][2] is row 1, column 2, which is the last element of {4, 5, 6}."
+    },
+    {
+      "externalId": "C-ARR-010",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint a[] = {3, 5, 7};\nint s = 0;\nfor (int i = 0; i < 3; i++)\n    s += a[i];\nprintf(\"%d\", s);",
+      "options": [
+        "10",
+        "15",
+        "12",
+        "3"
+      ],
+      "answer": "15",
+      "explanation": "The loop adds 3 + 5 + 7."
+    },
+    {
+      "externalId": "C-ARR-011",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "On a typical 64-bit system (4-byte int, 8-byte pointer), what does this print?\n\nint len(int a[]) {\n    return sizeof(a) / sizeof(a[0]);\n}\n\nint a[10];\nprintf(\"%d\", len(a));",
+      "options": [
+        "1",
+        "10",
+        "2",
+        "40"
+      ],
+      "answer": "2",
+      "explanation": "An array parameter decays into a pointer, so inside the function sizeof(a) is the size of a pointer (8), not of the whole array. 8 / 4 is 2."
+    },
+    {
+      "externalId": "C-ARR-012",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nchar a[] = \"abc\";\nchar *p = a;\np++;\nprintf(\"%s\", p);",
+      "options": [
+        "abc",
+        "c",
+        "b",
+        "bc"
+      ],
+      "answer": "bc",
+      "explanation": "p starts at the beginning of the array and is moved forward by one, so printing from p skips the first character."
+    },
+    {
+      "externalId": "C-ARR-013",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "Modifying a string literal through a pointer, as in char *s = \"abc\"; s[0] = 'X';, is undefined behaviour.",
+      "answer": true,
+      "explanation": "String literals may be stored in read-only memory. Use a char array if you need to modify the text."
+    },
+    {
+      "externalId": "C-ARR-014",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%zu\", strlen(\"a\\0b\"));",
+      "options": [
+        "1",
+        "3",
+        "0",
+        "4"
+      ],
+      "answer": "1",
+      "explanation": "strlen stops at the first null character, which is the one embedded after the 'a'."
+    },
+    {
+      "externalId": "C-ARR-015",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which standard function copies one string into another?",
+      "options": [
+        "strstr",
+        "strcpy",
+        "strlen",
+        "strcmp"
+      ],
+      "answer": "strcpy",
+      "explanation": "strcpy copies the source string, including the terminating null character, into the destination buffer."
+    },
+    {
+      "externalId": "C-ARR-016",
+      "topic": "C",
+      "subtopic": "Arrays and Strings",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The header ______ declares string functions such as strlen and strcpy.",
+      "answer": [
+        "string.h",
+        "<string.h>"
+      ],
+      "explanation": "Include <string.h> to use them."
+    },
+    {
+      "externalId": "C-MEM-001",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which function allocates memory dynamically on the heap?",
+      "options": [
+        "reserve",
+        "new",
+        "malloc",
+        "alloc_new"
+      ],
+      "answer": "malloc",
+      "explanation": "malloc(size) returns a pointer to a block of the requested number of bytes, or NULL on failure."
+    },
+    {
+      "externalId": "C-MEM-002",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which function releases memory that was allocated with malloc?",
+      "options": [
+        "delete",
+        "release",
+        "dealloc",
+        "free"
+      ],
+      "answer": "free",
+      "explanation": "Every successful malloc should be paired with exactly one free."
+    },
+    {
+      "externalId": "C-MEM-003",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "C passes function arguments by value.",
+      "answer": true,
+      "explanation": "The function works on copies of the arguments. To modify the caller's variable you pass a pointer."
+    },
+    {
+      "externalId": "C-MEM-004",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nvoid inc(int x) {\n    x++;\n}\n\nint n = 1;\ninc(n);\nprintf(\"%d\", n);",
+      "options": [
+        "1",
+        "2",
+        "Compile error",
+        "0"
+      ],
+      "answer": "1",
+      "explanation": "The function increments its own copy of the argument, so n in main is unchanged."
+    },
+    {
+      "externalId": "C-MEM-005",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint *p = malloc(3 * sizeof(int));\nfor (int i = 0; i < 3; i++)\n    p[i] = i * i;\nprintf(\"%d\", p[2]);\nfree(p);",
+      "options": [
+        "2",
+        "4",
+        "3",
+        "Undefined"
+      ],
+      "answer": "4",
+      "explanation": "The dynamically allocated array stores the squares 0, 1, 4, so p[2] is 4."
+    },
+    {
+      "externalId": "C-MEM-006",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint *p = calloc(3, sizeof(int));\nprintf(\"%d\", p[1]);\nfree(p);",
+      "options": [
+        "Undefined",
+        "Random value",
+        "0",
+        "1"
+      ],
+      "answer": "0",
+      "explanation": "calloc allocates memory and initializes all of it to zero, unlike malloc."
+    },
+    {
+      "externalId": "C-MEM-007",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does malloc return when it cannot allocate the requested memory?",
+      "options": [
+        "It terminates the program",
+        "-1",
+        "0 bytes",
+        "NULL"
+      ],
+      "answer": "NULL",
+      "explanation": "Always check the returned pointer before using it."
+    },
+    {
+      "externalId": "C-MEM-008",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint fact(int n) {\n    return n <= 1 ? 1 : n * fact(n - 1);\n}\n\nprintf(\"%d\", fact(5));",
+      "options": [
+        "120",
+        "5",
+        "720",
+        "24"
+      ],
+      "answer": "120",
+      "explanation": "The function multiplies n by the factorial of n - 1 until it reaches the base case."
+    },
+    {
+      "externalId": "C-MEM-009",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint counter(void) {\n    static int c = 0;\n    return ++c;\n}\n\ncounter();\ncounter();\nprintf(\"%d\", counter());",
+      "options": [
+        "2",
+        "3",
+        "0",
+        "1"
+      ],
+      "answer": "3",
+      "explanation": "A static local variable keeps its value between calls, so three calls return 1, 2 and 3."
+    },
+    {
+      "externalId": "C-MEM-010",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is a memory leak?",
+      "options": [
+        "Freeing memory twice",
+        "Reading beyond the end of an array",
+        "Allocated memory that is never freed",
+        "Using an uninitialized variable"
+      ],
+      "answer": "Allocated memory that is never freed",
+      "explanation": "The memory remains reserved for the life of the program but can no longer be used."
+    },
+    {
+      "externalId": "C-MEM-011",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "Calling free() twice on the same pointer is safe.",
+      "answer": false,
+      "explanation": "A double free is undefined behaviour and can corrupt the heap."
+    },
+    {
+      "externalId": "C-MEM-012",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "In a typical implementation, where are local (automatic) variables stored?",
+      "options": [
+        "In the code segment",
+        "In the data segment",
+        "On the heap",
+        "On the stack"
+      ],
+      "answer": "On the stack",
+      "explanation": "Stack frames are created and destroyed automatically as functions are called and return."
+    },
+    {
+      "externalId": "C-MEM-013",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint *p = malloc(2 * sizeof(int));\np[0] = 7;\np = realloc(p, 4 * sizeof(int));\nprintf(\"%d\", p[0]);\nfree(p);",
+      "options": [
+        "7",
+        "0",
+        "4",
+        "Undefined"
+      ],
+      "answer": "7",
+      "explanation": "realloc resizes the block and preserves the existing contents, so the first element is still 7."
+    },
+    {
+      "externalId": "C-MEM-014",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "Memory obtained with malloc must be released with ______.",
+      "answer": [
+        "free",
+        "free()"
+      ],
+      "explanation": "free(p) returns the block to the heap."
+    },
+    {
+      "externalId": "C-MEM-015",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is wrong with returning the address of a local variable from a function?",
+      "options": [
+        "The variable becomes a global",
+        "The variable no longer exists after the function returns, so the pointer dangles",
+        "Nothing, it is a common technique",
+        "It is a syntax error"
+      ],
+      "answer": "The variable no longer exists after the function returns, so the pointer dangles",
+      "explanation": "The stack frame is gone after the return, so using the pointer is undefined behaviour."
+    },
+    {
+      "externalId": "C-MEM-016",
+      "topic": "C",
+      "subtopic": "Functions and Memory",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint add(int a, int b) {\n    return a + b;\n}\n\nint (*f)(int, int) = add;\nprintf(\"%d\", f(2, 3));",
+      "options": [
+        "Address of add",
+        "6",
+        "5",
+        "1"
+      ],
+      "answer": "5",
+      "explanation": "f is a pointer to a function taking two ints and returning an int, and calling f(2, 3) calls add."
+    },
+    {
+      "externalId": "C-STR-001",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword groups related variables of different types into one unit?",
+      "options": [
+        "group",
+        "class",
+        "array",
+        "struct"
+      ],
+      "answer": "struct",
+      "explanation": "A struct defines a custom data type with named members."
+    },
+    {
+      "externalId": "C-STR-002",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nstruct P {\n    int x;\n    int y;\n};\n\nstruct P p = {3, 4};\nprintf(\"%d\", p.x + p.y);",
+      "options": [
+        "7",
+        "3",
+        "4",
+        "34"
+      ],
+      "answer": "7",
+      "explanation": "The two members are added: 3 + 4."
+    },
+    {
+      "externalId": "C-STR-003",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nstruct P {\n    int x;\n    int y;\n};\n\nstruct P p = {3, 4};\nstruct P *q = &p;\nq->x = 10;\nprintf(\"%d\", p.x);",
+      "options": [
+        "4",
+        "10",
+        "3",
+        "Undefined"
+      ],
+      "answer": "10",
+      "explanation": "q points to p, and q->x = 10 modifies p's member x."
+    },
+    {
+      "externalId": "C-STR-004",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nenum Color { RED, GREEN, BLUE };\n\nprintf(\"%d\", BLUE);",
+      "options": [
+        "1",
+        "BLUE",
+        "2",
+        "3"
+      ],
+      "answer": "2",
+      "explanation": "Enumerators are numbered from 0 by default, so BLUE is 2."
+    },
+    {
+      "externalId": "C-STR-005",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nenum E { A = 5, B, C };\n\nprintf(\"%d\", C);",
+      "options": [
+        "2",
+        "5",
+        "6",
+        "7"
+      ],
+      "answer": "7",
+      "explanation": "A = 5, B continues from the previous value to 6, and C is 7."
+    },
+    {
+      "externalId": "C-STR-006",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is characteristic of a union in C?",
+      "options": [
+        "All members share the same memory location",
+        "Its members are always initialized to zero",
+        "It can contain functions",
+        "Each member has its own separate memory"
+      ],
+      "answer": "All members share the same memory location",
+      "explanation": "Only one member holds a meaningful value at a time, and the union's size is that of its largest member."
+    },
+    {
+      "externalId": "C-STR-007",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "On a typical system, what does this print?\n\nunion U {\n    int i;\n    char c;\n};\n\nprintf(\"%zu\", sizeof(union U));",
+      "options": [
+        "8",
+        "4",
+        "1",
+        "5"
+      ],
+      "answer": "4",
+      "explanation": "The union is as large as its largest member, the 4-byte int. The char shares the same memory."
+    },
+    {
+      "externalId": "C-STR-008",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "On a typical system where int needs 4-byte alignment, what does this print?\n\nstruct S {\n    char a;\n    int b;\n};\n\nprintf(\"%zu\", sizeof(struct S));",
+      "options": [
+        "6",
+        "5",
+        "8",
+        "4"
+      ],
+      "answer": "8",
+      "explanation": "The compiler inserts 3 bytes of padding after the char so that the int is aligned, giving a total size of 8."
+    },
+    {
+      "externalId": "C-STR-009",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Assigning one struct variable to another of the same type copies all of its members.",
+      "answer": true,
+      "explanation": "Struct assignment performs a member-by-member copy."
+    },
+    {
+      "externalId": "C-STR-010",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\ntypedef struct {\n    int v;\n} Box;\n\nBox b = {9};\nprintf(\"%d\", b.v);",
+      "options": [
+        "Compile error",
+        "0",
+        "Box",
+        "9"
+      ],
+      "answer": "9",
+      "explanation": "typedef gives the anonymous struct the name Box, so it can be used without writing struct."
+    },
+    {
+      "externalId": "C-STR-011",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "A C struct can contain member functions, as a C++ class can.",
+      "answer": false,
+      "explanation": "C structs hold only data. You can store function pointers in them, but there are no member functions."
+    },
+    {
+      "externalId": "C-STR-012",
+      "topic": "C",
+      "subtopic": "Structs, Unions and Enums",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ operator (written with two characters) accesses a struct member through a pointer to the struct.",
+      "answer": [
+        "->"
+      ],
+      "explanation": "p->x is shorthand for (*p).x."
+    },
+    {
+      "externalId": "C-MSC-001",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which part of the compiler handles lines that begin with #, such as #include and #define?",
+      "options": [
+        "The preprocessor",
+        "The loader",
+        "The linker",
+        "The debugger"
+      ],
+      "answer": "The preprocessor",
+      "explanation": "The preprocessor runs before actual compilation and performs text substitution."
+    },
+    {
+      "externalId": "C-MSC-002",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does #include <stdio.h> do?",
+      "options": [
+        "Declares main",
+        "Inserts the contents of the header into the source before compilation",
+        "Defines printf",
+        "Links the standard library at run time"
+      ],
+      "answer": "Inserts the contents of the header into the source before compilation",
+      "explanation": "The header provides declarations. The implementation lives in the C library."
+    },
+    {
+      "externalId": "C-MSC-003",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\n#define SQUARE(x) x * x\n\nprintf(\"%d\", SQUARE(2 + 3));",
+      "options": [
+        "25",
+        "10",
+        "11",
+        "5"
+      ],
+      "answer": "11",
+      "explanation": "The macro does plain text substitution: 2 + 3 * 2 + 3 = 2 + 6 + 3 = 11, not 25."
+    },
+    {
+      "externalId": "C-MSC-004",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\n#define SQ(x) ((x) * (x))\n\nprintf(\"%d\", SQ(2 + 3));",
+      "options": [
+        "11",
+        "5",
+        "10",
+        "25"
+      ],
+      "answer": "25",
+      "explanation": "Parentheses around the parameter and the whole expression make the macro behave as intended."
+    },
+    {
+      "externalId": "C-MSC-005",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\n#define MAX 10\n\nprintf(\"%d\", MAX * 2);",
+      "options": [
+        "20",
+        "10",
+        "MAX * 2",
+        "Compile error"
+      ],
+      "answer": "20",
+      "explanation": "MAX is replaced by 10 before compilation, so the expression is 10 * 2."
+    },
+    {
+      "externalId": "C-MSC-006",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A constant created with #define has a type that the compiler checks.",
+      "answer": false,
+      "explanation": "It is only text substitution done by the preprocessor. A const variable does have a type."
+    },
+    {
+      "externalId": "C-MSC-007",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%d %d %d\", !5, !0, !!7);",
+      "options": [
+        "0 1 7",
+        "0 1 1",
+        "0 0 1",
+        "1 1 1"
+      ],
+      "answer": "0 1 1",
+      "explanation": "! turns zero into 1 and any non-zero value into 0. Applying it twice (!!7) normalizes any non-zero value to 1."
+    },
+    {
+      "externalId": "C-MSC-008",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nint x = 5;\nprintf(\"%d\", x > 3 ? x < 10 ? 1 : 2 : 3);",
+      "options": [
+        "2",
+        "3",
+        "1",
+        "0"
+      ],
+      "answer": "1",
+      "explanation": "The conditional operator is right-associative and 5 > 3 is true. The inner test 5 < 10 is also true, so the result is 1."
+    },
+    {
+      "externalId": "C-MSC-009",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the static keyword do when applied to a global variable or function?",
+      "options": [
+        "Allocates it on the heap",
+        "Makes it thread-safe",
+        "Makes it constant",
+        "Limits its visibility to the current source file"
+      ],
+      "answer": "Limits its visibility to the current source file",
+      "explanation": "This is called internal linkage."
+    },
+    {
+      "externalId": "C-MSC-010",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which function is the safe way to read a line of text from standard input into a buffer?",
+      "options": [
+        "fgets",
+        "gets",
+        "scanf(\"%s\")",
+        "readline_unsafe"
+      ],
+      "answer": "fgets",
+      "explanation": "fgets takes the buffer size and will not write beyond it. gets cannot limit the input length."
+    },
+    {
+      "externalId": "C-MSC-011",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "The gets function was removed from the C11 standard because it cannot be used safely.",
+      "answer": true,
+      "explanation": "gets has no way to limit the amount of input, which makes buffer overflows unavoidable."
+    },
+    {
+      "externalId": "C-MSC-012",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does undefined behaviour mean in C?",
+      "options": [
+        "The compiler always reports an error",
+        "The standard places no requirements on what the program does",
+        "The program always crashes",
+        "The result is zero"
+      ],
+      "answer": "The standard places no requirements on what the program does",
+      "explanation": "Anything can happen, including appearing to work, which makes such bugs hard to find."
+    },
+    {
+      "externalId": "C-MSC-013",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%x\", 255);",
+      "options": [
+        "FF",
+        "255",
+        "ff",
+        "0xff"
+      ],
+      "answer": "ff",
+      "explanation": "%x prints an unsigned integer in lowercase hexadecimal."
+    },
+    {
+      "externalId": "C-MSC-014",
+      "topic": "C",
+      "subtopic": "Preprocessor and Misc",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C code print? (Assume it runs inside main, with the standard headers included.)\n\nprintf(\"%o\", 8);",
+      "options": [
+        "1000",
+        "80",
+        "8",
+        "10"
+      ],
+      "answer": "10",
+      "explanation": "%o prints in octal, and 8 in base 8 is written 10."
+    }
+  ]
+}

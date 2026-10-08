@@ -1,0 +1,1845 @@
+{
+  "dataset": {
+    "name": "Data Structures and Algorithms Fundamentals",
+    "version": "1.0",
+    "description": "Complexity, arrays, linked lists, stacks and queues, trees, graphs, hashing, sorting and searching, recursion and dynamic programming."
+  },
+  "questions": [
+    {
+      "externalId": "DSA-CPX-001",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the time complexity of reading an element from an array by its index?",
+      "options": [
+        "O(n)",
+        "O(n log n)",
+        "O(1)",
+        "O(log n)"
+      ],
+      "answer": "O(1)",
+      "explanation": "Indexing computes the memory address directly, so the cost does not depend on the array size."
+    },
+    {
+      "externalId": "DSA-CPX-002",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which notation describes an upper bound on the growth rate of an algorithm's running time?",
+      "options": [
+        "Big-Omega",
+        "Big-O",
+        "Big-Theta",
+        "Little-o of n"
+      ],
+      "answer": "Big-O",
+      "explanation": "Big-O gives an upper bound and is the notation most often used to describe worst-case cost."
+    },
+    {
+      "externalId": "DSA-CPX-003",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the time complexity of binary search on a sorted array of n elements?",
+      "options": [
+        "O(1)",
+        "O(n log n)",
+        "O(n)",
+        "O(log n)"
+      ],
+      "answer": "O(log n)",
+      "explanation": "Each step halves the remaining range, so about log2(n) steps are needed."
+    },
+    {
+      "externalId": "DSA-CPX-004",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "O(2n) and O(n) describe the same growth rate.",
+      "answer": true,
+      "explanation": "Big-O ignores constant factors, so O(2n) simplifies to O(n)."
+    },
+    {
+      "externalId": "DSA-CPX-005",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\ncount = 0\nfor i in range(4):\n    for j in range(i):\n        count += 1\nprint(count)",
+      "options": [
+        "6",
+        "4",
+        "3",
+        "10"
+      ],
+      "answer": "6",
+      "explanation": "The inner loop runs 0, 1, 2 and 3 times for i = 0 to 3, so the total is 0 + 1 + 2 + 3 = 6. This pattern is O(n^2)."
+    },
+    {
+      "externalId": "DSA-CPX-006",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nn = 16\nsteps = 0\nwhile n > 1:\n    n //= 2\n    steps += 1\nprint(steps)",
+      "options": [
+        "16",
+        "15",
+        "4",
+        "8"
+      ],
+      "answer": "4",
+      "explanation": "n is halved each time (16, 8, 4, 2, 1), which takes log2(16) = 4 steps. Halving loops are O(log n)."
+    },
+    {
+      "externalId": "DSA-CPX-007",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "A loop from 0 to n contains another loop from 0 to n. What is the overall time complexity?",
+      "options": [
+        "O(n)",
+        "O(n^2)",
+        "O(2n)",
+        "O(log n)"
+      ],
+      "answer": "O(n^2)",
+      "explanation": "The inner loop runs n times for each of the n outer iterations, giving n x n operations."
+    },
+    {
+      "externalId": "DSA-CPX-008",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Two loops that each run n times, one after the other (not nested), have an overall time complexity of:",
+      "options": [
+        "O(2^n)",
+        "O(n^2)",
+        "O(log n)",
+        "O(n)"
+      ],
+      "answer": "O(n)",
+      "explanation": "Sequential loops add up (n + n = 2n), which simplifies to O(n)."
+    },
+    {
+      "externalId": "DSA-CPX-009",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Big-O notation tells you the exact running time of a program in seconds.",
+      "answer": false,
+      "explanation": "Big-O describes how cost grows with input size, ignoring constants and hardware."
+    },
+    {
+      "externalId": "DSA-CPX-010",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which of these time complexities grows fastest as n becomes large?",
+      "options": [
+        "O(n!)",
+        "O(n log n)",
+        "O(n^2)",
+        "O(2^n)"
+      ],
+      "answer": "O(n!)",
+      "explanation": "Factorial growth outpaces exponential, which in turn outpaces polynomial growth."
+    },
+    {
+      "externalId": "DSA-CPX-011",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the time complexity of merge sort in the best, average and worst cases?",
+      "options": [
+        "O(n^2)",
+        "O(log n)",
+        "O(n log n)",
+        "O(n)"
+      ],
+      "answer": "O(n log n)",
+      "explanation": "Merge sort always splits into halves (log n levels) and merges each level in O(n)."
+    },
+    {
+      "externalId": "DSA-CPX-012",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "A recursive function calls itself n levels deep and uses constant extra memory per call. What is its space complexity?",
+      "options": [
+        "O(log n)",
+        "O(n)",
+        "O(1)",
+        "O(n^2)"
+      ],
+      "answer": "O(n)",
+      "explanation": "Each active call occupies a stack frame, so the call stack grows linearly with the depth."
+    },
+    {
+      "externalId": "DSA-CPX-013",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "Constant time is written as O(______).",
+      "answer": [
+        "1"
+      ],
+      "explanation": "O(1) means the cost does not depend on the input size."
+    },
+    {
+      "externalId": "DSA-CPX-014",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Complexity Analysis",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the amortized time complexity of appending an element to a dynamic array (such as a Python list)?",
+      "options": [
+        "O(n)",
+        "O(n^2)",
+        "O(log n)",
+        "O(1)"
+      ],
+      "answer": "O(1)",
+      "explanation": "Occasional resizing costs O(n), but spread across many appends the average cost per append is constant."
+    },
+    {
+      "externalId": "DSA-ARR-001",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the time complexity of inserting an element at the beginning of an array?",
+      "options": [
+        "O(n)",
+        "O(n^2)",
+        "O(1)",
+        "O(log n)"
+      ],
+      "answer": "O(n)",
+      "explanation": "All existing elements must be shifted one position to make room."
+    },
+    {
+      "externalId": "DSA-ARR-002",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "Elements of an array are stored in contiguous memory locations.",
+      "answer": true,
+      "explanation": "Contiguous storage is what makes index access O(1) and iteration cache-friendly."
+    },
+    {
+      "externalId": "DSA-ARR-003",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\na = [1, 2, 3, 4, 5]\ni, j = 0, len(a) - 1\nwhile i < j:\n    a[i], a[j] = a[j], a[i]\n    i += 1\n    j -= 1\nprint(a)",
+      "options": [
+        "[1, 2, 3, 4, 5]",
+        "[5, 2, 3, 4, 1]",
+        "[5, 4, 3, 2, 1]",
+        "[2, 1, 3, 5, 4]"
+      ],
+      "answer": "[5, 4, 3, 2, 1]",
+      "explanation": "Two pointers start at both ends and swap elements while moving towards the middle, reversing the array in O(n) time and O(1) extra space."
+    },
+    {
+      "externalId": "DSA-ARR-004",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\na = [2, 4, 6, 8]\np = [0]\nfor x in a:\n    p.append(p[-1] + x)\nprint(p[3] - p[1])",
+      "options": [
+        "6",
+        "10",
+        "20",
+        "12"
+      ],
+      "answer": "10",
+      "explanation": "The prefix array is [0, 2, 6, 12, 20]. p[3] - p[1] = 12 - 2 is the sum of a[1] and a[2], that is 4 + 6."
+    },
+    {
+      "externalId": "DSA-ARR-005",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\na = [1, 3, 2, 6, -1]\nbest = max(a[i] + a[i + 1] for i in range(len(a) - 1))\nprint(best)",
+      "options": [
+        "7",
+        "5",
+        "9",
+        "8"
+      ],
+      "answer": "8",
+      "explanation": "The code finds the largest sum of two adjacent elements, which is 2 + 6 = 8. This is a sliding window of size 2."
+    },
+    {
+      "externalId": "DSA-ARR-006",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which technique efficiently finds two numbers that add up to a target in a sorted array in O(n) time?",
+      "options": [
+        "Two pointers",
+        "Bubble sort",
+        "Recursion with memoization",
+        "Binary tree traversal"
+      ],
+      "answer": "Two pointers",
+      "explanation": "One pointer starts at each end. If the sum is too small move the left one up, if too large move the right one down."
+    },
+    {
+      "externalId": "DSA-ARR-007",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\na = [-2, 1, -3, 4, -1, 2, 1, -5, 4]\nbest = cur = a[0]\nfor x in a[1:]:\n    cur = max(x, cur + x)\n    best = max(best, cur)\nprint(best)",
+      "options": [
+        "5",
+        "9",
+        "6",
+        "7"
+      ],
+      "answer": "6",
+      "explanation": "This is Kadane's algorithm for the maximum subarray sum. The best subarray is [4, -1, 2, 1], which sums to 6."
+    },
+    {
+      "externalId": "DSA-ARR-008",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Searching for a value in an unsorted array takes O(log n) time in the worst case.",
+      "answer": false,
+      "explanation": "Without order you may have to check every element, which is O(n). Only sorted data allows binary search."
+    },
+    {
+      "externalId": "DSA-ARR-009",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\na = [1, 2, 3, 4, 5]\nk = 2\nprint(a[-k:] + a[:-k])",
+      "options": [
+        "[5, 1, 2, 3, 4]",
+        "[4, 5, 1, 2, 3]",
+        "[3, 4, 5, 1, 2]",
+        "[2, 3, 4, 5, 1]"
+      ],
+      "answer": "[4, 5, 1, 2, 3]",
+      "explanation": "Slicing takes the last k elements and puts them in front of the rest, which rotates the array to the right by k."
+    },
+    {
+      "externalId": "DSA-ARR-010",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\ns = \"racecar\"\nprint(s == s[::-1])",
+      "options": [
+        "racecar",
+        "None",
+        "False",
+        "True"
+      ],
+      "answer": "True",
+      "explanation": "A palindrome reads the same forwards and backwards, so the string equals its reverse."
+    },
+    {
+      "externalId": "DSA-ARR-011",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nnums = [2, 7, 11, 15]\ntarget = 9\nseen = {}\nfor i, x in enumerate(nums):\n    if target - x in seen:\n        print(seen[target - x], i)\n        break\n    seen[x] = i",
+      "options": [
+        "0 1",
+        "2 3",
+        "0 2",
+        "1 2"
+      ],
+      "answer": "0 1",
+      "explanation": "The hash map stores each number's index as it goes. At index 1 (value 7), the needed complement 2 is already in the map at index 0. This solves two-sum in O(n)."
+    },
+    {
+      "externalId": "DSA-ARR-012",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The technique that moves two indices through an array, often from opposite ends, is called the two-______ technique.",
+      "answer": [
+        "pointer",
+        "pointers"
+      ],
+      "explanation": "Two pointers reduce many O(n^2) searches to O(n)."
+    },
+    {
+      "externalId": "DSA-ARR-013",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\nfrom collections import Counter\nprint(Counter(\"listen\") == Counter(\"silent\"))",
+      "options": [
+        "6",
+        "listen",
+        "True",
+        "False"
+      ],
+      "answer": "True",
+      "explanation": "Two strings are anagrams if they contain the same characters with the same counts, and Counter compares exactly that."
+    },
+    {
+      "externalId": "DSA-ARR-014",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Arrays and Strings",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the time complexity of finding the maximum value in an unsorted array of n elements?",
+      "options": [
+        "O(n log n)",
+        "O(n)",
+        "O(log n)",
+        "O(1)"
+      ],
+      "answer": "O(n)",
+      "explanation": "Every element must be inspected at least once."
+    },
+    {
+      "externalId": "DSA-LNK-001",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does each node of a singly linked list contain?",
+      "options": [
+        "A value and references to its parent and children",
+        "A value and an index",
+        "Only a value",
+        "A value and a reference to the next node"
+      ],
+      "answer": "A value and a reference to the next node",
+      "explanation": "Nodes are chained together by their next pointers."
+    },
+    {
+      "externalId": "DSA-LNK-002",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the time complexity of inserting a node at the head of a linked list?",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(log n)",
+        "O(n^2)"
+      ],
+      "answer": "O(1)",
+      "explanation": "Only the new node's next pointer and the head reference need to change."
+    },
+    {
+      "externalId": "DSA-LNK-003",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the time complexity of accessing the k-th element of a singly linked list?",
+      "options": [
+        "O(k log n)",
+        "O(log n)",
+        "O(n)",
+        "O(1)"
+      ],
+      "answer": "O(n)",
+      "explanation": "There is no direct indexing, so you must walk from the head node by node."
+    },
+    {
+      "externalId": "DSA-LNK-004",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "A doubly linked list node stores references to both the next and the previous node.",
+      "answer": true,
+      "explanation": "That allows traversal in both directions at the cost of extra memory per node."
+    },
+    {
+      "externalId": "DSA-LNK-005",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, next=None):\n        self.val = val\n        self.next = next\n\nhead = Node(1, Node(2, Node(3)))\nprev = None\ncur = head\nwhile cur:\n    nxt = cur.next\n    cur.next = prev\n    prev = cur\n    cur = nxt\nvals = []\nwhile prev:\n    vals.append(prev.val)\n    prev = prev.next\nprint(vals)",
+      "options": [
+        "[1, 2, 3]",
+        "[3, 2, 1]",
+        "[2, 1, 3]",
+        "[1]"
+      ],
+      "answer": "[3, 2, 1]",
+      "explanation": "The loop reverses each next pointer in turn. After it finishes, prev points to the old tail, which is the new head."
+    },
+    {
+      "externalId": "DSA-LNK-006",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, next=None):\n        self.val = val\n        self.next = next\n\nhead = Node(1, Node(2, Node(3, Node(4, Node(5)))))\nslow = fast = head\nwhile fast and fast.next:\n    slow = slow.next\n    fast = fast.next.next\nprint(slow.val)",
+      "options": [
+        "2",
+        "5",
+        "4",
+        "3"
+      ],
+      "answer": "3",
+      "explanation": "The fast pointer moves two steps for every one step of the slow pointer. When fast reaches the end, slow is at the middle."
+    },
+    {
+      "externalId": "DSA-LNK-007",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which algorithm detects a cycle in a linked list using O(1) extra space?",
+      "options": [
+        "Floyd's tortoise and hare",
+        "Binary search",
+        "Kruskal's algorithm",
+        "Dijkstra's algorithm"
+      ],
+      "answer": "Floyd's tortoise and hare",
+      "explanation": "A slow and a fast pointer will eventually meet if the list contains a cycle."
+    },
+    {
+      "externalId": "DSA-LNK-008",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, next=None):\n        self.val = val\n        self.next = next\n\na = Node(1)\nb = Node(2)\nc = Node(3)\na.next, b.next, c.next = b, c, a\nslow = fast = a\nfound = False\nwhile fast and fast.next:\n    slow = slow.next\n    fast = fast.next.next\n    if slow is fast:\n        found = True\n        break\nprint(found)",
+      "options": [
+        "False",
+        "None",
+        "True",
+        "Error"
+      ],
+      "answer": "True",
+      "explanation": "The tail's next points back to the head, so the fast pointer eventually catches up with the slow pointer."
+    },
+    {
+      "externalId": "DSA-LNK-009",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the main advantage of a linked list over an array?",
+      "options": [
+        "Lower memory use per element",
+        "Constant-time insertion or removal when the position is already known",
+        "Better cache locality",
+        "Faster random access by index"
+      ],
+      "answer": "Constant-time insertion or removal when the position is already known",
+      "explanation": "No elements have to be shifted. Arrays are better at random access and cache locality."
+    },
+    {
+      "externalId": "DSA-LNK-010",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, next=None):\n        self.val = val\n        self.next = next\n\nhead = Node(1, Node(2, Node(3, Node(4))))\ncur = head\nwhile cur.next:\n    if cur.next.val == 3:\n        cur.next = cur.next.next\n    else:\n        cur = cur.next\nout = []\ncur = head\nwhile cur:\n    out.append(cur.val)\n    cur = cur.next\nprint(out)",
+      "options": [
+        "[2, 4]",
+        "[1, 2, 3, 4]",
+        "[1, 3, 4]",
+        "[1, 2, 4]"
+      ],
+      "answer": "[1, 2, 4]",
+      "explanation": "Skipping the node with value 3 by pointing 2.next at 4 removes it from the list."
+    },
+    {
+      "externalId": "DSA-LNK-011",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Binary search runs in O(log n) on a sorted singly linked list.",
+      "answer": false,
+      "explanation": "Reaching the middle node already costs O(n), so binary search offers no benefit on a singly linked list."
+    },
+    {
+      "externalId": "DSA-LNK-012",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Linked Lists",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "In a linked list, the first node is called the ______.",
+      "answer": [
+        "head"
+      ],
+      "explanation": "The head reference is the entry point to the whole list."
+    },
+    {
+      "externalId": "DSA-STK-001",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which principle does a stack follow?",
+      "options": [
+        "LIFO (last in, first out)",
+        "FIFO (first in, first out)",
+        "Priority order",
+        "Random access"
+      ],
+      "answer": "LIFO (last in, first out)",
+      "explanation": "The most recently pushed item is the first one popped."
+    },
+    {
+      "externalId": "DSA-STK-002",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which principle does a queue follow?",
+      "options": [
+        "Random order",
+        "Sorted order",
+        "FIFO (first in, first out)",
+        "LIFO (last in, first out)"
+      ],
+      "answer": "FIFO (first in, first out)",
+      "explanation": "Items leave the queue in the order in which they arrived."
+    },
+    {
+      "externalId": "DSA-STK-003",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following code print?\n\nstack = []\nstack.append(1)\nstack.append(2)\nstack.append(3)\nprint(stack.pop())",
+      "options": [
+        "1",
+        "3",
+        "2",
+        "[1, 2, 3]"
+      ],
+      "answer": "3",
+      "explanation": "append pushes onto the end and pop() removes the most recent element, so the last value pushed (3) is returned."
+    },
+    {
+      "externalId": "DSA-STK-004",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following code print?\n\nfrom collections import deque\nq = deque()\nq.append(1)\nq.append(2)\nq.append(3)\nprint(q.popleft())",
+      "options": [
+        "3",
+        "2",
+        "[2, 3]",
+        "1"
+      ],
+      "answer": "1",
+      "explanation": "A deque used as a queue removes from the left, so the first value added is the first one out."
+    },
+    {
+      "externalId": "DSA-STK-005",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\ndef balanced(s):\n    stack = []\n    pairs = {\")\": \"(\", \"]\": \"[\"}\n    for ch in s:\n        if ch in \"([\":\n            stack.append(ch)\n        elif not stack or stack.pop() != pairs[ch]:\n            return False\n    return not stack\n\nprint(balanced(\"([])\"), balanced(\"([)]\"))",
+      "options": [
+        "True False",
+        "True True",
+        "False False",
+        "False True"
+      ],
+      "answer": "True False",
+      "explanation": "A stack matches each closing bracket to the most recent unmatched opening bracket. \"([)]\" closes in the wrong order, so it is invalid."
+    },
+    {
+      "externalId": "DSA-STK-006",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\ntokens = [\"5\", \"4\", \"+\"]\nstack = []\nfor t in tokens:\n    if t == \"+\":\n        b, a = stack.pop(), stack.pop()\n        stack.append(a + b)\n    else:\n        stack.append(int(t))\nprint(stack[0])",
+      "options": [
+        "14",
+        "5",
+        "9",
+        "20"
+      ],
+      "answer": "9",
+      "explanation": "The tokens are processed left to right. 5 and 4 are pushed, then + pops both and pushes their sum, so the stack ends up holding 9."
+    },
+    {
+      "externalId": "DSA-STK-007",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nimport heapq\nh = []\nfor x in [5, 1, 2]:\n    heapq.heappush(h, x)\nprint([heapq.heappop(h) for _ in range(3)])",
+      "options": [
+        "[5, 2, 1]",
+        "[1, 2, 5]",
+        "[1, 5, 2]",
+        "[2, 1, 5]"
+      ],
+      "answer": "[1, 2, 5]",
+      "explanation": "heapq implements a min-heap, so repeatedly popping returns the elements in ascending order."
+    },
+    {
+      "externalId": "DSA-STK-008",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which data structure is typically used to implement the undo feature of an editor?",
+      "options": [
+        "Binary search tree",
+        "Queue",
+        "Hash table",
+        "Stack"
+      ],
+      "answer": "Stack",
+      "explanation": "The latest action must be undone first, which is last-in, first-out behaviour."
+    },
+    {
+      "externalId": "DSA-STK-009",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which data structure does breadth-first search use to hold the nodes it still has to visit?",
+      "options": [
+        "Queue",
+        "Heap",
+        "Stack",
+        "Hash set"
+      ],
+      "answer": "Queue",
+      "explanation": "BFS visits nodes level by level, so it needs first-in, first-out order."
+    },
+    {
+      "externalId": "DSA-STK-010",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Removing the front element of a standard Python list with pop(0) takes O(1) time.",
+      "answer": false,
+      "explanation": "All the remaining elements shift one place left, so pop(0) is O(n). Use collections.deque for O(1) removal at the front."
+    },
+    {
+      "externalId": "DSA-STK-011",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is a stack overflow in the context of recursion?",
+      "options": [
+        "A stack grows beyond its minimum size",
+        "Two stacks are merged",
+        "The call stack runs out of space because of too-deep recursion",
+        "A queue becomes empty"
+      ],
+      "answer": "The call stack runs out of space because of too-deep recursion",
+      "explanation": "Each call uses a stack frame, and unbounded or very deep recursion exhausts the available call stack."
+    },
+    {
+      "externalId": "DSA-STK-012",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\nfrom collections import deque\nq = deque([1, 2, 3, 4])\nkept = []\nwhile q:\n    x = q.popleft()\n    if x % 2 == 0:\n        kept.append(x)\nprint(kept)",
+      "options": [
+        "[2, 3]",
+        "[2, 4]",
+        "[1, 2, 3, 4]",
+        "[3, 4]"
+      ],
+      "answer": "[2, 4]",
+      "explanation": "A queue-based filter keeps only the even numbers in their original order."
+    },
+    {
+      "externalId": "DSA-STK-013",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the time complexity of inserting into a binary heap with n elements?",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(n log n)",
+        "O(log n)"
+      ],
+      "answer": "O(log n)",
+      "explanation": "The new element is added at the end and sifted up along a path whose length is the tree height, log n."
+    },
+    {
+      "externalId": "DSA-STK-014",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Stacks and Queues",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The operation that removes the top element of a stack is called ______.",
+      "answer": [
+        "pop"
+      ],
+      "explanation": "push adds an element and pop removes the top one."
+    },
+    {
+      "externalId": "DSA-TRE-001",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is a node with no children called in a tree?",
+      "options": [
+        "Leaf",
+        "Branch",
+        "Parent",
+        "Root"
+      ],
+      "answer": "Leaf",
+      "explanation": "Leaves are the nodes at the bottom of the tree."
+    },
+    {
+      "externalId": "DSA-TRE-002",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which property defines a binary search tree (BST)?",
+      "options": [
+        "Each node's value is larger than its children's",
+        "Every node has exactly two children",
+        "Left subtree values are smaller and right subtree values are larger than the node",
+        "All leaves are at the same depth"
+      ],
+      "answer": "Left subtree values are smaller and right subtree values are larger than the node",
+      "explanation": "This ordering makes search, insert and delete efficient."
+    },
+    {
+      "externalId": "DSA-TRE-003",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which traversal of a binary search tree visits the values in sorted ascending order?",
+      "options": [
+        "Postorder",
+        "Inorder",
+        "Level order",
+        "Preorder"
+      ],
+      "answer": "Inorder",
+      "explanation": "Inorder visits left subtree, node, then right subtree, which yields ascending order for a BST."
+    },
+    {
+      "externalId": "DSA-TRE-004",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nroot = Node(4, Node(2, Node(1), Node(3)), Node(6, Node(5), Node(7)))\ndef inorder(n):\n    return inorder(n.left) + [n.val] + inorder(n.right) if n else []\n\nprint(inorder(root))",
+      "options": [
+        "[1, 3, 2, 5, 7, 6, 4]",
+        "[4, 2, 6, 1, 3, 5, 7]",
+        "[4, 2, 1, 3, 6, 5, 7]",
+        "[1, 2, 3, 4, 5, 6, 7]"
+      ],
+      "answer": "[1, 2, 3, 4, 5, 6, 7]",
+      "explanation": "Inorder traversal (left, node, right) of a BST lists the values in ascending order."
+    },
+    {
+      "externalId": "DSA-TRE-005",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nroot = Node(4, Node(2, Node(1), Node(3)), Node(6, Node(5), Node(7)))\ndef preorder(n):\n    return [n.val] + preorder(n.left) + preorder(n.right) if n else []\n\nprint(preorder(root))",
+      "options": [
+        "[4, 2, 1, 3, 6, 5, 7]",
+        "[4, 2, 6, 1, 3, 5, 7]",
+        "[1, 3, 2, 5, 7, 6, 4]",
+        "[1, 2, 3, 4, 5, 6, 7]"
+      ],
+      "answer": "[4, 2, 1, 3, 6, 5, 7]",
+      "explanation": "Preorder visits the node first, then the left subtree, then the right subtree."
+    },
+    {
+      "externalId": "DSA-TRE-006",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nroot = Node(4, Node(2, Node(1), Node(3)), Node(6, Node(5), Node(7)))\ndef postorder(n):\n    return postorder(n.left) + postorder(n.right) + [n.val] if n else []\n\nprint(postorder(root))",
+      "options": [
+        "[1, 2, 3, 4, 5, 6, 7]",
+        "[4, 2, 1, 3, 6, 5, 7]",
+        "[1, 3, 2, 5, 7, 6, 4]",
+        "[4, 6, 7, 5, 2, 3, 1]"
+      ],
+      "answer": "[1, 3, 2, 5, 7, 6, 4]",
+      "explanation": "Postorder visits both subtrees before the node, so the root comes last."
+    },
+    {
+      "externalId": "DSA-TRE-007",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nroot = Node(4, Node(2, Node(1), Node(3)), Node(6, Node(5), Node(7)))\nfrom collections import deque\nout = []\nq = deque([root])\nwhile q:\n    n = q.popleft()\n    out.append(n.val)\n    if n.left: q.append(n.left)\n    if n.right: q.append(n.right)\nprint(out)",
+      "options": [
+        "[1, 2, 3, 4, 5, 6, 7]",
+        "[4, 2, 6, 1, 3, 5, 7]",
+        "[7, 6, 5, 4, 3, 2, 1]",
+        "[4, 2, 1, 3, 6, 5, 7]"
+      ],
+      "answer": "[4, 2, 6, 1, 3, 5, 7]",
+      "explanation": "Level-order traversal uses a queue and visits the tree one level at a time, from top to bottom."
+    },
+    {
+      "externalId": "DSA-TRE-008",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nroot = Node(4, Node(2, Node(1), Node(3)), Node(6, Node(5), Node(7)))\ndef height(n):\n    return 0 if n is None else 1 + max(height(n.left), height(n.right))\n\nprint(height(root))",
+      "options": [
+        "2",
+        "7",
+        "4",
+        "3"
+      ],
+      "answer": "3",
+      "explanation": "The height here is counted in levels: the root level, then 2 and 6, then the leaves, so there are 3 levels."
+    },
+    {
+      "externalId": "DSA-TRE-009",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the worst-case time complexity of searching in an unbalanced binary search tree with n nodes?",
+      "options": [
+        "O(n)",
+        "O(1)",
+        "O(log n)",
+        "O(n log n)"
+      ],
+      "answer": "O(n)",
+      "explanation": "If nodes were inserted in sorted order, the tree degenerates into a linked list."
+    },
+    {
+      "externalId": "DSA-TRE-010",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the average time complexity of search in a balanced binary search tree?",
+      "options": [
+        "O(n^2)",
+        "O(1)",
+        "O(log n)",
+        "O(n)"
+      ],
+      "answer": "O(log n)",
+      "explanation": "A balanced tree has height about log n and each step discards half of the remaining nodes."
+    },
+    {
+      "externalId": "DSA-TRE-011",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the maximum number of nodes in a binary tree of height h, where a single node has height 1?",
+      "options": [
+        "2^h",
+        "2^h - 1",
+        "h^2",
+        "2h"
+      ],
+      "answer": "2^h - 1",
+      "explanation": "Each level doubles the node count (1, 2, 4, ...), and the sum of the first h levels is 2^h - 1."
+    },
+    {
+      "externalId": "DSA-TRE-012",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which self-balancing binary search tree keeps the height difference of subtrees at most 1?",
+      "options": [
+        "Trie",
+        "B-tree of order 1",
+        "Heap",
+        "AVL tree"
+      ],
+      "answer": "AVL tree",
+      "explanation": "AVL trees rotate after insertions and deletions to keep every node's balance factor within -1, 0 or 1."
+    },
+    {
+      "externalId": "DSA-TRE-013",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A binary heap is always a complete binary tree.",
+      "answer": true,
+      "explanation": "Heaps fill every level left to right, which is why they can be stored compactly in an array."
+    },
+    {
+      "externalId": "DSA-TRE-014",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "In a min-heap, a parent node is always greater than or equal to its children.",
+      "answer": false,
+      "explanation": "In a min-heap the parent is less than or equal to its children, so the smallest element sits at the root."
+    },
+    {
+      "externalId": "DSA-TRE-015",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which data structure is best suited for efficient prefix searches such as autocomplete?",
+      "options": [
+        "Trie",
+        "Binary heap",
+        "Stack",
+        "Doubly linked list"
+      ],
+      "answer": "Trie",
+      "explanation": "A trie stores strings character by character along paths, so all words sharing a prefix share a path."
+    },
+    {
+      "externalId": "DSA-TRE-016",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Trees",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\nclass Node:\n    def __init__(self, val, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef insert(n, v):\n    if n is None:\n        return Node(v)\n    if v < n.val:\n        n.left = insert(n.left, v)\n    else:\n        n.right = insert(n.right, v)\n    return n\n\nroot = None\nfor v in [3, 1, 4, 2, 5]:\n    root = insert(root, v)\n\ndef inorder(n):\n    return inorder(n.left) + [n.val] + inorder(n.right) if n else []\n\nprint(inorder(root))",
+      "options": [
+        "[3, 1, 2, 4, 5]",
+        "[1, 3, 2, 5, 4]",
+        "[1, 2, 3, 4, 5]",
+        "[5, 4, 3, 2, 1]"
+      ],
+      "answer": "[1, 2, 3, 4, 5]",
+      "explanation": "Inserting values into a BST and then reading it inorder always gives them sorted, whatever the insertion order."
+    },
+    {
+      "externalId": "DSA-GRA-001",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which representation stores, for each vertex, a list of its neighbours?",
+      "options": [
+        "Adjacency matrix",
+        "Adjacency list",
+        "Parent array",
+        "Edge heap"
+      ],
+      "answer": "Adjacency list",
+      "explanation": "Adjacency lists use space proportional to V + E, which suits sparse graphs."
+    },
+    {
+      "externalId": "DSA-GRA-002",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the space complexity of an adjacency matrix for a graph with V vertices?",
+      "options": [
+        "O(V + E)",
+        "O(E)",
+        "O(V)",
+        "O(V^2)"
+      ],
+      "answer": "O(V^2)",
+      "explanation": "The matrix has one cell for every pair of vertices."
+    },
+    {
+      "externalId": "DSA-GRA-003",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\ngraph = {\n    \"A\": [\"B\", \"C\"],\n    \"B\": [\"D\"],\n    \"C\": [\"D\", \"E\"],\n    \"D\": [\"F\"],\n    \"E\": [\"F\"],\n    \"F\": []\n}\n\nfrom collections import deque\nseen, order, q = {\"A\"}, [], deque([\"A\"])\nwhile q:\n    n = q.popleft()\n    order.append(n)\n    for m in graph[n]:\n        if m not in seen:\n            seen.add(m)\n            q.append(m)\nprint(order)",
+      "options": [
+        "['A', 'B', 'C', 'D', 'E', 'F']",
+        "['A', 'B', 'D', 'F', 'C', 'E']",
+        "['A', 'C', 'B', 'E', 'D', 'F']",
+        "['F', 'E', 'D', 'C', 'B', 'A']"
+      ],
+      "answer": "['A', 'B', 'C', 'D', 'E', 'F']",
+      "explanation": "BFS visits nodes level by level using a queue: A, then its neighbours B and C, then D and E, and finally F."
+    },
+    {
+      "externalId": "DSA-GRA-004",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\ngraph = {\n    \"A\": [\"B\", \"C\"],\n    \"B\": [\"D\"],\n    \"C\": [\"D\", \"E\"],\n    \"D\": [\"F\"],\n    \"E\": [\"F\"],\n    \"F\": []\n}\n\norder = []\ndef dfs(n, seen):\n    seen.add(n)\n    order.append(n)\n    for m in graph[n]:\n        if m not in seen:\n            dfs(m, seen)\n\ndfs(\"A\", set())\nprint(order)",
+      "options": [
+        "['A', 'C', 'E', 'F', 'D', 'B']",
+        "['A', 'B', 'D', 'C', 'F', 'E']",
+        "['A', 'B', 'D', 'F', 'C', 'E']",
+        "['A', 'B', 'C', 'D', 'E', 'F']"
+      ],
+      "answer": "['A', 'B', 'D', 'F', 'C', 'E']",
+      "explanation": "DFS goes as deep as possible first: A, B, D, F. It then backtracks to A's other neighbour C and visits E."
+    },
+    {
+      "externalId": "DSA-GRA-005",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the time complexity of BFS or DFS on a graph stored as an adjacency list with V vertices and E edges?",
+      "options": [
+        "O(E log V)",
+        "O(V + E)",
+        "O(V * E)",
+        "O(V^2)"
+      ],
+      "answer": "O(V + E)",
+      "explanation": "Every vertex and every edge is processed a constant number of times."
+    },
+    {
+      "externalId": "DSA-GRA-006",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which algorithm finds the shortest path by number of edges in an unweighted graph?",
+      "options": [
+        "Binary search",
+        "Merge sort",
+        "Depth-first search",
+        "Breadth-first search"
+      ],
+      "answer": "Breadth-first search",
+      "explanation": "BFS explores nodes in order of their distance from the start, so the first time it reaches a node is along a shortest path."
+    },
+    {
+      "externalId": "DSA-GRA-007",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Dijkstra's algorithm requires which condition on the edge weights?",
+      "options": [
+        "They must be non-negative",
+        "They must be integers",
+        "They must be sorted",
+        "They must all be equal"
+      ],
+      "answer": "They must be non-negative",
+      "explanation": "Negative edges can invalidate the greedy choice that Dijkstra's algorithm relies on. Bellman-Ford handles negative edges."
+    },
+    {
+      "externalId": "DSA-GRA-008",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\ngraph = {\n    \"A\": [\"B\", \"C\"],\n    \"B\": [\"D\"],\n    \"C\": [\"D\", \"E\"],\n    \"D\": [\"F\"],\n    \"E\": [\"F\"],\n    \"F\": []\n}\n\nseen, post = set(), []\ndef dfs(n):\n    seen.add(n)\n    for m in reversed(graph[n]):\n        if m not in seen:\n            dfs(m)\n    post.append(n)\n\nfor v in [\"A\", \"B\", \"C\", \"D\", \"E\", \"F\"]:\n    if v not in seen:\n        dfs(v)\nprint(post[::-1])",
+      "options": [
+        "['F', 'E', 'D', 'C', 'B', 'A']",
+        "['A', 'B', 'D', 'C', 'E', 'F']",
+        "['A', 'B', 'C', 'D', 'E', 'F']",
+        "['A', 'C', 'E', 'B', 'D', 'F']"
+      ],
+      "answer": "['A', 'B', 'C', 'D', 'E', 'F']",
+      "explanation": "Reversing the DFS post-order gives a topological order in which every vertex comes before the vertices it points to. This graph has several valid orders, and this particular code produces A, B, C, D, E, F."
+    },
+    {
+      "externalId": "DSA-GRA-009",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A topological ordering exists for every directed graph.",
+      "answer": false,
+      "explanation": "Topological sorting is only possible for directed acyclic graphs (DAGs). A cycle makes it impossible."
+    },
+    {
+      "externalId": "DSA-GRA-010",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\nadj = {0: [1], 1: [0, 2], 2: [1], 3: [4], 4: [3], 5: []}\nseen = set()\ncount = 0\ndef dfs(n):\n    seen.add(n)\n    for m in adj[n]:\n        if m not in seen:\n            dfs(m)\nfor v in adj:\n    if v not in seen:\n        dfs(v)\n        count += 1\nprint(count)",
+      "options": [
+        "2",
+        "3",
+        "5",
+        "4"
+      ],
+      "answer": "3",
+      "explanation": "The graph has three connected components: {0, 1, 2}, {3, 4} and {5}. DFS started from each unvisited vertex finds one component each."
+    },
+    {
+      "externalId": "DSA-GRA-011",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which data structure does Dijkstra's algorithm typically use to pick the next closest vertex efficiently?",
+      "options": [
+        "Hash set",
+        "Stack",
+        "Plain queue",
+        "Priority queue (min-heap)"
+      ],
+      "answer": "Priority queue (min-heap)",
+      "explanation": "A min-heap returns the vertex with the smallest tentative distance in O(log V) time."
+    },
+    {
+      "externalId": "DSA-GRA-012",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Graphs",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "A connected graph with no cycles is called a ______.",
+      "answer": [
+        "tree"
+      ],
+      "explanation": "A tree with n vertices has exactly n - 1 edges."
+    },
+    {
+      "externalId": "DSA-HSH-001",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the average time complexity of lookup in a hash table?",
+      "options": [
+        "O(1)",
+        "O(log n)",
+        "O(n log n)",
+        "O(n)"
+      ],
+      "answer": "O(1)",
+      "explanation": "A good hash function spreads keys evenly, so on average a lookup touches only a few entries."
+    },
+    {
+      "externalId": "DSA-HSH-002",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is a hash collision?",
+      "options": [
+        "The table becoming full of NULLs",
+        "A hash function throwing an error",
+        "Two different keys mapping to the same bucket",
+        "A key not being found"
+      ],
+      "answer": "Two different keys mapping to the same bucket",
+      "explanation": "Collisions are unavoidable in general, so hash tables need a strategy to handle them."
+    },
+    {
+      "externalId": "DSA-HSH-003",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which of these is a common collision resolution technique?",
+      "options": [
+        "Bubble sorting",
+        "Chaining",
+        "Path compression",
+        "Rotation"
+      ],
+      "answer": "Chaining",
+      "explanation": "With chaining, each bucket holds a list of all entries that hash to it. Open addressing is the other main approach."
+    },
+    {
+      "externalId": "DSA-HSH-004",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the worst-case time complexity of a hash table lookup when all keys collide?",
+      "options": [
+        "O(n^2)",
+        "O(log n)",
+        "O(1)",
+        "O(n)"
+      ],
+      "answer": "O(n)",
+      "explanation": "If every key lands in the same bucket, the table degenerates into a list that must be scanned."
+    },
+    {
+      "externalId": "DSA-HSH-005",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\ncounts = {}\nfor ch in \"abac\":\n    counts[ch] = counts.get(ch, 0) + 1\nprint(counts)",
+      "options": [
+        "{'a': 2, 'b': 1, 'c': 1}",
+        "{'a': 1, 'b': 1, 'c': 1}",
+        "['a', 'b', 'c']",
+        "{'a': 3, 'b': 1}"
+      ],
+      "answer": "{'a': 2, 'b': 1, 'c': 1}",
+      "explanation": "The dictionary counts how many times each character appears. This frequency count takes O(n) time."
+    },
+    {
+      "externalId": "DSA-HSH-006",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the load factor of a hash table measure?",
+      "options": [
+        "The time per lookup",
+        "The size of each key",
+        "The ratio of stored entries to the number of buckets",
+        "The number of collisions so far"
+      ],
+      "answer": "The ratio of stored entries to the number of buckets",
+      "explanation": "When the load factor grows too high, the table is resized to keep operations fast."
+    },
+    {
+      "externalId": "DSA-HSH-007",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Keys of a hash table must be hashable, meaning their hash value must not change while they are in the table.",
+      "answer": true,
+      "explanation": "That is why Python allows tuples as dictionary keys but not lists."
+    },
+    {
+      "externalId": "DSA-HSH-008",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\ns = set([3, 1, 4, 1, 5])\nprint(4 in s)",
+      "options": [
+        "3",
+        "True",
+        "None",
+        "False"
+      ],
+      "answer": "True",
+      "explanation": "A set stores unique elements with hash-based membership, so the lookup is O(1) on average."
+    },
+    {
+      "externalId": "DSA-HSH-009",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "A good hash function should have which property?",
+      "options": [
+        "It always returns 0",
+        "It encrypts the keys",
+        "It sorts the keys",
+        "It distributes keys uniformly across buckets"
+      ],
+      "answer": "It distributes keys uniformly across buckets",
+      "explanation": "Uniform distribution minimizes collisions, which keeps the average cost constant."
+    },
+    {
+      "externalId": "DSA-HSH-010",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Hashing",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "A hash table keeps its keys in sorted order.",
+      "answer": false,
+      "explanation": "Hash tables give no ordering guarantee. Use a balanced tree (such as a TreeMap) if you need sorted keys."
+    },
+    {
+      "externalId": "DSA-SRT-001",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the worst-case time complexity of bubble sort?",
+      "options": [
+        "O(n^2)",
+        "O(log n)",
+        "O(n log n)",
+        "O(n)"
+      ],
+      "answer": "O(n^2)",
+      "explanation": "Bubble sort repeatedly compares adjacent pairs, requiring about n passes over n elements."
+    },
+    {
+      "externalId": "DSA-SRT-002",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\na = [3, 2, 5, 1, 6]\nfor i in range(len(a) - 1):\n    if a[i] > a[i + 1]:\n        a[i], a[i + 1] = a[i + 1], a[i]\nprint(a)",
+      "options": [
+        "[3, 2, 5, 1, 6]",
+        "[1, 2, 3, 5, 6]",
+        "[2, 3, 1, 5, 6]",
+        "[2, 3, 5, 1, 6]"
+      ],
+      "answer": "[2, 3, 1, 5, 6]",
+      "explanation": "One pass of bubble sort swaps adjacent out-of-order pairs and carries the largest element to the end, but the list is not fully sorted yet."
+    },
+    {
+      "externalId": "DSA-SRT-003",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\na = [5, 1, 9, 4]\nm = min(range(len(a)), key=lambda i: a[i])\na[0], a[m] = a[m], a[0]\nprint(a)",
+      "options": [
+        "[1, 4, 5, 9]",
+        "[1, 5, 9, 4]",
+        "[5, 1, 9, 4]",
+        "[9, 5, 4, 1]"
+      ],
+      "answer": "[1, 5, 9, 4]",
+      "explanation": "Selection sort finds the minimum of the unsorted part and swaps it into the first position. After the first step, the smallest value (1) is in place."
+    },
+    {
+      "externalId": "DSA-SRT-004",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which sorting algorithm has O(n^2) worst-case time but performs very well on nearly sorted data?",
+      "options": [
+        "Heap sort",
+        "Merge sort",
+        "Counting sort",
+        "Insertion sort"
+      ],
+      "answer": "Insertion sort",
+      "explanation": "On nearly sorted input insertion sort needs very few shifts, approaching O(n)."
+    },
+    {
+      "externalId": "DSA-SRT-005",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the worst-case time complexity of quicksort?",
+      "options": [
+        "O(n^2)",
+        "O(n)",
+        "O(n log n)",
+        "O(log n)"
+      ],
+      "answer": "O(n^2)",
+      "explanation": "With consistently bad pivot choices (for example on already sorted data with a naive pivot) the partitions are very unbalanced."
+    },
+    {
+      "externalId": "DSA-SRT-006",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "A sorting algorithm is called stable when:",
+      "options": [
+        "It never uses extra memory",
+        "It always takes the same time",
+        "Equal elements keep their original relative order",
+        "It sorts in place"
+      ],
+      "answer": "Equal elements keep their original relative order",
+      "explanation": "Stability matters when sorting records by several keys in turn."
+    },
+    {
+      "externalId": "DSA-SRT-007",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\na = [1, 4, 7, 9, 12]\nlo, hi, target = 0, len(a) - 1, 7\nans = -1\nwhile lo <= hi:\n    mid = (lo + hi) // 2\n    if a[mid] == target:\n        ans = mid\n        break\n    elif a[mid] < target:\n        lo = mid + 1\n    else:\n        hi = mid - 1\nprint(ans)",
+      "options": [
+        "-1",
+        "2",
+        "1",
+        "3"
+      ],
+      "answer": "2",
+      "explanation": "Binary search repeatedly halves the range. The target 7 is found at index 2."
+    },
+    {
+      "externalId": "DSA-SRT-008",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\na = [1, 3, 5, 7, 9, 11, 13, 15]\nlo, hi, steps = 0, 7, 0\nwhile lo <= hi:\n    steps += 1\n    mid = (lo + hi) // 2\n    if a[mid] == 9:\n        break\n    elif a[mid] < 9:\n        lo = mid + 1\n    else:\n        hi = mid - 1\nprint(steps)",
+      "options": [
+        "1",
+        "4",
+        "2",
+        "3"
+      ],
+      "answer": "3",
+      "explanation": "The loop counts how many comparisons binary search makes before finding 9 in a list of 8 elements."
+    },
+    {
+      "externalId": "DSA-SRT-009",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Binary search requires the input to be sorted.",
+      "answer": true,
+      "explanation": "Discarding half of the range is only correct if the data is ordered."
+    },
+    {
+      "externalId": "DSA-SRT-010",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which of these sorting algorithms is NOT comparison-based?",
+      "options": [
+        "Counting sort",
+        "Quicksort",
+        "Merge sort",
+        "Heap sort"
+      ],
+      "answer": "Counting sort",
+      "explanation": "Counting sort uses the values as indexes into a count array, so it can run in O(n + k) time."
+    },
+    {
+      "externalId": "DSA-SRT-011",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\nwords = [\"banana\", \"pear\", \"apple\"]\nprint(sorted(words, key=len))",
+      "options": [
+        "['pear', 'banana', 'apple']",
+        "['banana', 'apple', 'pear']",
+        "['pear', 'apple', 'banana']",
+        "['apple', 'banana', 'pear']"
+      ],
+      "answer": "['pear', 'apple', 'banana']",
+      "explanation": "sorted with key=len orders the words by length: pear (4 letters), apple (5) and banana (6)."
+    },
+    {
+      "externalId": "DSA-SRT-012",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which sorting algorithm guarantees O(n log n) time in the worst case and sorts in place?",
+      "options": [
+        "Quicksort",
+        "Heap sort",
+        "Bubble sort",
+        "Merge sort (standard array version)"
+      ],
+      "answer": "Heap sort",
+      "explanation": "Heap sort uses a heap built inside the array. Merge sort needs O(n) extra space and quicksort can degrade to O(n^2)."
+    },
+    {
+      "externalId": "DSA-SRT-013",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the space complexity of the standard array-based merge sort?",
+      "options": [
+        "O(1)",
+        "O(log n)",
+        "O(n^2)",
+        "O(n)"
+      ],
+      "answer": "O(n)",
+      "explanation": "Merging needs a temporary array proportional to the input size."
+    },
+    {
+      "externalId": "DSA-SRT-014",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "Quicksort is a stable sorting algorithm in its usual in-place form.",
+      "answer": false,
+      "explanation": "The partitioning step swaps elements across long distances, so equal elements can change their relative order."
+    },
+    {
+      "externalId": "DSA-SRT-015",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\na = [3, 1, 2, 3, 1]\ncounts = [0] * 4\nfor x in a:\n    counts[x] += 1\nout = []\nfor v in range(4):\n    out += [v] * counts[v]\nprint(out)",
+      "options": [
+        "[1, 1, 2, 3, 3]",
+        "[3, 3, 2, 1, 1]",
+        "[1, 2, 3]",
+        "[3, 1, 2, 1, 3]"
+      ],
+      "answer": "[1, 1, 2, 3, 3]",
+      "explanation": "Counting sort counts occurrences of each value, then writes the values back in ascending order."
+    },
+    {
+      "externalId": "DSA-SRT-016",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Sorting and Searching",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The sorting algorithm that repeatedly swaps adjacent elements that are in the wrong order is called ______ sort.",
+      "answer": [
+        "bubble"
+      ],
+      "explanation": "Bubble sort lets the largest values bubble up to the end of the list."
+    },
+    {
+      "externalId": "DSA-REC-001",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What must every correct recursive function have to stop calling itself?",
+      "options": [
+        "A global variable",
+        "A return type of void",
+        "A base case",
+        "A loop"
+      ],
+      "answer": "A base case",
+      "explanation": "Without a base case the recursion never terminates and causes a stack overflow."
+    },
+    {
+      "externalId": "DSA-REC-002",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following code print?\n\ndef fact(n):\n    return 1 if n <= 1 else n * fact(n - 1)\n\nprint(fact(5))",
+      "options": [
+        "5",
+        "120",
+        "24",
+        "720"
+      ],
+      "answer": "120",
+      "explanation": "factorial(5) = 5 x 4 x 3 x 2 x 1 = 120."
+    },
+    {
+      "externalId": "DSA-REC-003",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the time complexity of the naive recursive Fibonacci function, fib(n) = fib(n-1) + fib(n-2)?",
+      "options": [
+        "O(log n)",
+        "O(n)",
+        "O(n^2)",
+        "O(2^n)"
+      ],
+      "answer": "O(2^n)",
+      "explanation": "The same subproblems are recomputed again and again, so the number of calls roughly doubles with each increase in n."
+    },
+    {
+      "externalId": "DSA-REC-004",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\nmemo = {}\ndef fib(n):\n    if n < 2:\n        return n\n    if n not in memo:\n        memo[n] = fib(n - 1) + fib(n - 2)\n    return memo[n]\n\nprint(fib(10))",
+      "options": [
+        "55",
+        "34",
+        "89",
+        "10"
+      ],
+      "answer": "55",
+      "explanation": "Memoization stores results already computed, turning the exponential algorithm into O(n). fib(10) is 55."
+    },
+    {
+      "externalId": "DSA-REC-005",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the minimum number of moves needed to solve the Tower of Hanoi puzzle with 4 disks?",
+      "options": [
+        "12",
+        "8",
+        "15",
+        "16"
+      ],
+      "answer": "15",
+      "explanation": "The minimum is 2^n - 1 moves, so for n = 4 it is 15."
+    },
+    {
+      "externalId": "DSA-REC-006",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Dynamic programming is mainly useful for problems that have:",
+      "options": [
+        "Only sorted input",
+        "Overlapping subproblems and optimal substructure",
+        "A single solution",
+        "No recursive structure"
+      ],
+      "answer": "Overlapping subproblems and optimal substructure",
+      "explanation": "DP stores solutions to subproblems so each is solved only once."
+    },
+    {
+      "externalId": "DSA-REC-007",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\ncoins = [1, 2, 5]\namount = 11\ndp = [0] + [float(\"inf\")] * amount\nfor a in range(1, amount + 1):\n    for c in coins:\n        if c <= a:\n            dp[a] = min(dp[a], dp[a - c] + 1)\nprint(dp[amount])",
+      "options": [
+        "4",
+        "5",
+        "2",
+        "3"
+      ],
+      "answer": "3",
+      "explanation": "The minimum number of coins to make 11 from {1, 2, 5} is three: 5 + 5 + 1. The DP table builds the best answer for every amount up to 11."
+    },
+    {
+      "externalId": "DSA-REC-008",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\na, b = \"abcde\", \"ace\"\ndp = [[0] * (len(b) + 1) for _ in range(len(a) + 1)]\nfor i in range(1, len(a) + 1):\n    for j in range(1, len(b) + 1):\n        if a[i - 1] == b[j - 1]:\n            dp[i][j] = dp[i - 1][j - 1] + 1\n        else:\n            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])\nprint(dp[-1][-1])",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "2"
+      ],
+      "answer": "3",
+      "explanation": "The longest common subsequence of \"abcde\" and \"ace\" is \"ace\", which has length 3."
+    },
+    {
+      "externalId": "DSA-REC-009",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following code print?\n\nweights = [10, 20, 30]\nvalues = [60, 100, 120]\ncap = 50\ndp = [0] * (cap + 1)\nfor w, v in zip(weights, values):\n    for c in range(cap, w - 1, -1):\n        dp[c] = max(dp[c], dp[c - w] + v)\nprint(dp[cap])",
+      "options": [
+        "100",
+        "180",
+        "220",
+        "160"
+      ],
+      "answer": "220",
+      "explanation": "This is the 0/1 knapsack problem. With capacity 50 the best choice is the items worth 100 and 120, with weights 20 and 30, giving 220."
+    },
+    {
+      "externalId": "DSA-REC-010",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "A greedy algorithm:",
+      "options": [
+        "Uses recursion with memoization",
+        "Makes the locally best choice at each step",
+        "Sorts the input first",
+        "Always tries every possibility"
+      ],
+      "answer": "Makes the locally best choice at each step",
+      "explanation": "Greedy methods are fast but only correct for problems where local choices lead to a global optimum, such as activity selection."
+    },
+    {
+      "externalId": "DSA-REC-011",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following code print?\n\ndef subsets(n):\n    return 1 if n == 0 else subsets(n - 1) + subsets(n - 1)\n\nprint(subsets(3))",
+      "options": [
+        "4",
+        "6",
+        "16",
+        "8"
+      ],
+      "answer": "8",
+      "explanation": "A recursive function that makes two calls with n - 1 each time and returns 1 at n = 0 counts 2^n subsets, so n = 3 gives 8."
+    },
+    {
+      "externalId": "DSA-REC-012",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which technique builds a solution step by step and abandons (backtracks) a partial solution as soon as it cannot lead to a valid answer?",
+      "options": [
+        "Backtracking",
+        "Hashing",
+        "Binary search",
+        "Radix sort"
+      ],
+      "answer": "Backtracking",
+      "explanation": "N-Queens and Sudoku solvers are classic examples."
+    },
+    {
+      "externalId": "DSA-REC-013",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Any recursive algorithm can be rewritten using an explicit stack and a loop.",
+      "answer": true,
+      "explanation": "Recursion uses the call stack implicitly. An explicit stack can simulate it."
+    },
+    {
+      "externalId": "DSA-REC-014",
+      "topic": "Data Structures and Algorithms",
+      "subtopic": "Recursion and Dynamic Programming",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "Storing the results of function calls so they are not recomputed is called ______.",
+      "answer": [
+        "memoization",
+        "memoisation"
+      ],
+      "explanation": "Memoization trades memory for speed by caching results of repeated calls."
+    }
+  ]
+}
