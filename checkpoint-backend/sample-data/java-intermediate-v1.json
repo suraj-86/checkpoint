@@ -1,0 +1,1639 @@
+{
+  "dataset": {
+    "name": "Java Intermediate",
+    "version": "1.0",
+    "description": "Java in depth: OOP, exceptions, collections, generics, lambdas and streams, concurrency, and modern Java and the JVM."
+  },
+  "questions": [
+    {
+      "externalId": "JAVA-OOP-101",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword does a Java class use to inherit from another class?",
+      "options": [
+        "implements",
+        "extends",
+        "inherits",
+        "super"
+      ],
+      "answer": "extends",
+      "explanation": "extends is used for class inheritance, while implements is used for interfaces."
+    },
+    {
+      "externalId": "JAVA-OOP-102",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword does a class use to implement an interface?",
+      "options": [
+        "implements",
+        "extends",
+        "uses",
+        "interface"
+      ],
+      "answer": "implements",
+      "explanation": "A class can implement any number of interfaces."
+    },
+    {
+      "externalId": "JAVA-OOP-103",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "A Java class can extend more than one class.",
+      "answer": false,
+      "explanation": "Java allows single inheritance of classes. Multiple inheritance of type is available only through interfaces."
+    },
+    {
+      "externalId": "JAVA-OOP-104",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nclass Animal {\n    String sound() { return \"...\"; }\n}\nclass Dog extends Animal {\n    String sound() { return \"Woof\"; }\n}\n\nAnimal a = new Dog();\nSystem.out.println(a.sound());",
+      "options": [
+        "Compile error",
+        "Animal",
+        "...",
+        "Woof"
+      ],
+      "answer": "Woof",
+      "explanation": "The method is overridden in Dog, and the call is dispatched at run time on the real object type, even though the variable is declared as Animal."
+    },
+    {
+      "externalId": "JAVA-OOP-105",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nclass A {\n    A() { System.out.print(\"A\"); }\n}\nclass B extends A {\n    B() { System.out.print(\"B\"); }\n}\n\nnew B();",
+      "options": [
+        "A",
+        "B",
+        "AB",
+        "BA"
+      ],
+      "answer": "AB",
+      "explanation": "A superclass constructor always runs before the subclass constructor body."
+    },
+    {
+      "externalId": "JAVA-OOP-106",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nclass P {\n    static int n = 0;\n    P() { n++; }\n}\n\nnew P();\nnew P();\nSystem.out.println(P.n);",
+      "options": [
+        "0",
+        "2",
+        "1",
+        "Compile error"
+      ],
+      "answer": "2",
+      "explanation": "A static field is shared by all instances, and the constructor increments it each time an object is created."
+    },
+    {
+      "externalId": "JAVA-OOP-107",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the keyword super refer to inside a subclass?",
+      "options": [
+        "The parent class",
+        "The top-level Object class only",
+        "The interface",
+        "The current object"
+      ],
+      "answer": "The parent class",
+      "explanation": "super.method() calls the parent's version and super(...) calls a parent constructor."
+    },
+    {
+      "externalId": "JAVA-OOP-108",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nclass X {\n    void f(Object o) { System.out.print(\"O\"); }\n    void f(String s) { System.out.print(\"S\"); }\n}\n\nX x = new X();\nObject o = \"hi\";\nx.f(o);\nx.f(\"hi\");",
+      "options": [
+        "SO",
+        "OO",
+        "SS",
+        "OS"
+      ],
+      "answer": "OS",
+      "explanation": "Overloads are chosen at compile time from the declared type of the argument. The variable o is declared as Object, so f(Object) is used, while the literal \"hi\" selects f(String)."
+    },
+    {
+      "externalId": "JAVA-OOP-109",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nclass B {\n    String name = \"B\";\n    String get() { return name; }\n}\nclass D extends B {\n    String name = \"D\";\n}\n\nB b = new D();\nSystem.out.println(b.name + \" \" + b.get());",
+      "options": [
+        "D D",
+        "D B",
+        "B B",
+        "B D"
+      ],
+      "answer": "B B",
+      "explanation": "Fields are not polymorphic. The variable b has type B, so b.name reads B's field. get() is defined in B, so it also reads B's field."
+    },
+    {
+      "externalId": "JAVA-OOP-110",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which of these can hold instance fields (state) that differ per object?",
+      "options": [
+        "An interface",
+        "An abstract class",
+        "Neither",
+        "Both, equally"
+      ],
+      "answer": "An abstract class",
+      "explanation": "Interfaces can only declare constants (static final fields). Abstract classes can have ordinary instance fields."
+    },
+    {
+      "externalId": "JAVA-OOP-111",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does declaring a class final do?",
+      "options": [
+        "Prevents it from being subclassed",
+        "Prevents it from being instantiated",
+        "Makes it abstract",
+        "Makes all fields constant"
+      ],
+      "answer": "Prevents it from being subclassed",
+      "explanation": "String is a well-known final class."
+    },
+    {
+      "externalId": "JAVA-OOP-112",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\ninterface Greeter {\n    default String hi() { return \"Hello\"; }\n}\nclass G implements Greeter { }\n\nSystem.out.println(new G().hi());",
+      "options": [
+        "Nothing is printed",
+        "null",
+        "Compile error",
+        "Hello"
+      ],
+      "answer": "Hello",
+      "explanation": "An interface can provide a default method implementation, which implementing classes inherit."
+    },
+    {
+      "externalId": "JAVA-OOP-113",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A Java class can implement several interfaces at the same time.",
+      "answer": true,
+      "explanation": "This is how Java gets the benefits of multiple inheritance of type."
+    },
+    {
+      "externalId": "JAVA-OOP-114",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nclass Base {\n    String who() { return \"Base\"; }\n    String call() { return who(); }\n}\nclass Sub extends Base {\n    String who() { return \"Sub\"; }\n}\n\nSystem.out.println(new Sub().call());",
+      "options": [
+        "BaseSub",
+        "Base",
+        "Sub",
+        "Compile error"
+      ],
+      "answer": "Sub",
+      "explanation": "call() is inherited from Base, but the call to who() inside it is dispatched on the real object type (Sub)."
+    },
+    {
+      "externalId": "JAVA-OOP-115",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is encapsulation?",
+      "options": [
+        "Running code on several threads",
+        "Hiding an object's internal state and exposing it only through methods",
+        "Converting a class to an interface",
+        "Creating many classes from one"
+      ],
+      "answer": "Hiding an object's internal state and exposing it only through methods",
+      "explanation": "Making fields private and providing getters and setters is the classic example."
+    },
+    {
+      "externalId": "JAVA-OOP-116",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nclass Pt {\n    int x;\n    Pt(int x) { this.x = x; }\n}\n\nSet<Pt> s = new HashSet<>();\ns.add(new Pt(1));\ns.add(new Pt(1));\nSystem.out.println(s.size());",
+      "options": [
+        "2",
+        "0",
+        "1",
+        "Compile error"
+      ],
+      "answer": "2",
+      "explanation": "Without equals and hashCode overrides, Object's identity-based versions are used, so two different instances are never considered equal and both stay in the set."
+    },
+    {
+      "externalId": "JAVA-OOP-117",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ keyword refers to the current object inside an instance method.",
+      "answer": [
+        "this"
+      ],
+      "explanation": "this is useful, for example, to distinguish a field from a parameter with the same name."
+    },
+    {
+      "externalId": "JAVA-OOP-118",
+      "topic": "Java",
+      "subtopic": "OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which access modifier makes a member visible within its own package and in subclasses?",
+      "options": [
+        "private",
+        "public",
+        "(package-private, no modifier)",
+        "protected"
+      ],
+      "answer": "protected",
+      "explanation": "protected members are accessible in the same package and in subclasses, even in other packages."
+    },
+    {
+      "externalId": "JAVA-EXC-101",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which class is the root of the Java exception and error hierarchy?",
+      "options": [
+        "Error",
+        "RuntimeException",
+        "Throwable",
+        "Exception"
+      ],
+      "answer": "Throwable",
+      "explanation": "Both Exception and Error extend Throwable."
+    },
+    {
+      "externalId": "JAVA-EXC-102",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "Checked exceptions must be either caught or declared in the method's throws clause.",
+      "answer": true,
+      "explanation": "The compiler enforces this for checked exceptions such as IOException."
+    },
+    {
+      "externalId": "JAVA-EXC-103",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which of the following is an unchecked exception?",
+      "options": [
+        "IOException",
+        "NullPointerException",
+        "SQLException",
+        "Exception"
+      ],
+      "answer": "NullPointerException",
+      "explanation": "Unchecked exceptions extend RuntimeException and do not have to be declared or caught."
+    },
+    {
+      "externalId": "JAVA-EXC-104",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\ntry {\n    System.out.print(\"A\");\n    throw new RuntimeException();\n} catch (RuntimeException e) {\n    System.out.print(\"B\");\n} finally {\n    System.out.print(\"C\");\n}",
+      "options": [
+        "ABC",
+        "AB",
+        "ACB",
+        "AC"
+      ],
+      "answer": "ABC",
+      "explanation": "The try block prints A and throws, the catch prints B, and finally always runs and prints C."
+    },
+    {
+      "externalId": "JAVA-EXC-105",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nstatic int f() {\n    try {\n        return 1;\n    } finally {\n        System.out.print(\"F\");\n    }\n}\n\nSystem.out.println(f());",
+      "options": [
+        "1F",
+        "1",
+        "F",
+        "F1"
+      ],
+      "answer": "F1",
+      "explanation": "The finally block runs before the method actually returns its value, so F is printed first, and then println prints the returned 1."
+    },
+    {
+      "externalId": "JAVA-EXC-106",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nstatic int g() {\n    try {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n\nSystem.out.println(g());",
+      "options": [
+        "12",
+        "1",
+        "2",
+        "Compile error"
+      ],
+      "answer": "2",
+      "explanation": "A return in the finally block overrides the earlier return value from the try block."
+    },
+    {
+      "externalId": "JAVA-EXC-107",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\ntry {\n    Object o = null;\n    o.toString();\n} catch (NullPointerException e) {\n    System.out.println(\"NPE\");\n} catch (Exception e) {\n    System.out.println(\"EX\");\n}",
+      "options": [
+        "NPE EX",
+        "NPE",
+        "Compile error",
+        "EX"
+      ],
+      "answer": "NPE",
+      "explanation": "Catch blocks are checked in order, and the first one that matches is used, here the specific NullPointerException handler."
+    },
+    {
+      "externalId": "JAVA-EXC-108",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What must a resource implement to be used in a try-with-resources statement?",
+      "options": [
+        "AutoCloseable",
+        "Serializable",
+        "Comparable",
+        "Runnable"
+      ],
+      "answer": "AutoCloseable",
+      "explanation": "The close() method is called automatically when the block exits."
+    },
+    {
+      "externalId": "JAVA-EXC-109",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\ntry {\n    throw new IllegalArgumentException(\"bad\");\n} catch (Exception e) {\n    System.out.println(e.getMessage());\n}",
+      "options": [
+        "null",
+        "IllegalArgumentException",
+        "Compile error",
+        "bad"
+      ],
+      "answer": "bad",
+      "explanation": "getMessage returns the message passed to the exception's constructor."
+    },
+    {
+      "externalId": "JAVA-EXC-110",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nclass R implements AutoCloseable {\n    String n;\n    R(String n) { this.n = n; System.out.print(\"open\" + n + \" \"); }\n    public void close() { System.out.print(\"close\" + n + \" \"); }\n}\n\ntry (R a = new R(\"1\"); R b = new R(\"2\")) {\n    System.out.print(\"body \");\n}",
+      "options": [
+        "open1 open2 body close1 close2",
+        "open1 body close1 open2",
+        "open1 open2 body close2 close1",
+        "body open1 open2 close1 close2"
+      ],
+      "answer": "open1 open2 body close2 close1",
+      "explanation": "Resources are opened in the order declared and closed in reverse order after the block finishes."
+    },
+    {
+      "externalId": "JAVA-EXC-111",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A try block can be used with only a finally block and no catch block.",
+      "answer": true,
+      "explanation": "try-finally is valid. The exception, if any, still propagates after the finally block runs."
+    },
+    {
+      "externalId": "JAVA-EXC-112",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which exception is thrown when you execute int[] a = new int[2]; a[2] = 1;?",
+      "options": [
+        "NullPointerException",
+        "ArrayIndexOutOfBoundsException",
+        "ArithmeticException",
+        "IllegalStateException"
+      ],
+      "answer": "ArrayIndexOutOfBoundsException",
+      "explanation": "Valid indexes are 0 and 1, so index 2 is out of bounds."
+    },
+    {
+      "externalId": "JAVA-EXC-113",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "A method declares that it may throw a checked exception by using the ______ keyword in its signature.",
+      "answer": [
+        "throws"
+      ],
+      "explanation": "throw raises an exception, and throws declares one."
+    },
+    {
+      "externalId": "JAVA-EXC-114",
+      "topic": "Java",
+      "subtopic": "Exceptions",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\ntry {\n    Integer.parseInt(\"x\");\n} catch (NumberFormatException e) {\n    System.out.println(\"NFE\");\n}",
+      "options": [
+        "NFE",
+        "Compile error",
+        "x",
+        "0"
+      ],
+      "answer": "NFE",
+      "explanation": "Integer.parseInt throws NumberFormatException for text that is not a valid integer."
+    },
+    {
+      "externalId": "JAVA-COL-101",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which collection type does not allow duplicate elements?",
+      "options": [
+        "Queue",
+        "List",
+        "ArrayList",
+        "Set"
+      ],
+      "answer": "Set",
+      "explanation": "A Set models a mathematical set. Adding an element that is already present has no effect."
+    },
+    {
+      "externalId": "JAVA-COL-102",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which interface stores key-value pairs?",
+      "options": [
+        "Collection",
+        "Iterable",
+        "Map",
+        "Set"
+      ],
+      "answer": "Map",
+      "explanation": "Map does not extend Collection. It maps unique keys to values."
+    },
+    {
+      "externalId": "JAVA-COL-103",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "An ArrayList is backed by a resizable array.",
+      "answer": true,
+      "explanation": "This gives O(1) indexed access, while inserting or removing in the middle takes O(n)."
+    },
+    {
+      "externalId": "JAVA-COL-104",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the time complexity of get(index) on an ArrayList and on a LinkedList respectively?",
+      "options": [
+        "O(n) and O(n)",
+        "O(1) and O(n)",
+        "O(1) and O(1)",
+        "O(n) and O(1)"
+      ],
+      "answer": "O(1) and O(n)",
+      "explanation": "ArrayList indexes directly into its array, while LinkedList has to walk the nodes."
+    },
+    {
+      "externalId": "JAVA-COL-105",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSet<Integer> s = new HashSet<>(List.of(1, 2, 2, 3));\nSystem.out.println(s.size());",
+      "options": [
+        "3",
+        "Compile error",
+        "2",
+        "4"
+      ],
+      "answer": "3",
+      "explanation": "A HashSet stores each element once, so the duplicate 2 is ignored."
+    },
+    {
+      "externalId": "JAVA-COL-106",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSet<Integer> s = new TreeSet<>(List.of(3, 1, 2));\nSystem.out.println(s);",
+      "options": [
+        "[3, 2, 1]",
+        "[1, 3, 2]",
+        "[3, 1, 2]",
+        "[1, 2, 3]"
+      ],
+      "answer": "[1, 2, 3]",
+      "explanation": "A TreeSet keeps its elements sorted by their natural order."
+    },
+    {
+      "externalId": "JAVA-COL-107",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nMap<String, Integer> m = new HashMap<>();\nm.put(\"a\", 1);\nSystem.out.println(m.getOrDefault(\"b\", 0));",
+      "options": [
+        "1",
+        "null",
+        "0",
+        "Compile error"
+      ],
+      "answer": "0",
+      "explanation": "getOrDefault returns the supplied default when the key is absent."
+    },
+    {
+      "externalId": "JAVA-COL-108",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nMap<String, Integer> m = new TreeMap<>();\nm.put(\"b\", 2);\nm.put(\"a\", 1);\nSystem.out.println(m);",
+      "options": [
+        "[a, b]",
+        "{a=1, b=2}",
+        "{b=2, a=1}",
+        "{1=a, 2=b}"
+      ],
+      "answer": "{a=1, b=2}",
+      "explanation": "A TreeMap keeps its keys sorted, so a comes before b regardless of insertion order."
+    },
+    {
+      "externalId": "JAVA-COL-109",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nMap<Character, Integer> m = new TreeMap<>();\nfor (char c : \"abca\".toCharArray())\n    m.merge(c, 1, Integer::sum);\nSystem.out.println(m);",
+      "options": [
+        "{a=2, b=1, c=1}",
+        "{a=1, b=2, c=1}",
+        "{a=2, b=1}",
+        "{a=1, b=1, c=1}"
+      ],
+      "answer": "{a=2, b=1, c=1}",
+      "explanation": "merge inserts 1 for a new key and combines with Integer::sum for existing keys, a common way to count occurrences."
+    },
+    {
+      "externalId": "JAVA-COL-110",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nList<Integer> l = new ArrayList<>(List.of(1, 2, 3));\ntry {\n    for (Integer x : l)\n        if (x == 2) l.remove(x);\n} catch (ConcurrentModificationException e) {\n    System.out.println(\"CME\");\n}\nSystem.out.println(l);",
+      "options": [
+        "CME",
+        "CME [1, 3]",
+        "[1, 2, 3]",
+        "[1, 3]"
+      ],
+      "answer": "[1, 3]",
+      "explanation": "A famous quirk: removing the second-to-last element during a for-each loop leaves the iterator at the end, so hasNext() returns false and no ConcurrentModificationException is thrown. Removing other elements would throw."
+    },
+    {
+      "externalId": "JAVA-COL-111",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nList<Integer> l = new ArrayList<>(List.of(10, 20, 30));\nl.remove(1);\nl.remove(Integer.valueOf(10));\nSystem.out.println(l);",
+      "options": [
+        "[20, 30]",
+        "[10, 30]",
+        "[30]",
+        "[10]"
+      ],
+      "answer": "[30]",
+      "explanation": "remove(1) removes the element at index 1 (20), and remove(Integer.valueOf(10)) removes the object 10."
+    },
+    {
+      "externalId": "JAVA-COL-112",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nList<Integer> l = List.of(1, 2, 3);\ntry {\n    l.add(4);\n} catch (UnsupportedOperationException e) {\n    System.out.println(\"immutable\");\n}",
+      "options": [
+        "Compile error",
+        "immutable",
+        "4",
+        "[1, 2, 3, 4]"
+      ],
+      "answer": "immutable",
+      "explanation": "List.of returns an unmodifiable list, so add throws UnsupportedOperationException."
+    },
+    {
+      "externalId": "JAVA-COL-113",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A HashMap allows one null key.",
+      "answer": true,
+      "explanation": "HashMap permits a single null key and any number of null values. Hashtable and ConcurrentHashMap do not."
+    },
+    {
+      "externalId": "JAVA-COL-114",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nMap<String, Integer> m = new HashMap<>();\nm.put(\"a\", 1);\nm.put(\"a\", 2);\nSystem.out.println(m.size() + \" \" + m.get(\"a\"));",
+      "options": [
+        "1 2",
+        "1 1",
+        "2 1",
+        "2 2"
+      ],
+      "answer": "1 2",
+      "explanation": "Putting an existing key replaces its value, so the map still has one entry and its value is 2."
+    },
+    {
+      "externalId": "JAVA-COL-115",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nDeque<Integer> st = new ArrayDeque<>();\nst.push(1);\nst.push(2);\nSystem.out.println(st.pop());",
+      "options": [
+        "[2, 1]",
+        "1",
+        "Compile error",
+        "2"
+      ],
+      "answer": "2",
+      "explanation": "ArrayDeque used as a stack: push adds to the front and pop removes from the front, so the last pushed element comes out first."
+    },
+    {
+      "externalId": "JAVA-COL-116",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nPriorityQueue<Integer> pq = new PriorityQueue<>(List.of(5, 1, 3));\nSystem.out.println(pq.poll());",
+      "options": [
+        "5",
+        "3",
+        "1",
+        "Compile error"
+      ],
+      "answer": "1",
+      "explanation": "A PriorityQueue is a min-heap by default, so poll returns the smallest element."
+    },
+    {
+      "externalId": "JAVA-COL-117",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nList<String> w = new ArrayList<>(List.of(\"bb\", \"a\", \"ccc\"));\nw.sort(Comparator.comparing(String::length).reversed());\nSystem.out.println(w);",
+      "options": [
+        "[a, bb, ccc]",
+        "[ccc, bb, a]",
+        "[bb, a, ccc]",
+        "[a, ccc, bb]"
+      ],
+      "answer": "[ccc, bb, a]",
+      "explanation": "The comparator orders by string length, and reversed() flips it to longest first."
+    },
+    {
+      "externalId": "JAVA-COL-118",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "A class must implement the ______ interface to define its natural ordering for sorting.",
+      "answer": [
+        "comparable"
+      ],
+      "explanation": "Comparable<T> declares compareTo, which sorting methods use by default."
+    },
+    {
+      "externalId": "JAVA-COL-119",
+      "topic": "Java",
+      "subtopic": "Collections",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the default load factor of a java.util.HashMap?",
+      "options": [
+        "0.75",
+        "0.9",
+        "0.5",
+        "1.0"
+      ],
+      "answer": "0.75",
+      "explanation": "When the number of entries exceeds capacity x load factor, the map is resized (rehashed)."
+    },
+    {
+      "externalId": "JAVA-GEN-001",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the main benefit of using List<String> instead of a raw List?",
+      "options": [
+        "Smaller memory use",
+        "Thread safety",
+        "Faster execution",
+        "Compile-time type safety"
+      ],
+      "answer": "Compile-time type safety",
+      "explanation": "The compiler rejects adding non-String elements and removes the need for casts when reading."
+    },
+    {
+      "externalId": "JAVA-GEN-002",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does type erasure mean in Java generics?",
+      "options": [
+        "Generic classes cannot be extended",
+        "Generics are converted to arrays",
+        "Generic type information is removed by the compiler and is not available at run time",
+        "Type parameters must be erased manually"
+      ],
+      "answer": "Generic type information is removed by the compiler and is not available at run time",
+      "explanation": "At run time List<String> and List<Integer> are both just List."
+    },
+    {
+      "externalId": "JAVA-GEN-003",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nList<String> a = new ArrayList<>();\nList<Integer> b = new ArrayList<>();\nSystem.out.println(a.getClass() == b.getClass());",
+      "options": [
+        "null",
+        "true",
+        "Compile error",
+        "false"
+      ],
+      "answer": "true",
+      "explanation": "Because of type erasure, both lists have the same runtime class, ArrayList."
+    },
+    {
+      "externalId": "JAVA-GEN-004",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Inside a generic class Box<T>, you can create an instance of T with new T().",
+      "answer": false,
+      "explanation": "The type is erased at run time, so the JVM does not know which class to instantiate."
+    },
+    {
+      "externalId": "JAVA-GEN-005",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What can you do with a List<? extends Number> parameter?",
+      "options": [
+        "Read elements as Number, but you cannot add elements (except null)",
+        "Add only Integers",
+        "Add any Number",
+        "Neither read nor add"
+      ],
+      "answer": "Read elements as Number, but you cannot add elements (except null)",
+      "explanation": "The actual element type may be Integer, Double or another subtype, so the compiler cannot guarantee an added value is safe."
+    },
+    {
+      "externalId": "JAVA-GEN-006",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the PECS mnemonic stand for in generics?",
+      "options": [
+        "Parameter Erasure, Class Safety",
+        "Public Extends, Constructor Super",
+        "Primitive Extends, Class Super",
+        "Producer Extends, Consumer Super"
+      ],
+      "answer": "Producer Extends, Consumer Super",
+      "explanation": "Use ? extends T when you only read from a structure, and ? super T when you only write to it."
+    },
+    {
+      "externalId": "JAVA-GEN-007",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nstatic <T extends Comparable<T>> T max(T a, T b) {\n    return a.compareTo(b) >= 0 ? a : b;\n}\n\nSystem.out.println(max(\"pear\", \"apple\") + \" \" + max(3, 9));",
+      "options": [
+        "apple 3",
+        "pear 3",
+        "pear 9",
+        "apple 9"
+      ],
+      "answer": "pear 9",
+      "explanation": "The bounded type parameter T extends Comparable<T> lets the method call compareTo. \"pear\" is greater than \"apple\", and 9 is greater than 3."
+    },
+    {
+      "externalId": "JAVA-GEN-008",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "List<int> is a valid declaration in Java.",
+      "answer": false,
+      "explanation": "Type arguments must be reference types. Use List<Integer> and rely on autoboxing."
+    },
+    {
+      "externalId": "JAVA-GEN-009",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nList raw = new ArrayList<String>();\nraw.add(5);\nList<String> s = raw;\ntry {\n    String x = s.get(0);\n} catch (ClassCastException e) {\n    System.out.println(\"CCE\");\n}",
+      "options": [
+        "Compile error",
+        "CCE",
+        "5",
+        "null"
+      ],
+      "answer": "CCE",
+      "explanation": "Raw types bypass generic checks. The Integer 5 was stored in what is declared as a List<String>, so reading it as a String throws ClassCastException."
+    },
+    {
+      "externalId": "JAVA-GEN-010",
+      "topic": "Java",
+      "subtopic": "Generics",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "In class Box<T>, the T is called a type ______.",
+      "answer": [
+        "parameter"
+      ],
+      "explanation": "T is a type parameter, and the concrete type supplied by the user (such as String) is the type argument."
+    },
+    {
+      "externalId": "JAVA-STM-001",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is a functional interface?",
+      "options": [
+        "An interface with exactly one abstract method",
+        "An interface that extends Function",
+        "An interface with only static methods",
+        "An interface with no methods"
+      ],
+      "answer": "An interface with exactly one abstract method",
+      "explanation": "Lambdas can be used wherever a functional interface is expected, for example Runnable or Comparator."
+    },
+    {
+      "externalId": "JAVA-STM-002",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nFunction<Integer, Integer> f = x -> x * 2;\nSystem.out.println(f.apply(4));",
+      "options": [
+        "4",
+        "Compile error",
+        "2",
+        "8"
+      ],
+      "answer": "8",
+      "explanation": "The lambda doubles its input, and apply(4) returns 8."
+    },
+    {
+      "externalId": "JAVA-STM-003",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(Stream.of(1, 2, 3, 4)\n    .filter(x -> x % 2 == 0)\n    .map(x -> x * x)\n    .collect(Collectors.toList()));",
+      "options": [
+        "[1, 4, 9, 16]",
+        "[2, 4]",
+        "[4, 16]",
+        "[16]"
+      ],
+      "answer": "[4, 16]",
+      "explanation": "filter keeps the even numbers (2 and 4) and map squares them."
+    },
+    {
+      "externalId": "JAVA-STM-004",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(IntStream.rangeClosed(1, 5).sum());",
+      "options": [
+        "5",
+        "15",
+        "120",
+        "10"
+      ],
+      "answer": "15",
+      "explanation": "rangeClosed includes both ends, so the sum is 1 + 2 + 3 + 4 + 5."
+    },
+    {
+      "externalId": "JAVA-STM-005",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(Stream.of(1, 2, 3, 4).reduce(1, (a, b) -> a * b));",
+      "options": [
+        "24",
+        "10",
+        "Optional[24]",
+        "1"
+      ],
+      "answer": "24",
+      "explanation": "reduce starts from the identity value 1 and multiplies each element."
+    },
+    {
+      "externalId": "JAVA-STM-006",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(Stream.of(\"a\", \"b\", \"c\").collect(Collectors.joining(\"-\")));",
+      "options": [
+        "a, b, c",
+        "[a, b, c]",
+        "abc",
+        "a-b-c"
+      ],
+      "answer": "a-b-c",
+      "explanation": "Collectors.joining concatenates the elements using the given delimiter."
+    },
+    {
+      "externalId": "JAVA-STM-007",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(Stream.of(5, 3, 9, 1).sorted().limit(2).toList());",
+      "options": [
+        "[1, 3, 5, 9]",
+        "[9, 5]",
+        "[1, 3]",
+        "[5, 3]"
+      ],
+      "answer": "[1, 3]",
+      "explanation": "The stream is sorted ascending and limit(2) keeps the first two elements."
+    },
+    {
+      "externalId": "JAVA-STM-008",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nMap<Character, Long> m = Stream.of(\"apple\", \"avocado\", \"banana\")\n    .collect(Collectors.groupingBy(s -> s.charAt(0), TreeMap::new, Collectors.counting()));\nSystem.out.println(m);",
+      "options": [
+        "{a=[apple, avocado], b=[banana]}",
+        "{a=2, b=1}",
+        "{apple=1, avocado=1, banana=1}",
+        "{a=1, b=2}"
+      ],
+      "answer": "{a=2, b=1}",
+      "explanation": "groupingBy groups the words by first letter, and counting() counts the words in each group."
+    },
+    {
+      "externalId": "JAVA-STM-009",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nStream.of(1, 2, 3).filter(x -> {\n    System.out.print(\"f\");\n    return true;\n});\nSystem.out.println(\"done\");",
+      "options": [
+        "done",
+        "Compile error",
+        "fffdone",
+        "fffffffdone"
+      ],
+      "answer": "done",
+      "explanation": "Streams are lazy. Intermediate operations such as filter do nothing until a terminal operation runs, and there is none here, so only \"done\" is printed."
+    },
+    {
+      "externalId": "JAVA-STM-010",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nStream<Integer> s = Stream.of(1, 2);\ns.count();\ntry {\n    s.count();\n} catch (IllegalStateException e) {\n    System.out.println(\"closed\");\n}",
+      "options": [
+        "Nothing is printed",
+        "Compile error",
+        "2",
+        "closed"
+      ],
+      "answer": "closed",
+      "explanation": "A stream can be consumed only once. A second terminal operation throws IllegalStateException."
+    },
+    {
+      "externalId": "JAVA-STM-011",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A Java stream can be traversed more than once.",
+      "answer": false,
+      "explanation": "Once a terminal operation has run, the stream is closed. Create a new stream to traverse the data again."
+    },
+    {
+      "externalId": "JAVA-STM-012",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "The method reference String::length is equivalent to which lambda?",
+      "options": [
+        "() -> length()",
+        "(s, t) -> s.length(t)",
+        "s -> s.length()",
+        "s -> String.length"
+      ],
+      "answer": "s -> s.length()",
+      "explanation": "A method reference is shorthand for a lambda that just calls the method."
+    },
+    {
+      "externalId": "JAVA-STM-013",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nSystem.out.println(Stream.of(List.of(1, 2), List.of(3))\n    .flatMap(List::stream)\n    .map(String::valueOf)\n    .collect(Collectors.joining(\",\")));",
+      "options": [
+        "[1, 2, 3]",
+        "1,2,3",
+        "[[1, 2], [3]]",
+        "123"
+      ],
+      "answer": "1,2,3",
+      "explanation": "flatMap turns each inner list into a stream and flattens them into one stream, which is then converted to strings and joined."
+    },
+    {
+      "externalId": "JAVA-STM-014",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nOptional<String> o = Optional.empty();\nSystem.out.println(o.orElse(\"none\"));",
+      "options": [
+        "none",
+        "empty",
+        "null",
+        "Optional.empty"
+      ],
+      "answer": "none",
+      "explanation": "orElse returns the fallback when the Optional has no value."
+    },
+    {
+      "externalId": "JAVA-STM-015",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nSystem.out.println(IntStream.of(1, 2, 3, 4).average().getAsDouble());",
+      "options": [
+        "3",
+        "10.0",
+        "2",
+        "2.5"
+      ],
+      "answer": "2.5",
+      "explanation": "average() on an IntStream returns an OptionalDouble, and the mean of 1, 2, 3 and 4 is 2.5."
+    },
+    {
+      "externalId": "JAVA-STM-016",
+      "topic": "Java",
+      "subtopic": "Lambdas and Streams",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The functional interface ______ takes one argument and returns a boolean.",
+      "answer": [
+        "predicate"
+      ],
+      "explanation": "Predicate<T> is used by filter and similar operations."
+    },
+    {
+      "externalId": "JAVA-CON-001",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which interface represents a task that can be executed by a thread and returns no value?",
+      "options": [
+        "Comparable",
+        "Callable",
+        "Runnable",
+        "Future"
+      ],
+      "answer": "Runnable",
+      "explanation": "Runnable declares run(). Callable returns a result and can throw checked exceptions."
+    },
+    {
+      "externalId": "JAVA-CON-002",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which Thread method starts a new thread of execution?",
+      "options": [
+        "begin()",
+        "start()",
+        "run()",
+        "execute()"
+      ],
+      "answer": "start()",
+      "explanation": "start() creates the new thread and calls run() in it."
+    },
+    {
+      "externalId": "JAVA-CON-003",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Calling run() directly on a Thread object starts a new thread.",
+      "answer": false,
+      "explanation": "Calling run() just executes the method in the current thread like a normal method call."
+    },
+    {
+      "externalId": "JAVA-CON-004",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nThread t = new Thread(() -> System.out.print(\"T\"));\nt.start();\nt.join();\nSystem.out.println(\"M\");",
+      "options": [
+        "TM",
+        "M",
+        "T",
+        "MT"
+      ],
+      "answer": "TM",
+      "explanation": "join() makes the main thread wait until the other thread has finished, so T is printed before M."
+    },
+    {
+      "externalId": "JAVA-CON-005",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the synchronized keyword provide?",
+      "options": [
+        "Immutable objects",
+        "Faster execution",
+        "Automatic thread creation",
+        "Mutual exclusion and memory visibility"
+      ],
+      "answer": "Mutual exclusion and memory visibility",
+      "explanation": "Only one thread at a time can hold the lock, and changes made inside are visible to the next thread that acquires it."
+    },
+    {
+      "externalId": "JAVA-CON-006",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nint[] c = {0};\nThread a = new Thread(() -> {\n    for (int i = 0; i < 1000; i++) synchronized (c) { c[0]++; }\n});\nThread b = new Thread(() -> {\n    for (int i = 0; i < 1000; i++) synchronized (c) { c[0]++; }\n});\na.start();\nb.start();\na.join();\nb.join();\nSystem.out.println(c[0]);",
+      "options": [
+        "Compile error",
+        "1000",
+        "2000",
+        "Less than 2000 (varies)"
+      ],
+      "answer": "2000",
+      "explanation": "Both threads increment the shared counter inside a synchronized block, so no updates are lost."
+    },
+    {
+      "externalId": "JAVA-CON-007",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nAtomicInteger n = new AtomicInteger();\nn.incrementAndGet();\nn.addAndGet(5);\nSystem.out.println(n.get());",
+      "options": [
+        "0",
+        "6",
+        "1",
+        "5"
+      ],
+      "answer": "6",
+      "explanation": "incrementAndGet adds 1 and addAndGet adds 5, so the value is 6. AtomicInteger makes each update atomic without explicit locks."
+    },
+    {
+      "externalId": "JAVA-CON-008",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nExecutorService ex = Executors.newFixedThreadPool(2);\nFuture<Integer> f = ex.submit(() -> 6 * 7);\nSystem.out.println(f.get());\nex.shutdown();",
+      "options": [
+        "42",
+        "7",
+        "6",
+        "Compile error"
+      ],
+      "answer": "42",
+      "explanation": "The executor runs the Callable on a pool thread, and Future.get() waits for and returns the result."
+    },
+    {
+      "externalId": "JAVA-CON-009",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is a deadlock?",
+      "options": [
+        "Two threads writing the same variable",
+        "A thread that runs too slowly",
+        "A thread that has finished",
+        "Two or more threads each waiting forever for a lock held by another"
+      ],
+      "answer": "Two or more threads each waiting forever for a lock held by another",
+      "explanation": "Acquiring locks in a consistent order is the usual way to avoid deadlocks."
+    },
+    {
+      "externalId": "JAVA-CON-010",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the volatile keyword guarantee for a field?",
+      "options": [
+        "That only one thread can access it",
+        "That all operations on it are atomic",
+        "Writes are visible to other threads, but compound operations like count++ are not atomic",
+        "That it is stored on the stack"
+      ],
+      "answer": "Writes are visible to other threads, but compound operations like count++ are not atomic",
+      "explanation": "Use AtomicInteger or synchronization for read-modify-write operations."
+    },
+    {
+      "externalId": "JAVA-CON-011",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which Map implementation is designed for safe and scalable use by many threads?",
+      "options": [
+        "LinkedHashMap",
+        "ConcurrentHashMap",
+        "TreeMap",
+        "HashMap"
+      ],
+      "answer": "ConcurrentHashMap",
+      "explanation": "HashMap is not thread-safe, and ConcurrentHashMap allows concurrent reads and updates without locking the whole map."
+    },
+    {
+      "externalId": "JAVA-CON-012",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nSystem.out.println(CompletableFuture.supplyAsync(() -> 5)\n    .thenApply(x -> x * 3)\n    .get());",
+      "options": [
+        "15",
+        "5",
+        "3",
+        "Compile error"
+      ],
+      "answer": "15",
+      "explanation": "supplyAsync computes 5 asynchronously, thenApply multiplies it by 3, and get() waits for the result."
+    },
+    {
+      "externalId": "JAVA-CON-013",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "java.util.HashMap is thread-safe.",
+      "answer": false,
+      "explanation": "Concurrent modification of a HashMap can corrupt it. Use ConcurrentHashMap or external synchronization."
+    },
+    {
+      "externalId": "JAVA-CON-014",
+      "topic": "Java",
+      "subtopic": "Concurrency",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The ______ modifier on a method allows only one thread at a time to execute it on the same object.",
+      "answer": [
+        "synchronized"
+      ],
+      "explanation": "A synchronized instance method locks on this."
+    },
+    {
+      "externalId": "JAVA-JVM-001",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "In which memory area are Java objects allocated?",
+      "options": [
+        "Metaspace",
+        "Stack",
+        "Registers",
+        "Heap"
+      ],
+      "answer": "Heap",
+      "explanation": "Local variables and call frames live on the stack, while objects live on the heap and are managed by the garbage collector."
+    },
+    {
+      "externalId": "JAVA-JVM-002",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does JVM stand for?",
+      "options": [
+        "Joint Version Manager",
+        "Java Verified Module",
+        "Java Virtual Machine",
+        "Java Variable Method"
+      ],
+      "answer": "Java Virtual Machine",
+      "explanation": "The JVM executes compiled Java bytecode."
+    },
+    {
+      "externalId": "JAVA-JVM-003",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the garbage collector do?",
+      "options": [
+        "Deletes unused source files",
+        "Reclaims the memory of objects that are no longer reachable",
+        "Compiles bytecode",
+        "Closes open files automatically"
+      ],
+      "answer": "Reclaims the memory of objects that are no longer reachable",
+      "explanation": "An object becomes eligible for collection when no live reference can reach it."
+    },
+    {
+      "externalId": "JAVA-JVM-004",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the difference between the JDK and the JRE?",
+      "options": [
+        "The JDK includes development tools such as the compiler, while the JRE only runs programs",
+        "They are the same",
+        "The JRE includes the compiler",
+        "The JDK is only for Windows"
+      ],
+      "answer": "The JDK includes development tools such as the compiler, while the JRE only runs programs",
+      "explanation": "Modern distributions ship a JDK, and a separate JRE is rarely needed."
+    },
+    {
+      "externalId": "JAVA-JVM-005",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nrecord Point(int x, int y) { }\n\nPoint p = new Point(1, 2);\nSystem.out.println(p);",
+      "options": [
+        "Point@1",
+        "Point(1,2)",
+        "1,2",
+        "Point[x=1, y=2]"
+      ],
+      "answer": "Point[x=1, y=2]",
+      "explanation": "A record automatically generates a constructor, accessors, equals, hashCode and a readable toString."
+    },
+    {
+      "externalId": "JAVA-JVM-006",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nrecord Point(int x, int y) { }\n\nSystem.out.println(new Point(1, 2).equals(new Point(1, 2)));",
+      "options": [
+        "false",
+        "Compile error",
+        "true",
+        "null"
+      ],
+      "answer": "true",
+      "explanation": "Records implement equals by comparing their components, so equal values are equal objects."
+    },
+    {
+      "externalId": "JAVA-JVM-007",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nvar list = new ArrayList<String>();\nlist.add(\"a\");\nSystem.out.println(list.size());",
+      "options": [
+        "Compile error",
+        "1",
+        "a",
+        "0"
+      ],
+      "answer": "1",
+      "explanation": "var lets the compiler infer the type of a local variable (here ArrayList<String>) from the initializer."
+    },
+    {
+      "externalId": "JAVA-JVM-008",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "In which Java version did text blocks (multi-line string literals with \"\"\") become a standard feature?",
+      "options": [
+        "Java 15",
+        "Java 8",
+        "Java 21",
+        "Java 11"
+      ],
+      "answer": "Java 15",
+      "explanation": "Text blocks were previewed in Java 13 and 14 and finalized in Java 15."
+    },
+    {
+      "externalId": "JAVA-JVM-009",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nint d = 3;\nString n = switch (d) {\n    case 1 -> \"Mon\";\n    case 3 -> \"Wed\";\n    default -> \"?\";\n};\nSystem.out.println(n);",
+      "options": [
+        "Compile error",
+        "Mon",
+        "?",
+        "Wed"
+      ],
+      "answer": "Wed",
+      "explanation": "A switch expression with arrow labels returns a value and does not fall through."
+    },
+    {
+      "externalId": "JAVA-JVM-010",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the output of the following code?\n\nObject o = \"hello\";\nif (o instanceof String s && s.length() > 3)\n    System.out.println(s.toUpperCase());",
+      "options": [
+        "hello",
+        "Nothing is printed",
+        "HELLO",
+        "Compile error"
+      ],
+      "answer": "HELLO",
+      "explanation": "Pattern matching for instanceof tests the type and binds the variable s in one step."
+    },
+    {
+      "externalId": "JAVA-JVM-011",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Which keyword lists the classes that are allowed to extend a sealed class or interface?",
+      "options": [
+        "extends",
+        "permits",
+        "allows",
+        "implements"
+      ],
+      "answer": "permits",
+      "explanation": "Sealed types (final in Java 17) restrict their hierarchy so the compiler can check switch statements for completeness."
+    },
+    {
+      "externalId": "JAVA-JVM-012",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Where does the JVM store class metadata in Java 8 and later?",
+      "options": [
+        "Metaspace (native memory)",
+        "PermGen",
+        "The thread stack",
+        "The young generation"
+      ],
+      "answer": "Metaspace (native memory)",
+      "explanation": "Java 8 removed the permanent generation and replaced it with Metaspace."
+    },
+    {
+      "externalId": "JAVA-JVM-013",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nSystem.out.println(\"ab\".repeat(2) + \"|\" + \"  hi \".strip() + \"|\");",
+      "options": [
+        "ababhi",
+        "ab|hi|",
+        "abab| hi |",
+        "abab|hi|"
+      ],
+      "answer": "abab|hi|",
+      "explanation": "repeat(2) duplicates the text, and strip() removes leading and trailing whitespace."
+    },
+    {
+      "externalId": "JAVA-JVM-014",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Java programs are platform independent because they compile to bytecode that is run by the JVM.",
+      "answer": true,
+      "explanation": "Each platform has its own JVM, but the same bytecode runs on all of them."
+    },
+    {
+      "externalId": "JAVA-JVM-015",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What typically causes an OutOfMemoryError?",
+      "options": [
+        "Dividing by zero",
+        "Calling a method on null",
+        "The heap is full of reachable objects, so the garbage collector cannot free enough space",
+        "Too many source files"
+      ],
+      "answer": "The heap is full of reachable objects, so the garbage collector cannot free enough space",
+      "explanation": "Typical causes are memory leaks (objects kept reachable by mistake) or simply too small a heap."
+    },
+    {
+      "externalId": "JAVA-JVM-016",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is the output of the following code?\n\nenum Level { LOW, HIGH }\n\nSystem.out.println(Level.valueOf(\"HIGH\").ordinal() + \" \" + Level.values().length);",
+      "options": [
+        "2 1",
+        "1 2",
+        "0 2",
+        "HIGH 2"
+      ],
+      "answer": "1 2",
+      "explanation": "Enum constants are numbered from 0, so HIGH has ordinal 1, and values() returns both constants."
+    },
+    {
+      "externalId": "JAVA-JVM-017",
+      "topic": "Java",
+      "subtopic": "Modern Java and JVM",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "The JVM component that compiles frequently executed bytecode into native machine code at run time is the ______ compiler.",
+      "answer": [
+        "jit",
+        "just-in-time",
+        "just in time"
+      ],
+      "explanation": "JIT stands for just-in-time compilation and is a key reason Java runs fast."
+    }
+  ]
+}

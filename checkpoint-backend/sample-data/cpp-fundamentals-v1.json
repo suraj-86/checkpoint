@@ -1,0 +1,1569 @@
+{
+  "dataset": {
+    "name": "C++ Fundamentals",
+    "version": "1.0",
+    "description": "C++ basics, references and pointers, classes and inheritance, memory management and smart pointers, the STL, algorithms and lambdas, templates and modern C++."
+  },
+  "questions": [
+    {
+      "externalId": "CPP-BAS-001",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which header provides cout and cin?",
+      "options": [
+        "<stdio.h>",
+        "<string>",
+        "<fstream>",
+        "<iostream>"
+      ],
+      "answer": "<iostream>",
+      "explanation": "<iostream> declares the standard input and output streams."
+    },
+    {
+      "externalId": "CPP-BAS-002",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which operator is used to send data to cout?",
+      "options": [
+        "<-",
+        "<<",
+        ">>",
+        "::"
+      ],
+      "answer": "<<",
+      "explanation": "The stream insertion operator << writes to an output stream, and >> reads from an input stream."
+    },
+    {
+      "externalId": "CPP-BAS-003",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "C++ is a strict superset of C, so every valid C program is also a valid C++ program.",
+      "answer": false,
+      "explanation": "C++ is largely compatible with C but not a strict superset. For example, implicit conversion from void* and some keywords differ."
+    },
+    {
+      "externalId": "CPP-BAS-004",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\ncout << 7 / 2 << \" \" << 7 / 2.0;",
+      "options": [
+        "3.5 3",
+        "3 3",
+        "3 3.5",
+        "3.5 3.5"
+      ],
+      "answer": "3 3.5",
+      "explanation": "7 / 2 is integer division (3), while 7 / 2.0 uses floating-point division (3.5)."
+    },
+    {
+      "externalId": "CPP-BAS-005",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The ______ keyword declares a variable whose value cannot be modified after initialization.",
+      "answer": [
+        "const"
+      ],
+      "explanation": "const makes the object read-only after initialization."
+    },
+    {
+      "externalId": "CPP-BAS-006",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nauto x = 5 / 2.0;\ncout << x;",
+      "options": [
+        "2.5",
+        "2.50",
+        "2",
+        "3"
+      ],
+      "answer": "2.5",
+      "explanation": "auto deduces the type from the initializer. 5 / 2.0 is a double with value 2.5."
+    },
+    {
+      "externalId": "CPP-BAS-007",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstring s = \"abc\";\ns += \"def\";\ncout << s.size();",
+      "options": [
+        "7",
+        "3",
+        "abcdef",
+        "6"
+      ],
+      "answer": "6",
+      "explanation": "The += operator appends to the string, and size() returns the number of characters."
+    },
+    {
+      "externalId": "CPP-BAS-008",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nint x = 10;\nint &r = x;\nr = 20;\ncout << x;",
+      "options": [
+        "Compile error",
+        "20",
+        "10",
+        "Address of x"
+      ],
+      "answer": "20",
+      "explanation": "r is a reference, an alias for x, so assigning to r changes x."
+    },
+    {
+      "externalId": "CPP-BAS-009",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nbool b = 5;\ncout << b;",
+      "options": [
+        "0",
+        "5",
+        "1",
+        "true"
+      ],
+      "answer": "1",
+      "explanation": "Any non-zero value converts to true, and a bool is printed as 1 by default."
+    },
+    {
+      "externalId": "CPP-BAS-010",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\ncout << boolalpha << (3 > 2);",
+      "options": [
+        "true",
+        "0",
+        "1",
+        "false"
+      ],
+      "answer": "true",
+      "explanation": "boolalpha makes cout print booleans as text instead of 1 and 0."
+    },
+    {
+      "externalId": "CPP-BAS-011",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\ncout << 'a' + 1 << \" \" << char('a' + 1);",
+      "options": [
+        "98 98",
+        "b b",
+        "a1 b",
+        "98 b"
+      ],
+      "answer": "98 b",
+      "explanation": "'a' + 1 is arithmetic on ints (97 + 1 = 98), while char('a' + 1) converts the result back to the character 'b'."
+    },
+    {
+      "externalId": "CPP-BAS-012",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nint a[] = {1, 2, 3};\nfor (auto x : a)\n    cout << x * 2 << \" \";",
+      "options": [
+        "2 4 6 8",
+        "2 4 6",
+        "1 2 3",
+        "6 4 2"
+      ],
+      "answer": "2 4 6",
+      "explanation": "The range-based for loop visits each element in turn and the body doubles it."
+    },
+    {
+      "externalId": "CPP-BAS-013",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the line using namespace std; do?",
+      "options": [
+        "Makes all variables global",
+        "Includes the standard library",
+        "Lets you use names from the std namespace without the std:: prefix",
+        "Declares the main function"
+      ],
+      "answer": "Lets you use names from the std namespace without the std:: prefix",
+      "explanation": "It is convenient in small programs but is usually avoided in headers because it can cause name clashes."
+    },
+    {
+      "externalId": "CPP-BAS-014",
+      "topic": "C++",
+      "subtopic": "Basics",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "std::endl writes a newline and also flushes the output stream.",
+      "answer": true,
+      "explanation": "The flush can be slow in tight loops, so \"\\n\" is often preferred when flushing is not needed."
+    },
+    {
+      "externalId": "CPP-REF-001",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "A C++ reference must be initialized when it is declared.",
+      "answer": true,
+      "explanation": "A reference is an alias for an existing object, so it cannot exist without something to refer to."
+    },
+    {
+      "externalId": "CPP-REF-002",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvoid swp(int &a, int &b) {\n    int t = a;\n    a = b;\n    b = t;\n}\n\nint x = 1, y = 2;\nswp(x, y);\ncout << x << y;",
+      "options": [
+        "21",
+        "22",
+        "12",
+        "11"
+      ],
+      "answer": "21",
+      "explanation": "The function takes its parameters by reference, so swapping them swaps the caller's variables."
+    },
+    {
+      "externalId": "CPP-REF-003",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Why are large objects usually passed to functions as const T&?",
+      "options": [
+        "It converts the object to a pointer",
+        "It makes the function run in parallel",
+        "It allocates the object on the heap",
+        "It avoids copying the object and prevents the function from modifying it"
+      ],
+      "answer": "It avoids copying the object and prevents the function from modifying it",
+      "explanation": "Passing by const reference gives read-only access without the cost of a copy."
+    },
+    {
+      "externalId": "CPP-REF-004",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nint x = 5;\nint *p = &x;\n*p += 3;\ncout << x;",
+      "options": [
+        "5",
+        "8",
+        "Compile error",
+        "3"
+      ],
+      "answer": "8",
+      "explanation": "*p += 3 modifies the variable that p points to."
+    },
+    {
+      "externalId": "CPP-REF-005",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is nullptr (introduced in C++11)?",
+      "options": [
+        "A smart pointer",
+        "An alias for 0 as an integer",
+        "A typed null pointer constant",
+        "A function that frees pointers"
+      ],
+      "answer": "A typed null pointer constant",
+      "explanation": "nullptr has its own type (std::nullptr_t), which avoids the ambiguity that NULL (usually 0) causes in overload resolution."
+    },
+    {
+      "externalId": "CPP-REF-006",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A C++ reference can be re-bound to refer to a different variable after it has been initialized.",
+      "answer": false,
+      "explanation": "Assigning to a reference assigns to the object it refers to. It never re-binds the reference."
+    },
+    {
+      "externalId": "CPP-REF-007",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nint a = 1;\nint &r = a;\nint b = 2;\nr = b;\nb = 3;\ncout << a << r << b;",
+      "options": [
+        "223",
+        "123",
+        "213",
+        "233"
+      ],
+      "answer": "223",
+      "explanation": "r is an alias for a, so r = b copies b's value (2) into a. After that, b = 3 changes only b. The output is a=2, r=2, b=3."
+    },
+    {
+      "externalId": "CPP-REF-008",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nconst int c = 5;\nconst int *p = &c;\ncout << *p;",
+      "options": [
+        "0",
+        "Compile error",
+        "Address of c",
+        "5"
+      ],
+      "answer": "5",
+      "explanation": "A pointer to const can read the value but not modify it through the pointer."
+    },
+    {
+      "externalId": "CPP-REF-009",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nint arr[] = {1, 2, 3};\nint *p = arr;\np++;\ncout << *p;",
+      "options": [
+        "3",
+        "2",
+        "1",
+        "Address"
+      ],
+      "answer": "2",
+      "explanation": "Incrementing a pointer moves it to the next element of the array."
+    },
+    {
+      "externalId": "CPP-REF-010",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is an rvalue reference (T&&) mainly used for?",
+      "options": [
+        "Creating a pointer to a pointer",
+        "Declaring constants",
+        "Binding to temporaries so resources can be moved instead of copied",
+        "Returning multiple values"
+      ],
+      "answer": "Binding to temporaries so resources can be moved instead of copied",
+      "explanation": "Rvalue references are the basis of move semantics."
+    },
+    {
+      "externalId": "CPP-REF-011",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "It is safe to return a reference to a local variable from a function.",
+      "answer": false,
+      "explanation": "The local variable is destroyed when the function returns, so the reference would dangle."
+    },
+    {
+      "externalId": "CPP-REF-012",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which operator accesses a member through a pointer to an object?",
+      "options": [
+        "->",
+        "&",
+        ".",
+        "::"
+      ],
+      "answer": "->",
+      "explanation": "p->x is shorthand for (*p).x."
+    },
+    {
+      "externalId": "CPP-REF-013",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "In modern C++ the keyword ______ is used for the null pointer constant.",
+      "answer": [
+        "nullptr"
+      ],
+      "explanation": "Prefer nullptr over NULL or 0."
+    },
+    {
+      "externalId": "CPP-REF-014",
+      "topic": "C++",
+      "subtopic": "References and Pointers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nint x = 5;\nint &&rr = 10;\ncout << rr + x;",
+      "options": [
+        "10",
+        "5",
+        "Compile error",
+        "15"
+      ],
+      "answer": "15",
+      "explanation": "An rvalue reference can bind to a temporary such as 10, and then rr + x is 10 + 5."
+    },
+    {
+      "externalId": "CPP-OOP-001",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the default access level of members in a class (declared with the class keyword)?",
+      "options": [
+        "internal",
+        "private",
+        "protected",
+        "public"
+      ],
+      "answer": "private",
+      "explanation": "In a struct the default is public. In a class it is private."
+    },
+    {
+      "externalId": "CPP-OOP-002",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What is the name of a class constructor?",
+      "options": [
+        "constructor",
+        "new",
+        "The same as the class name",
+        "init"
+      ],
+      "answer": "The same as the class name",
+      "explanation": "A constructor has no return type and shares the class name."
+    },
+    {
+      "externalId": "CPP-OOP-003",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword makes a base-class member function eligible for runtime polymorphism?",
+      "options": [
+        "virtual",
+        "abstract",
+        "override",
+        "static"
+      ],
+      "answer": "virtual",
+      "explanation": "A virtual function is dispatched based on the dynamic type of the object."
+    },
+    {
+      "externalId": "CPP-OOP-004",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nclass Counter {\n    int n;\npublic:\n    Counter() : n(0) {}\n    void inc() { n++; }\n    int get() const { return n; }\n};\n\nCounter c;\nc.inc();\nc.inc();\ncout << c.get();",
+      "options": [
+        "0",
+        "1",
+        "Compile error",
+        "2"
+      ],
+      "answer": "2",
+      "explanation": "The constructor initializes n to 0 using an initializer list, and each inc() call adds one."
+    },
+    {
+      "externalId": "CPP-OOP-005",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstruct T {\n    T() { cout << \"C\"; }\n    ~T() { cout << \"D\"; }\n};\n\n{\n    T a;\n    T b;\n}",
+      "options": [
+        "CDCD",
+        "CCDD",
+        "CCD",
+        "DDCC"
+      ],
+      "answer": "CCDD",
+      "explanation": "Both objects are constructed first (C, C). At the end of the block they are destroyed in reverse order (D, D)."
+    },
+    {
+      "externalId": "CPP-OOP-006",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstruct A { A() { cout << \"A\"; } };\nstruct B : A { B() { cout << \"B\"; } };\n\nB b;",
+      "options": [
+        "B",
+        "A",
+        "AB",
+        "BA"
+      ],
+      "answer": "AB",
+      "explanation": "The base class part is constructed before the derived class part."
+    },
+    {
+      "externalId": "CPP-OOP-007",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstruct Base {\n    virtual void hi() { cout << \"Base\"; }\n};\nstruct Derived : Base {\n    void hi() override { cout << \"Derived\"; }\n};\n\nDerived d;\nBase &r = d;\nr.hi();",
+      "options": [
+        "Derived",
+        "Compile error",
+        "DerivedBase",
+        "Base"
+      ],
+      "answer": "Derived",
+      "explanation": "hi() is virtual, so the call through the Base reference runs the Derived version."
+    },
+    {
+      "externalId": "CPP-OOP-008",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstruct B2 {\n    void hi() { cout << \"B\"; }\n};\nstruct D2 : B2 {\n    void hi() { cout << \"D\"; }\n};\n\nD2 d;\nB2 &r = d;\nr.hi();",
+      "options": [
+        "BD",
+        "Compile error",
+        "D",
+        "B"
+      ],
+      "answer": "B",
+      "explanation": "hi() is not virtual, so the call is resolved at compile time using the reference's static type (B2), not the object's real type."
+    },
+    {
+      "externalId": "CPP-OOP-009",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What makes a C++ class abstract?",
+      "options": [
+        "It has only private members",
+        "It has at least one pure virtual function (= 0)",
+        "It is declared with the keyword abstract",
+        "It has no constructor"
+      ],
+      "answer": "It has at least one pure virtual function (= 0)",
+      "explanation": "Abstract classes cannot be instantiated and are used as interfaces."
+    },
+    {
+      "externalId": "CPP-OOP-010",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "Why should a base class that has virtual functions also have a virtual destructor?",
+      "options": [
+        "So the constructor runs twice",
+        "So the class can be copied",
+        "So that deleting a derived object through a base pointer runs the derived destructor",
+        "It is required by the compiler for all classes"
+      ],
+      "answer": "So that deleting a derived object through a base pointer runs the derived destructor",
+      "explanation": "Without it, deleting through the base pointer is undefined behaviour and the derived part may never be cleaned up."
+    },
+    {
+      "externalId": "CPP-OOP-011",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "C++ allows a class to inherit from more than one base class.",
+      "answer": true,
+      "explanation": "Multiple inheritance is supported, though it needs care (for example the diamond problem)."
+    },
+    {
+      "externalId": "CPP-OOP-012",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstruct P {\n    int v;\n    P(int x) : v(x) {}\n    P(const P &o) : v(o.v + 1) {}\n};\n\nP a(1);\nP b = a;\ncout << b.v;",
+      "options": [
+        "2",
+        "1",
+        "Compile error",
+        "0"
+      ],
+      "answer": "2",
+      "explanation": "The user-defined copy constructor adds 1 to the value, and P b = a calls it."
+    },
+    {
+      "externalId": "CPP-OOP-013",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which access specifier lets derived classes use a member but hides it from the rest of the program?",
+      "options": [
+        "public",
+        "private",
+        "friend",
+        "protected"
+      ],
+      "answer": "protected",
+      "explanation": "protected members are accessible in the class itself and in classes derived from it."
+    },
+    {
+      "externalId": "CPP-OOP-014",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstruct S {\n    static int count;\n    S() { count++; }\n};\nint S::count = 0;\n\nS a, b, c;\ncout << S::count;",
+      "options": [
+        "0",
+        "3",
+        "1",
+        "Compile error"
+      ],
+      "answer": "3",
+      "explanation": "count is shared by all objects of the class, and each of the three constructions increments it."
+    },
+    {
+      "externalId": "CPP-OOP-015",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstruct V {\n    int x;\n    V operator+(const V &o) const { return V{x + o.x}; }\n};\n\nV a{2}, b{5};\ncout << (a + b).x;",
+      "options": [
+        "Compile error",
+        "3",
+        "7",
+        "25"
+      ],
+      "answer": "7",
+      "explanation": "operator+ is overloaded to add the x members, so a + b creates a V with x = 2 + 5."
+    },
+    {
+      "externalId": "CPP-OOP-016",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "EASY",
+      "question": "The keyword ______ placed after a member function's parameter list promises that the function does not modify the object.",
+      "answer": [
+        "const"
+      ],
+      "explanation": "A const member function can be called on const objects."
+    },
+    {
+      "externalId": "CPP-OOP-017",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "Constructors in C++ can be declared virtual.",
+      "answer": false,
+      "explanation": "A constructor runs before the object's dynamic type is established, so it cannot be virtual."
+    },
+    {
+      "externalId": "CPP-OOP-018",
+      "topic": "C++",
+      "subtopic": "Classes and OOP",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the explicit keyword do on a single-argument constructor?",
+      "options": [
+        "Prevents implicit conversions from the argument type",
+        "Requires the constructor to be inline",
+        "Makes the constructor private",
+        "Makes the constructor virtual"
+      ],
+      "answer": "Prevents implicit conversions from the argument type",
+      "explanation": "It stops the compiler from silently converting a value into the class type."
+    },
+    {
+      "externalId": "CPP-MEM-001",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which pair of operators allocates and releases a single object on the heap in C++?",
+      "options": [
+        "alloc and release",
+        "create and destroy",
+        "malloc and free only",
+        "new and delete"
+      ],
+      "answer": "new and delete",
+      "explanation": "new allocates and constructs, delete destroys and releases."
+    },
+    {
+      "externalId": "CPP-MEM-002",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "TRUE_FALSE",
+      "difficulty": "EASY",
+      "question": "Memory allocated with new[] must be released with delete[].",
+      "answer": true,
+      "explanation": "Using plain delete on an array allocated with new[] is undefined behaviour."
+    },
+    {
+      "externalId": "CPP-MEM-003",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does RAII stand for and mean?",
+      "options": [
+        "Runtime Allocation Is Immediate",
+        "Resource Acquisition Is Initialization: a resource's lifetime is tied to an object's lifetime",
+        "Reference And Instance Isolation",
+        "Random Access In Iterators"
+      ],
+      "answer": "Resource Acquisition Is Initialization: a resource's lifetime is tied to an object's lifetime",
+      "explanation": "The destructor releases the resource automatically, even when exceptions occur."
+    },
+    {
+      "externalId": "CPP-MEM-004",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nauto p = make_unique<int>(5);\ncout << *p;",
+      "options": [
+        "Compile error",
+        "0",
+        "5",
+        "Address"
+      ],
+      "answer": "5",
+      "explanation": "make_unique creates an int owned by the unique_ptr, and * reads it."
+    },
+    {
+      "externalId": "CPP-MEM-005",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nauto a = make_shared<int>(1);\nauto b = a;\ncout << a.use_count();",
+      "options": [
+        "2",
+        "1",
+        "3",
+        "0"
+      ],
+      "answer": "2",
+      "explanation": "Copying a shared_ptr shares ownership, so the reference count rises to 2."
+    },
+    {
+      "externalId": "CPP-MEM-006",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "A std::unique_ptr can be copied.",
+      "answer": false,
+      "explanation": "A unique_ptr has exclusive ownership. It can be moved with std::move but not copied."
+    },
+    {
+      "externalId": "CPP-MEM-007",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nshared_ptr<int> a = make_shared<int>(1);\n{\n    auto b = a;\n}\ncout << a.use_count();",
+      "options": [
+        "2",
+        "0",
+        "Compile error",
+        "1"
+      ],
+      "answer": "1",
+      "explanation": "The inner copy b is destroyed at the end of the block, so the count drops back to 1."
+    },
+    {
+      "externalId": "CPP-MEM-008",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "Which smart pointer models shared ownership of an object?",
+      "options": [
+        "std::unique_ptr",
+        "std::shared_ptr",
+        "std::auto_ptr",
+        "std::weak_ptr"
+      ],
+      "answer": "std::shared_ptr",
+      "explanation": "The object is destroyed when the last shared_ptr that owns it goes away."
+    },
+    {
+      "externalId": "CPP-MEM-009",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What is std::weak_ptr mainly used for?",
+      "options": [
+        "Storing raw arrays",
+        "Making a pointer thread-safe",
+        "Observing a shared object without owning it, which helps break reference cycles",
+        "Replacing unique_ptr"
+      ],
+      "answer": "Observing a shared object without owning it, which helps break reference cycles",
+      "explanation": "A weak_ptr does not increase the reference count."
+    },
+    {
+      "externalId": "CPP-MEM-010",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the new operator do by default if the allocation fails?",
+      "options": [
+        "Throws std::bad_alloc",
+        "Returns 0 bytes",
+        "Terminates silently",
+        "Returns NULL"
+      ],
+      "answer": "Throws std::bad_alloc",
+      "explanation": "The nothrow form (new (std::nothrow)) returns nullptr instead."
+    },
+    {
+      "externalId": "CPP-MEM-011",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v(3, 7);\nv.push_back(1);\ncout << v.size() << \" \" << v[3];",
+      "options": [
+        "3 7",
+        "4 7",
+        "3 1",
+        "4 1"
+      ],
+      "answer": "4 1",
+      "explanation": "The vector starts with three 7s, and push_back appends 1, so the size is 4 and v[3] is 1."
+    },
+    {
+      "externalId": "CPP-MEM-012",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "Smart pointers such as unique_ptr and shared_ptr are declared in the <______> header.",
+      "answer": [
+        "memory"
+      ],
+      "explanation": "Include <memory> to use them."
+    },
+    {
+      "externalId": "CPP-MEM-013",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "TRUE_FALSE",
+      "difficulty": "HARD",
+      "question": "In modern C++, raw owning pointers are preferred over smart pointers.",
+      "answer": false,
+      "explanation": "Smart pointers express ownership clearly and release memory automatically, so they are preferred for ownership."
+    },
+    {
+      "externalId": "CPP-MEM-014",
+      "topic": "C++",
+      "subtopic": "Memory Management",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "The \"rule of three\" says that if a class needs a user-defined destructor, it probably also needs which other functions?",
+      "options": [
+        "Move constructor only",
+        "Copy constructor and copy assignment operator",
+        "Default constructor and virtual destructor",
+        "Static members"
+      ],
+      "answer": "Copy constructor and copy assignment operator",
+      "explanation": "A class that manages a resource needs consistent rules for destroying, copying and assigning it."
+    },
+    {
+      "externalId": "CPP-STL-001",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which STL container is a dynamic, contiguous array?",
+      "options": [
+        "std::set",
+        "std::list",
+        "std::vector",
+        "std::map"
+      ],
+      "answer": "std::vector",
+      "explanation": "A vector stores its elements contiguously and grows automatically."
+    },
+    {
+      "externalId": "CPP-STL-002",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v = {3, 1, 2};\nsort(v.begin(), v.end());\ncout << v[0];",
+      "options": [
+        "1",
+        "0",
+        "2",
+        "3"
+      ],
+      "answer": "1",
+      "explanation": "sort arranges the elements in ascending order, so the first element becomes the smallest."
+    },
+    {
+      "externalId": "CPP-STL-003",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nmap<string, int> m;\nm[\"a\"]++;\nm[\"a\"]++;\nm[\"b\"]++;\ncout << m[\"a\"] << m.size();",
+      "options": [
+        "11",
+        "21",
+        "12",
+        "22"
+      ],
+      "answer": "22",
+      "explanation": "operator[] on a map creates a missing key with value 0. a is incremented twice (2), and the map ends up with two keys (a and b)."
+    },
+    {
+      "externalId": "CPP-STL-004",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nmap<int, char> m{{3, 'c'}, {1, 'a'}, {2, 'b'}};\nfor (auto &p : m)\n    cout << p.second;",
+      "options": [
+        "bac",
+        "abc",
+        "123",
+        "cba"
+      ],
+      "answer": "abc",
+      "explanation": "A std::map keeps its keys in sorted order, so iteration visits keys 1, 2, 3."
+    },
+    {
+      "externalId": "CPP-STL-005",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nunordered_set<int> s{1, 2, 2, 3};\ncout << s.size();",
+      "options": [
+        "2",
+        "4",
+        "3",
+        "1"
+      ],
+      "answer": "3",
+      "explanation": "A set stores only unique elements, so the duplicate 2 is dropped."
+    },
+    {
+      "externalId": "CPP-STL-006",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the time complexity of looking up a key in a std::map?",
+      "options": [
+        "O(log n)",
+        "O(n log n)",
+        "O(n)",
+        "O(1)"
+      ],
+      "answer": "O(log n)",
+      "explanation": "std::map is typically a balanced binary search tree (red-black tree)."
+    },
+    {
+      "externalId": "CPP-STL-007",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the average time complexity of looking up a key in a std::unordered_map?",
+      "options": [
+        "O(n^2)",
+        "O(n)",
+        "O(log n)",
+        "O(1)"
+      ],
+      "answer": "O(1)",
+      "explanation": "It is a hash table, so average lookup is constant time, although the worst case is O(n)."
+    },
+    {
+      "externalId": "CPP-STL-008",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstack<int> s;\ns.push(1);\ns.push(2);\ncout << s.top();\ns.pop();\ncout << s.top();",
+      "options": [
+        "12",
+        "21",
+        "22",
+        "11"
+      ],
+      "answer": "21",
+      "explanation": "top() shows 2 (the last pushed). After pop(), top() shows 1."
+    },
+    {
+      "externalId": "CPP-STL-009",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nqueue<int> q;\nq.push(1);\nq.push(2);\ncout << q.front();",
+      "options": [
+        "12",
+        "0",
+        "1",
+        "2"
+      ],
+      "answer": "1",
+      "explanation": "A queue is first in, first out, so front() is the element pushed first."
+    },
+    {
+      "externalId": "CPP-STL-010",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\npriority_queue<int> pq;\nfor (int x : {3, 1, 4})\n    pq.push(x);\ncout << pq.top();",
+      "options": [
+        "4",
+        "8",
+        "3",
+        "1"
+      ],
+      "answer": "4",
+      "explanation": "priority_queue is a max-heap by default, so top() returns the largest element."
+    },
+    {
+      "externalId": "CPP-STL-011",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v{1, 2, 3};\nv.erase(v.begin());\ncout << v[0] << v.size();",
+      "options": [
+        "11",
+        "12",
+        "13",
+        "22"
+      ],
+      "answer": "22",
+      "explanation": "erase removes the first element, so v becomes {2, 3}: v[0] is 2 and the size is 2."
+    },
+    {
+      "externalId": "CPP-STL-012",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "The elements of a std::vector are stored contiguously in memory.",
+      "answer": true,
+      "explanation": "This gives fast indexing and good cache behaviour, and allows passing &v[0] to C-style APIs."
+    },
+    {
+      "externalId": "CPP-STL-013",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nset<int> s{5, 1, 3};\ncout << *s.begin();",
+      "options": [
+        "3",
+        "1",
+        "5",
+        "0"
+      ],
+      "answer": "1",
+      "explanation": "A set keeps its elements sorted, so begin() refers to the smallest element."
+    },
+    {
+      "externalId": "CPP-STL-014",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "When can pushing an element onto a std::vector invalidate existing iterators?",
+      "options": [
+        "Never",
+        "Only when the vector is empty",
+        "When the vector reallocates to a larger buffer",
+        "Only for vectors of pointers"
+      ],
+      "answer": "When the vector reallocates to a larger buffer",
+      "explanation": "After reallocation, iterators, pointers and references to the old elements are no longer valid."
+    },
+    {
+      "externalId": "CPP-STL-015",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\npair<int, string> p = {1, \"x\"};\ncout << p.first << p.second;",
+      "options": [
+        "1x",
+        "x",
+        "1 x",
+        "x1"
+      ],
+      "answer": "1x",
+      "explanation": "std::pair groups two values, accessed through the members first and second."
+    },
+    {
+      "externalId": "CPP-STL-016",
+      "topic": "C++",
+      "subtopic": "STL Containers",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\ndeque<int> d;\nd.push_front(1);\nd.push_back(2);\nd.push_front(0);\ncout << d[0] << d[2];",
+      "options": [
+        "12",
+        "20",
+        "01",
+        "02"
+      ],
+      "answer": "02",
+      "explanation": "push_front and push_back add at both ends, giving {0, 1, 2}. d[0] is 0 and d[2] is 2."
+    },
+    {
+      "externalId": "CPP-ALG-001",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v{1, 2, 3, 4};\ncout << accumulate(v.begin(), v.end(), 0);",
+      "options": [
+        "24",
+        "10",
+        "4",
+        "1"
+      ],
+      "answer": "10",
+      "explanation": "accumulate adds all the elements starting from the initial value 0."
+    },
+    {
+      "externalId": "CPP-ALG-002",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v{3, 1, 2};\nsort(v.begin(), v.end(), greater<int>());\ncout << v[0];",
+      "options": [
+        "Compile error",
+        "2",
+        "3",
+        "1"
+      ],
+      "answer": "3",
+      "explanation": "greater<int>() as the comparator sorts in descending order, so the largest value comes first."
+    },
+    {
+      "externalId": "CPP-ALG-003",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v{1, 2, 3, 4, 5};\ncout << count_if(v.begin(), v.end(), [](int x) { return x % 2 == 0; });",
+      "options": [
+        "2",
+        "3",
+        "5",
+        "4"
+      ],
+      "answer": "2",
+      "explanation": "The lambda is the predicate. count_if counts the elements for which it returns true, here 2 and 4."
+    },
+    {
+      "externalId": "CPP-ALG-004",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nint x = 1;\nauto f = [x]() { return x + 1; };\nx = 10;\ncout << f();",
+      "options": [
+        "10",
+        "1",
+        "11",
+        "2"
+      ],
+      "answer": "2",
+      "explanation": "The lambda captures x by value when it is created (x = 1), so later changes to x do not affect it."
+    },
+    {
+      "externalId": "CPP-ALG-005",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nint x = 1;\nauto f = [&x]() { x++; };\nf();\nf();\ncout << x;",
+      "options": [
+        "2",
+        "3",
+        "0",
+        "1"
+      ],
+      "answer": "3",
+      "explanation": "Capturing by reference ([&x]) lets the lambda modify the original variable. After two calls, x is 3."
+    },
+    {
+      "externalId": "CPP-ALG-006",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v{4, 5, 6};\nauto it = find(v.begin(), v.end(), 5);\ncout << (it - v.begin());",
+      "options": [
+        "2",
+        "0",
+        "1",
+        "5"
+      ],
+      "answer": "1",
+      "explanation": "find returns an iterator to the match. Subtracting begin() gives its index."
+    },
+    {
+      "externalId": "CPP-ALG-007",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nstring s = \"abc\";\nreverse(s.begin(), s.end());\ncout << s;",
+      "options": [
+        "cba",
+        "acb",
+        "abc",
+        "bca"
+      ],
+      "answer": "cba",
+      "explanation": "reverse reverses the range in place."
+    },
+    {
+      "externalId": "CPP-ALG-008",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v{1, 3, 5};\ncout << binary_search(v.begin(), v.end(), 3) << binary_search(v.begin(), v.end(), 4);",
+      "options": [
+        "01",
+        "11",
+        "00",
+        "10"
+      ],
+      "answer": "10",
+      "explanation": "binary_search returns true for 3 (printed as 1) and false for 4 (printed as 0). It requires a sorted range."
+    },
+    {
+      "externalId": "CPP-ALG-009",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v{1, 1, 2, 2, 3};\nv.erase(unique(v.begin(), v.end()), v.end());\ncout << v.size();",
+      "options": [
+        "5",
+        "3",
+        "2",
+        "1"
+      ],
+      "answer": "3",
+      "explanation": "unique moves consecutive duplicates to the end and returns the new logical end. Erasing from there leaves {1, 2, 3}."
+    },
+    {
+      "externalId": "CPP-ALG-010",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v{1, 2, 3};\ntransform(v.begin(), v.end(), v.begin(), [](int x) { return x * x; });\ncout << v[2];",
+      "options": [
+        "3",
+        "14",
+        "9",
+        "6"
+      ],
+      "answer": "9",
+      "explanation": "transform applies the lambda to each element and writes the results back, so the last element becomes 3 * 3."
+    },
+    {
+      "externalId": "CPP-ALG-011",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the typical time complexity of std::sort?",
+      "options": [
+        "O(n log n)",
+        "O(log n)",
+        "O(n)",
+        "O(n^2)"
+      ],
+      "answer": "O(n log n)",
+      "explanation": "The standard requires O(n log n) comparisons on average (and in modern implementations also in the worst case)."
+    },
+    {
+      "externalId": "CPP-ALG-012",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "std::sort can be applied directly to a std::list.",
+      "answer": false,
+      "explanation": "std::sort needs random-access iterators. Use the list's own sort() member function."
+    },
+    {
+      "externalId": "CPP-ALG-013",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "FILL_IN_BLANK",
+      "difficulty": "MEDIUM",
+      "question": "A ______ expression defines an anonymous function object and starts with square brackets [].",
+      "answer": [
+        "lambda"
+      ],
+      "explanation": "Lambdas were introduced in C++11 and are often passed to STL algorithms."
+    },
+    {
+      "externalId": "CPP-ALG-014",
+      "topic": "C++",
+      "subtopic": "Algorithms and Lambdas",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> v{3, 9, 2};\ncout << *max_element(v.begin(), v.end());",
+      "options": [
+        "3",
+        "2",
+        "14",
+        "9"
+      ],
+      "answer": "9",
+      "explanation": "max_element returns an iterator to the largest element, and * reads its value."
+    },
+    {
+      "externalId": "CPP-MOD-001",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "EASY",
+      "question": "Which keyword introduces a generic function or class in C++?",
+      "options": [
+        "abstract",
+        "template",
+        "typename only",
+        "generic"
+      ],
+      "answer": "template",
+      "explanation": "A template is a blueprint that the compiler instantiates for concrete types."
+    },
+    {
+      "externalId": "CPP-MOD-002",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\ntemplate <typename T>\nT big(T a, T b) {\n    return a > b ? a : b;\n}\n\ncout << big(3, 7) << big(2.5, 1.5);",
+      "options": [
+        "7 2.5",
+        "Compile error",
+        "72.5",
+        "72"
+      ],
+      "answer": "72.5",
+      "explanation": "The same template works for int (3 and 7 give 7) and double (2.5 and 1.5 give 2.5), and the two outputs are printed back to back."
+    },
+    {
+      "externalId": "CPP-MOD-003",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<string> w{\"a\", \"bb\"};\nsize_t n = 0;\nfor (const auto &s : w)\n    n += s.size();\ncout << n;",
+      "options": [
+        "3",
+        "1",
+        "Compile error",
+        "2"
+      ],
+      "answer": "3",
+      "explanation": "The loop adds the length of each string: 1 + 2."
+    },
+    {
+      "externalId": "CPP-MOD-004",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the auto keyword do in a variable declaration?",
+      "options": [
+        "Allocates it on the heap",
+        "Makes the variable constant",
+        "Makes the variable automatic memory only",
+        "Deduces the variable's type from its initializer"
+      ],
+      "answer": "Deduces the variable's type from its initializer",
+      "explanation": "The type is still fixed at compile time, it is just inferred."
+    },
+    {
+      "externalId": "CPP-MOD-005",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "In modern C++, nullptr is preferred over NULL for null pointers.",
+      "answer": true,
+      "explanation": "nullptr has a proper pointer type and avoids overload ambiguity."
+    },
+    {
+      "externalId": "CPP-MOD-006",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nconstexpr int sq(int x) {\n    return x * x;\n}\n\nconstexpr int v = sq(4);\ncout << v;",
+      "options": [
+        "4",
+        "16",
+        "8",
+        "Compile error"
+      ],
+      "answer": "16",
+      "explanation": "A constexpr function can be evaluated at compile time. Here sq(4) is computed by the compiler."
+    },
+    {
+      "externalId": "CPP-MOD-007",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\npair<int, int> p{1, 2};\nauto [a, b] = p;\ncout << a + b;",
+      "options": [
+        "Compile error",
+        "12",
+        "3",
+        "1"
+      ],
+      "answer": "3",
+      "explanation": "Structured bindings (C++17) unpack the pair into a and b."
+    },
+    {
+      "externalId": "CPP-MOD-008",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nvector<int> a{5};\nvector<int> b(5);\ncout << a.size() << b.size();",
+      "options": [
+        "15",
+        "55",
+        "Compile error",
+        "11"
+      ],
+      "answer": "15",
+      "explanation": "Braces call the initializer-list constructor, creating one element with the value 5 (size 1). Parentheses call the size constructor, creating five elements (size 5)."
+    },
+    {
+      "externalId": "CPP-MOD-009",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does std::move do?",
+      "options": [
+        "Deletes the object",
+        "Copies the object quickly",
+        "Moves the object to a new memory address immediately",
+        "Casts its argument to an rvalue reference so it can be moved from"
+      ],
+      "answer": "Casts its argument to an rvalue reference so it can be moved from",
+      "explanation": "std::move itself does not move anything. It enables a move constructor or move assignment to be chosen."
+    },
+    {
+      "externalId": "CPP-MOD-010",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\noptional<int> o;\ncout << o.has_value() << o.value_or(7);",
+      "options": [
+        "0 7",
+        "07",
+        "Compile error",
+        "70"
+      ],
+      "answer": "07",
+      "explanation": "An empty optional has no value, so has_value() is false (0) and value_or(7) returns the fallback 7."
+    },
+    {
+      "externalId": "CPP-MOD-011",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "When does the compiler generate code for a function or class template?",
+      "options": [
+        "Only for built-in types",
+        "At run time",
+        "When it is used with concrete types (instantiation)",
+        "When the header is included"
+      ],
+      "answer": "When it is used with concrete types (instantiation)",
+      "explanation": "Each distinct set of template arguments produces its own instantiation."
+    },
+    {
+      "externalId": "CPP-MOD-012",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "TRUE_FALSE",
+      "difficulty": "MEDIUM",
+      "question": "Templates are resolved at compile time, so using them adds no run-time dispatch cost.",
+      "answer": true,
+      "explanation": "Template instantiation happens at compile time, which is why generic code like std::sort can be as fast as hand-written code."
+    },
+    {
+      "externalId": "CPP-MOD-013",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "MEDIUM",
+      "question": "What is the purpose of the override specifier in a derived class?",
+      "options": [
+        "The compiler checks that the function really overrides a virtual function in a base class",
+        "It prevents further overriding",
+        "It makes the function virtual in the base class",
+        "It makes the function static"
+      ],
+      "answer": "The compiler checks that the function really overrides a virtual function in a base class",
+      "explanation": "It catches mistakes such as a mismatched parameter list."
+    },
+    {
+      "externalId": "CPP-MOD-014",
+      "topic": "C++",
+      "subtopic": "Templates and Modern C++",
+      "type": "MCQ",
+      "difficulty": "HARD",
+      "question": "What does the following C++ code print? (Assume it runs inside main, with the usual standard headers included and using namespace std.)\n\nint x = 5;\nauto y = x;\nauto &z = x;\nz++;\ncout << x << y;",
+      "options": [
+        "55",
+        "66",
+        "56",
+        "65"
+      ],
+      "answer": "65",
+      "explanation": "y is a copy of x (5). z is a reference to x, so z++ makes x 6 but leaves y at 5."
+    }
+  ]
+}
