@@ -114,7 +114,7 @@ export function DatasetUploadPage() {
           <div className="flex gap-3">
             <Link
               to="/admin/questions"
-              className="rounded-md bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700"
+              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
             >
               View questions
             </Link>
@@ -134,14 +134,14 @@ export function DatasetUploadPage() {
         </div>
       ) : (
         <>
-          <div className="rounded-lg border border-slate-200 bg-white p-5">
+          <div className="card p-5">
             <label className="mb-2 block text-sm font-medium text-slate-700">Dataset file (.json)</label>
             <input
               key={fileKey}
               type="file"
               accept=".json,application/json"
               onChange={handleFile}
-              className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-slate-800 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-slate-700"
+              className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-indigo-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-indigo-700"
             />
             {parseError && <p className="mt-3 text-sm text-red-600">{parseError}</p>}
 
@@ -159,7 +159,7 @@ export function DatasetUploadPage() {
               <button
                 onClick={() => payload && validateMutation.mutate(payload)}
                 disabled={!payload || busy}
-                className="rounded-md bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-50"
+                className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
               >
                 {validateMutation.isPending ? "Validating..." : "Validate"}
               </button>
@@ -200,7 +200,7 @@ function ValidationReport({ result }: { result: ValidationResponse }) {
   const ok = isFullyValid(result);
 
   return (
-    <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-5">
+    <div className="space-y-4 card p-5">
       <div className="flex items-center justify-between">
         <h2 className="font-semibold text-slate-800">Validation result</h2>
         <span

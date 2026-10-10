@@ -45,6 +45,18 @@ public class User {
     @Column(name = "last_login_at")
     private Instant lastLoginAt;
 
+    @Column(name = "display_name", length = 60)
+    private String displayName;
+
+    @Column(length = 300)
+    private String bio;
+
+    @Column(length = 100)
+    private String goal;
+
+    @Column(name = "avatar_color", length = 20)
+    private String avatarColor;
+
     @PrePersist
     protected void onCreate() {
         Instant now = Instant.now();

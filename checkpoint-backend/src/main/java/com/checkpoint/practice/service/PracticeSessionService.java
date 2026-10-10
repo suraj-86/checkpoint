@@ -3,6 +3,7 @@ package com.checkpoint.practice.service;
 import com.checkpoint.common.exception.BadRequestException;
 import com.checkpoint.common.exception.ConflictException;
 import com.checkpoint.common.exception.NotFoundException;
+import com.checkpoint.interest.repository.UserInterestRepository;
 import com.checkpoint.practice.dto.*;
 import com.checkpoint.practice.entity.*;
 import com.checkpoint.practice.repository.PracticeSessionRepository;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -44,6 +46,7 @@ public class PracticeSessionService {
     private final ReviewProgressService reviewProgressService;
     private final AnswerEvaluator answerEvaluator;
     private final XpAwardService xpAwardService;
+    private final UserInterestRepository interestRepository;
     private final Clock clock;
 
     public PracticeSessionService(
@@ -55,6 +58,7 @@ public class PracticeSessionService {
             ReviewProgressService reviewProgressService,
             AnswerEvaluator answerEvaluator,
             XpAwardService xpAwardService,
+            UserInterestRepository interestRepository,
             Clock clock
     ) {
         this.sessionRepository = sessionRepository;
@@ -65,6 +69,7 @@ public class PracticeSessionService {
         this.reviewProgressService = reviewProgressService;
         this.answerEvaluator = answerEvaluator;
         this.xpAwardService = xpAwardService;
+        this.interestRepository = interestRepository;
         this.clock = clock;
     }
 
@@ -74,7 +79,8 @@ public class PracticeSessionService {
         requireNoActiveSession(student);
 
         Instant now = Instant.now(clock);
-        var selection = selectionService.selectForSession(student.getId(), DAILY_SESSION_SIZE, now);
+        Set<UUID> interests = interestRepository.findTopicIds(student.getId());
+        var selection = selectionService.selectForSession(student.getId(), DAILY_SESSION_SIZE, now, interests);
         List<Question> chosen = selection.questions();
 
         if (chosen.isEmpty()) {
@@ -281,6 +287,31 @@ public class PracticeSessionService {
         return true;
     }
 
+
+    @Transactional
+    public SessionAbandonResponse abandonSession(User student, UUID sessionId) {
+        PracticeSession session = sessionRepository.findById(sessionId)
+                .filter(s -> s.getUser().getId().equals(student.getId()))
+                .orElseThrow(() -> new NotFoundException("Session not found."));
+
+        if (session.getStatus() != SessionStatus.IN_PROGRESS) {
+            throw new ConflictException("SESSION_ALREADY_FINISHED", "This session is no longer in progress.");
+        }
+
+        // Answers already given stay recorded in the student's progress, but an
+        // abandoned session awards no XP and does not count towards the streak.
+        session.setStatus(SessionStatus.ABANDONED);
+        session.setCompletedAt(Instant.now(clock));
+        sessionRepository.save(session);
+
+        return new SessionAbandonResponse(
+                session.getId(),
+                session.getStatus().name(),
+                session.getCorrectCount() + session.getWrongCount(),
+                session.getCorrectCount(),
+                session.getPrimaryQuestionCount()
+        );
+    }
 
     @Transactional
     public SessionCompletionResponse completeSession(User student, UUID sessionId) {

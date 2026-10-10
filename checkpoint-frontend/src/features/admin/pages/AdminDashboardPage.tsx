@@ -29,7 +29,7 @@ export function AdminDashboardPage() {
         <h1 className="text-2xl font-semibold text-slate-800">Admin Dashboard</h1>
         <Link
           to="/admin/datasets/upload"
-          className="rounded-md bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700"
+          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
         >
           Upload dataset
         </Link>
@@ -43,7 +43,7 @@ export function AdminDashboardPage() {
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-lg border border-slate-200 bg-white p-4">
+          <div key={s.label} className="card p-4">
             <p className="text-xs text-slate-500">{s.label}</p>
             <p className={`text-xl font-semibold ${s.color}`}>{s.value}</p>
           </div>
@@ -65,7 +65,7 @@ export function AdminDashboardPage() {
         />
       </div>
 
-      <div className="rounded-lg border border-slate-200 bg-white p-4">
+      <div className="card p-4">
         <h2 className="mb-2 text-sm font-semibold text-slate-700">Latest dataset</h2>
         {data.latestDataset ? (
           <div className="flex items-center justify-between text-sm">

@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-slate-700 antialiased;
+  }
+}
+
+@layer components {
+  .app-bg {
+    @apply bg-gradient-to-br from-sky-100 via-indigo-50 to-violet-100 bg-fixed;
+  }
+
+  .card {
+    @apply rounded-2xl border border-white/80 bg-white/70 shadow-sm shadow-indigo-100/60 backdrop-blur-md;
+  }
+}

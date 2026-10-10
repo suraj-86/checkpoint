@@ -31,7 +31,7 @@ export function FastPracticeStartPage() {
   return (
     <div className="mx-auto max-w-md">
       <h1 className="mb-4 text-xl font-semibold text-slate-800">Fast Practice</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-slate-200 bg-white p-6">
+      <form onSubmit={handleSubmit} className="space-y-4 card p-6">
         <div>
           <label className="mb-1 block text-sm font-medium text-slate-700">Number of questions</label>
           <input
@@ -98,7 +98,7 @@ export function FastPracticeStartPage() {
         <button
           type="submit"
           disabled={startMutation.isPending}
-          className="w-full rounded-md bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-50"
+          className="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
         >
           {startMutation.isPending ? "Starting..." : "Start Fast Practice"}
         </button>

@@ -56,7 +56,7 @@ export function QuestionBrowserPage() {
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold text-slate-800">Question browser</h1>
 
-      <div className="flex flex-wrap items-center gap-3 rounded-lg border border-slate-200 bg-white p-3">
+      <div className="flex flex-wrap items-center gap-3 card p-3">
         <select value={filters.topicId} onChange={(e) => updateFilter("topicId", e.target.value)} className={selectClass}>
           <option value="">All topics</option>
           {topics?.map((t) => (
@@ -111,13 +111,13 @@ export function QuestionBrowserPage() {
       {isError && <p className="text-sm text-red-600">Could not load questions.</p>}
 
       {data && data.content.length === 0 && (
-        <p className="rounded-lg border border-slate-200 bg-white p-6 text-sm text-slate-500">
+        <p className="card p-6 text-sm text-slate-500">
           No questions match these filters.
         </p>
       )}
 
       {data && data.content.length > 0 && (
-        <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
+        <div className="overflow-x-auto card">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase text-slate-500">
               <tr>

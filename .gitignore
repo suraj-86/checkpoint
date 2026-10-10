@@ -12,3 +12,4 @@ checkpoint-frontend/.env.local
 .vscode/
 *.iml
 *.tsbuildinfo
+.vite/

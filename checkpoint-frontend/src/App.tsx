@@ -16,6 +16,7 @@ import { AdminDashboardPage } from "./features/admin/pages/AdminDashboardPage";
 import { DatasetUploadPage } from "./features/admin/pages/DatasetUploadPage";
 import { DatasetHistoryPage } from "./features/admin/pages/DatasetHistoryPage";
 import { QuestionBrowserPage } from "./features/admin/pages/QuestionBrowserPage";
+import { AdminAccountPage } from "./features/account/pages/AdminAccountPage";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
         <Route path="/admin/datasets" element={<DatasetHistoryPage />} />
         <Route path="/admin/datasets/upload" element={<DatasetUploadPage />} />
         <Route path="/admin/questions" element={<QuestionBrowserPage />} />
+        <Route path="/admin/account" element={<AdminAccountPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

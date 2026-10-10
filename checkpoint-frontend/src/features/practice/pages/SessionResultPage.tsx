@@ -50,7 +50,7 @@ export function SessionResultPage() {
       <Trophy className="mx-auto text-slate-400" size={40} />
       <h1 className="mt-3 text-xl font-semibold text-slate-800">Session complete</h1>
 
-      <div className="mt-6 rounded-lg border border-slate-200 bg-white p-6">
+      <div className="mt-6 card p-6">
         <div className="grid grid-cols-2 gap-4 text-left">
           <div>
             <p className="text-xs text-slate-500">Correct</p>
@@ -88,14 +88,14 @@ export function SessionResultPage() {
         {result.currentStreak > 0 && result.streakMilestoneBonus === 0 && (
           <p className="mt-3 flex items-center justify-center gap-1.5 text-sm text-slate-500">
             <Flame size={14} className="text-orange-400" />
-            Current streak: {result.currentStreak} {result.currentStreak === 1 ? "day" : "days"}
+            Current streak: {result.currentStreak} days
           </p>
         )}
       </div>
 
       <Link
         to="/dashboard"
-        className="mt-6 inline-block rounded-md bg-slate-800 px-5 py-2 text-sm font-medium text-white hover:bg-slate-700"
+        className="mt-6 inline-block rounded-md bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-700"
       >
         Back to dashboard
       </Link>

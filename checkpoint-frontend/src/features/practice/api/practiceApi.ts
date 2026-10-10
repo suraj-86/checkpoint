@@ -34,3 +34,16 @@ export async function completeSession(sessionId: string): Promise<SessionComplet
   const { data } = await apiClient.post<SessionCompletion>(`/api/practice/${sessionId}/complete`);
   return data;
 }
+
+export interface SessionAbandon {
+  sessionId: string;
+  status: string;
+  answeredCount: number;
+  correctCount: number;
+  primaryQuestionCount: number;
+}
+
+export async function abandonSession(sessionId: string): Promise<SessionAbandon> {
+  const { data } = await apiClient.post<SessionAbandon>(`/api/practice/${sessionId}/abandon`);
+  return data;
+}

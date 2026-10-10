@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -54,6 +55,11 @@ public class ProgressService {
         long needsReview = progressRepository.countByUserIdAndReviewState(userId, ReviewState.NEEDS_REVIEW);
         long stable = progressRepository.countByUserIdAndReviewState(userId, ReviewState.STABLE);
 
+        // Same definition the dashboard uses: questions answered wrong last time, plus
+        // correctly answered ones whose scheduled review date has already passed.
+        Instant startOfToday = Instant.now(clock).truncatedTo(ChronoUnit.DAYS);
+        long overdue = progressRepository.findOverdue(userId, startOfToday).size();
+
         BigDecimal accuracy = totalAttempts == 0
                 ? BigDecimal.ZERO
                 : BigDecimal.valueOf(correct)
@@ -61,7 +67,7 @@ public class ProgressService {
                         .multiply(BigDecimal.valueOf(100))
                         .setScale(2, RoundingMode.HALF_UP);
 
-        return new ProgressOverallResponse(distinctQuestions, totalAttempts, correct, wrong, accuracy, needsReview, stable);
+        return new ProgressOverallResponse(distinctQuestions, totalAttempts, correct, wrong, accuracy, needsReview, stable, overdue, needsReview + overdue);
     }
 
     @Transactional(readOnly = true)
@@ -85,7 +91,8 @@ public class ProgressService {
                                     .setScale(2, RoundingMode.HALF_UP);
                     return new TopicPerformance(entry.getKey(), topicName, attempted, correct, accuracy);
                 })
-                .sorted((a, b) -> b.questionsAttempted() > a.questionsAttempted() ? 1 : -1)
+                .sorted(Comparator.comparingLong(TopicPerformance::questionsAttempted).reversed()
+                        .thenComparing(TopicPerformance::topicName))
                 .toList();
     }
 

@@ -10,6 +10,8 @@ public record ProgressOverallResponse(
         long wrongAttempts,
         BigDecimal overallAccuracy,
         long needsReviewCount,
-        long stableCount
+        long stableCount,
+        long overdueCount,
+        long dueForReviewCount
 ) {
 }

@@ -42,6 +42,8 @@ export interface ProgressOverall {
   overallAccuracy: number;
   needsReviewCount: number;
   stableCount: number;
+  overdueCount: number;
+  dueForReviewCount: number;
 }
 
 export interface TopicPerformance {

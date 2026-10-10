@@ -7,7 +7,7 @@ export function BreakdownBars({ title, items }: BreakdownBarsProps) {
   const max = Math.max(1, ...items.map((i) => i.value));
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
+    <div className="card p-4">
       <h2 className="mb-3 text-sm font-semibold text-slate-700">{title}</h2>
       {items.length === 0 ? (
         <p className="text-sm text-slate-400">No data yet.</p>
@@ -21,7 +21,7 @@ export function BreakdownBars({ title, items }: BreakdownBarsProps) {
               </div>
               <div className="h-2 rounded-full bg-slate-100">
                 <div
-                  className="h-2 rounded-full bg-slate-700"
+                  className="h-2 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
                   style={{ width: `${(item.value / max) * 100}%` }}
                 />
               </div>

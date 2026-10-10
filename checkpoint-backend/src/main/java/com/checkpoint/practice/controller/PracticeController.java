@@ -53,4 +53,12 @@ public class PracticeController {
     ) {
         return practiceSessionService.completeSession(principal.getUser(), sessionId);
     }
+
+    @PostMapping("/{sessionId}/abandon")
+    public SessionAbandonResponse abandon(
+            @AuthenticationPrincipal CheckpointUserDetails principal,
+            @PathVariable UUID sessionId
+    ) {
+        return practiceSessionService.abandonSession(principal.getUser(), sessionId);
+    }
 }

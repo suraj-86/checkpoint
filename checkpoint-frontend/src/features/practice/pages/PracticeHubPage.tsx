@@ -23,12 +23,12 @@ export function PracticeHubPage() {
 
   if (active) {
     return (
-      <div className="mx-auto max-w-md rounded-lg border border-slate-200 bg-white p-6 text-center">
+      <div className="mx-auto max-w-md card p-6 text-center">
         <h1 className="text-lg font-semibold text-slate-800">You have a session in progress</h1>
         <p className="mt-1 text-sm text-slate-500">Finish it before starting a new one.</p>
         <Link
           to={`/practice/session/${active.sessionId}`}
-          className="mt-4 inline-block rounded-md bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700"
+          className="mt-4 inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
         >
           Resume session
         </Link>
@@ -38,7 +38,7 @@ export function PracticeHubPage() {
 
   return (
     <div className="mx-auto grid max-w-2xl gap-4 sm:grid-cols-2">
-      <div className="rounded-lg border border-slate-200 bg-white p-6">
+      <div className="card p-6">
         <BookOpen className="text-slate-500" size={24} />
         <h2 className="mt-3 font-semibold text-slate-800">Daily Session</h2>
         <p className="mt-1 text-sm text-slate-500">
@@ -47,7 +47,7 @@ export function PracticeHubPage() {
         <button
           onClick={() => startDailyMutation.mutate()}
           disabled={startDailyMutation.isPending}
-          className="mt-4 w-full rounded-md bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-50"
+          className="mt-4 w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
         >
           {startDailyMutation.isPending ? "Starting..." : "Start Daily Session"}
         </button>
@@ -56,7 +56,7 @@ export function PracticeHubPage() {
         )}
       </div>
 
-      <div className="rounded-lg border border-slate-200 bg-white p-6">
+      <div className="card p-6">
         <Zap className="text-slate-500" size={24} />
         <h2 className="mt-3 font-semibold text-slate-800">Fast Practice</h2>
         <p className="mt-1 text-sm text-slate-500">

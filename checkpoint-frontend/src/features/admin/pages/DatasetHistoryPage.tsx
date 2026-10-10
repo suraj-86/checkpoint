@@ -12,7 +12,7 @@ export function DatasetHistoryPage() {
         <h1 className="text-2xl font-semibold text-slate-800">Datasets</h1>
         <Link
           to="/admin/datasets/upload"
-          className="rounded-md bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700"
+          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
         >
           Upload dataset
         </Link>
@@ -22,13 +22,13 @@ export function DatasetHistoryPage() {
       {isError && <p className="text-sm text-red-600">Could not load datasets.</p>}
 
       {data && data.length === 0 && (
-        <p className="rounded-lg border border-slate-200 bg-white p-6 text-sm text-slate-500">
+        <p className="card p-6 text-sm text-slate-500">
           No datasets yet. Upload your first one to fill the question bank.
         </p>
       )}
 
       {data && data.length > 0 && (
-        <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
+        <div className="overflow-x-auto card">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase text-slate-500">
               <tr>

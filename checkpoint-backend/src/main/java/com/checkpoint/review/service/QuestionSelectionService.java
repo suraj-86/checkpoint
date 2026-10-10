@@ -9,9 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,6 +23,8 @@ import java.util.UUID;
 public class QuestionSelectionService {
 
     private static final double NEW_QUESTION_RESERVE_FRACTION = 0.3;
+
+    private static final Object NO_TOPIC = new Object();
 
     private final UserQuestionProgressRepository progressRepository;
 
@@ -37,6 +43,11 @@ public class QuestionSelectionService {
 
     @Transactional(readOnly = true)
     public SelectionResult selectForSession(UUID userId, int count, Instant now) {
+        return selectForSession(userId, count, now, Set.of());
+    }
+
+    @Transactional(readOnly = true)
+    public SelectionResult selectForSession(UUID userId, int count, Instant now, Set<UUID> interestTopicIds) {
         Instant startOfToday = now.truncatedTo(ChronoUnit.DAYS);
         Instant startOfTomorrow = startOfToday.plus(1, ChronoUnit.DAYS);
 
@@ -53,9 +64,52 @@ public class QuestionSelectionService {
         List<Question> reviewList = new ArrayList<>(reviewPool);
         List<Question> newList = new ArrayList<>(neverAttempted);
 
+        if (interestTopicIds != null && !interestTopicIds.isEmpty()) {
+            List<Question> interestingReview = filterByTopics(reviewList, interestTopicIds);
+            List<Question> interestingNew = filterByTopics(newList, interestTopicIds);
+            // If nothing is available in the chosen topics, fall back to all topics
+            // so the student can still practice.
+            if (!interestingReview.isEmpty() || !interestingNew.isEmpty()) {
+                reviewList = interestingReview;
+                newList = interestingNew;
+            }
+        }
+
+        newList = interleaveByTopic(newList);
+
         List<Question> selected = balance(reviewList, newList, count);
 
         return new SelectionResult(selected, needsReview.size(), overdue.size(), dueToday.size(), neverAttempted.size());
+    }
+
+    static List<Question> filterByTopics(List<Question> questions, Set<UUID> topicIds) {
+        return new ArrayList<>(questions.stream()
+                .filter(q -> q.getTopic() != null && topicIds.contains(q.getTopic().getId()))
+                .toList());
+    }
+
+    /**
+     * Mixes questions from different topics (round-robin) while keeping each
+     * topic's own order, so a session is not filled by whichever topic was
+     * imported first.
+     */
+    static List<Question> interleaveByTopic(List<Question> questions) {
+        Map<Object, Deque<Question>> groups = new LinkedHashMap<>();
+        for (Question q : questions) {
+            Object key = q.getTopic() == null ? NO_TOPIC : q.getTopic().getId();
+            groups.computeIfAbsent(key, k -> new ArrayDeque<>()).add(q);
+        }
+
+        List<Question> result = new ArrayList<>(questions.size());
+        while (result.size() < questions.size()) {
+            for (Deque<Question> group : groups.values()) {
+                Question next = group.pollFirst();
+                if (next != null) {
+                    result.add(next);
+                }
+            }
+        }
+        return result;
     }
 
     private List<Question> balance(List<Question> reviewPool, List<Question> newPool, int count) {
