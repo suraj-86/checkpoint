@@ -213,6 +213,16 @@ Build:
 
 ---
 
+# Phase 9 — Improvements ✅ Complete
+
+- [x] Level progress bars (Profile, Progress) and XP growth chart
+- [x] Daily Session limited to once per day, with a clear "done" state
+- [x] Editable username
+- [x] Practice page redesign with embedded Fast Practice form
+- [x] Profile page interactive stats (donut, 7-day strip)
+
+---
+
 # Phase 10 — Deployment and Release
 
 Prepare:

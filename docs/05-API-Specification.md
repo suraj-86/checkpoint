@@ -71,11 +71,28 @@ Response includes:
 
 Returns the authenticated student's profile.
 
+  "levelProgress": {
+    "level": 0,
+    "currentLevelXp": 0,
+    "nextLevelXp": 1000,
+    "xpIntoLevel": 226,
+    "xpToNextLevel": 774,
+    "percent": 22
+  }
+
 ### GET /api/profile/dashboard
 
 Returns aggregated information required by the dashboard.
 
 A single dashboard endpoint avoids forcing the frontend to make many separate requests for one screen.
+
+
+### PUT /api/account/profile
+
+Now accepts username (3–50 characters). 
+Returns 409 USERNAME_TAKEN if it is taken. 
+The admin username cannot be changed (400). 
+Because the JWT subject is the username, the client signs the user out after a successful change and they log in again.
 
 ---
 
@@ -84,6 +101,8 @@ A single dashboard endpoint avoids forcing the frontend to make many separate re
 ### POST /api/practice/daily/start
 
 Creates a Daily Session containing 10 primary questions.
+
+Returns 409 DAILY_ALREADY_COMPLETED if the student has already completed a Daily Session today (the day changes at 00:00 UTC, which is 5:30 am IST). Fast Practice is unaffected.
 
 ### POST /api/practice/fast/start
 
