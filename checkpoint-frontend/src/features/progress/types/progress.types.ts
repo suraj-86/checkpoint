@@ -1,3 +1,12 @@
+export interface LevelProgress {
+  level: number;
+  currentLevelXp: number;
+  nextLevelXp: number | null;
+  xpIntoLevel: number;
+  xpToNextLevel: number | null;
+  percent: number;
+}
+
 export interface Profile {
   id: string;
   username: string;
@@ -8,6 +17,7 @@ export interface Profile {
   longestStreak: number;
   totalDailySessions: number;
   totalFastSessions: number;
+  levelProgress: LevelProgress;
 }
 
 export interface SessionSummary {

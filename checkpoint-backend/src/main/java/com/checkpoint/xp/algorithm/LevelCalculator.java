@@ -85,6 +85,20 @@ public class LevelCalculator {
         return Math.min(level, MAX_LEVEL);
     }
 
+    public LevelProgress progressFor(int totalXp) {
+        int level = levelForXp(totalXp);
+        int currentThreshold = LEVEL_TO_THRESHOLD.get(level);
+        if (level >= MAX_LEVEL) {
+            return new LevelProgress(level, currentThreshold, null, Math.max(0, totalXp - currentThreshold), null, 100);
+        }
+        int nextThreshold = LEVEL_TO_THRESHOLD.get(level + 1);
+        int xp = Math.max(totalXp, currentThreshold);
+        int span = nextThreshold - currentThreshold;
+        int into = xp - currentThreshold;
+        int percent = Math.min(100, (int) Math.floor(into * 100.0 / span));
+        return new LevelProgress(level, currentThreshold, nextThreshold, into, nextThreshold - xp, percent);
+    }
+
     public int thresholdForLevel(int level) {
         Integer t = LEVEL_TO_THRESHOLD.get(level);
         if (t == null) {

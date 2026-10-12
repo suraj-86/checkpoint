@@ -12,6 +12,7 @@ export interface Account {
 }
 
 export interface ProfileUpdate {
+  username: string;
   displayName: string;
   email: string;
   bio: string;

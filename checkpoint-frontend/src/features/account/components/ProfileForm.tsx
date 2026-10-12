@@ -3,10 +3,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { messageFromError } from "../../admin/utils/format";
 import { AVATAR_COLOR_KEYS, Avatar, avatarGradient } from "../../../components/ui/Avatar";
 import { inputClass, labelClass, primaryButton } from "../../../components/ui/styles";
+import { useAuth } from "../../auth/context/AuthContext";
 import { updateProfile, type Account } from "../api/accountApi";
 
 export function ProfileForm({ account }: { account: Account }) {
   const queryClient = useQueryClient();
+  const { logout } = useAuth();
+  const [username, setUsername] = useState(account.username);
   const [displayName, setDisplayName] = useState(account.displayName ?? "");
   const [email, setEmail] = useState(account.email);
   const [bio, setBio] = useState(account.bio ?? "");
@@ -15,8 +18,13 @@ export function ProfileForm({ account }: { account: Account }) {
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
 
   const mutation = useMutation({
-    mutationFn: () => updateProfile({ displayName, email, bio, goal, avatarColor: color }),
+    mutationFn: () => updateProfile({ username, displayName, email, bio, goal, avatarColor: color }),
     onSuccess: (updated) => {
+      if (updated.username !== account.username) {
+        setMessage({ ok: true, text: "Username changed. Please sign in again with your new username..." });
+        setTimeout(() => logout(), 1800);
+        return;
+      }
       queryClient.setQueryData(["account"], updated);
       setMessage({ ok: true, text: "Profile saved." });
     },
@@ -24,6 +32,7 @@ export function ProfileForm({ account }: { account: Account }) {
   });
 
   const dirty =
+    username !== account.username ||
     displayName !== (account.displayName ?? "") ||
     email !== account.email ||
     bio !== (account.bio ?? "") ||
@@ -63,7 +72,18 @@ export function ProfileForm({ account }: { account: Account }) {
           </div>
           <div>
             <label className={labelClass} htmlFor="username">Username</label>
-            <input id="username" value={account.username} disabled className={`${inputClass} cursor-not-allowed opacity-60`} />
+            <input
+              id="username"
+              value={username}
+              minLength={3}
+              maxLength={50}
+              disabled={account.role === "ADMIN"}
+              onChange={(e) => touch(setUsername)(e.target.value)}
+              className={`${inputClass} ${account.role === "ADMIN" ? "cursor-not-allowed opacity-60" : ""}`}
+            />
+            {username !== account.username && (
+              <p className="mt-1 text-xs text-amber-600">You will be signed out after saving and must log in with the new username.</p>
+            )}
           </div>
         </div>
 

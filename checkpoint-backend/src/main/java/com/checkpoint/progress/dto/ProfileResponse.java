@@ -1,8 +1,6 @@
 package com.checkpoint.progress.dto;
 
 import java.util.UUID;
-
-/** GET /api/profile — docs/05-API-Specification.md section 3. */
 public record ProfileResponse(
         UUID id,
         String username,
@@ -12,6 +10,7 @@ public record ProfileResponse(
         int currentStreak,
         int longestStreak,
         int totalDailySessions,
-        int totalFastSessions
+        int totalFastSessions,
+        com.checkpoint.xp.algorithm.LevelProgress levelProgress
 ) {
 }

@@ -8,10 +8,13 @@ import { formatDateTime } from "../../../lib/format";
 import {
   getActivity,
   getOverallProgress,
+  getProfile,
   getSessionHistory,
   getTopicPerformance,
 } from "../api/progressApi";
+import { LevelProgressCard } from "../../../components/ui/LevelProgressCard";
 import { ActivityChart } from "../components/ActivityChart";
+import { XpTrendChart } from "../components/XpTrendChart";
 
 const STATUS_LABELS: Record<string, { text: string; className: string }> = {
   IN_PROGRESS: { text: "In progress", className: "bg-sky-100 text-sky-700" },
@@ -22,6 +25,7 @@ export function ProgressPage() {
   const [page, setPage] = useState(0);
 
   const { data: overall } = useQuery({ queryKey: ["progress-overall"], queryFn: getOverallProgress });
+  const { data: profile } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
   const { data: topics } = useQuery({ queryKey: ["progress-topics"], queryFn: getTopicPerformance });
   const { data: activity } = useQuery({ queryKey: ["progress-activity", 30], queryFn: () => getActivity(30) });
   const { data: history } = useQuery({
@@ -34,6 +38,8 @@ export function ProgressPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold text-slate-800">Your Progress</h1>
+
+      {profile && <LevelProgressCard totalXp={profile.totalXp} progress={profile.levelProgress} />}
 
       {overall && (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -76,6 +82,17 @@ export function ProgressPage() {
         <h2 className="text-sm font-semibold text-slate-700">Activity, last 30 days</h2>
         <div className="mt-3">
           {activity ? <ActivityChart data={activity} days={30} /> : <p className="text-sm text-slate-400">Loading...</p>}
+        </div>
+      </div>
+
+      <div className="card p-5">
+        <h2 className="text-sm font-semibold text-slate-700">XP growth, last 30 days</h2>
+        <div className="mt-3">
+          {activity && profile ? (
+            <XpTrendChart data={activity} days={30} currentXp={profile.totalXp} />
+          ) : (
+            <p className="text-sm text-slate-400">Loading...</p>
+          )}
         </div>
       </div>
 

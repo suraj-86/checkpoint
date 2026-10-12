@@ -1,28 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import { Award, Calendar, Flame, User, Zap } from "lucide-react";
-import type { ElementType, ReactNode } from "react";
+import { Flame, Trophy } from "lucide-react";
 import { Avatar } from "../../../components/ui/Avatar";
-import { formatDay, plural } from "../../../lib/format";
+import { formatDay } from "../../../lib/format";
 import { getAccount } from "../../account/api/accountApi";
 import { PasswordForm } from "../../account/components/PasswordForm";
 import { ProfileForm } from "../../account/components/ProfileForm";
 import { InterestPicker } from "../../interest/components/InterestPicker";
-import { getProfile } from "../api/progressApi";
-
-function Row({ icon: Icon, label, value }: { icon: ElementType; label: string; value: ReactNode }) {
-  return (
-    <div className="flex items-center justify-between py-2.5">
-      <div className="flex items-center gap-2.5 text-sm text-slate-500">
-        <Icon size={16} className="text-indigo-500" />
-        {label}
-      </div>
-      <span className="text-sm font-semibold text-slate-800">{value}</span>
-    </div>
-  );
-}
+import { LevelProgressCard } from "../../../components/ui/LevelProgressCard";
+import { SplitDonut } from "../../../components/ui/SplitDonut";
+import { getActivity, getProfile } from "../api/progressApi";
+import { WeekStrip } from "../components/WeekStrip";
 
 export function ProfilePage() {
   const { data: profile, isError: profileError } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
+  const { data: activity } = useQuery({ queryKey: ["progress-activity", 30], queryFn: () => getActivity(30) });
   const { data: account, isError: accountError } = useQuery({ queryKey: ["account"], queryFn: getAccount });
 
   if (profileError || accountError) return <p className="text-red-600">Could not load your profile.</p>;
@@ -47,13 +38,36 @@ export function ProfilePage() {
           <p className="mt-4 text-xs text-slate-400">Member since {formatDay(account.createdAt)}</p>
         </div>
 
-        <div className="card divide-y divide-slate-100 px-5 py-2">
-          <Row icon={Award} label="Level" value={profile.level} />
-          <Row icon={Zap} label="Total XP" value={profile.totalXp} />
-          <Row icon={Flame} label="Current streak" value={plural(profile.currentStreak, "day")} />
-          <Row icon={Flame} label="Longest streak" value={plural(profile.longestStreak, "day")} />
-          <Row icon={Calendar} label="Daily Sessions completed" value={profile.totalDailySessions} />
-          <Row icon={User} label="Fast Practice sessions" value={profile.totalFastSessions} />
+        <LevelProgressCard totalXp={profile.totalXp} progress={profile.levelProgress} />
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="card p-4">
+            <Flame size={18} className="text-amber-500" />
+            <p className="mt-2 text-2xl font-semibold text-slate-800">{profile.currentStreak}</p>
+            <p className="text-xs text-slate-500">Current streak (days)</p>
+          </div>
+          <div className="card p-4">
+            <Trophy size={18} className="text-violet-500" />
+            <p className="mt-2 text-2xl font-semibold text-slate-800">{profile.longestStreak}</p>
+            <p className="text-xs text-slate-500">Longest streak (days)</p>
+          </div>
+        </div>
+
+        <div className="card p-5">
+          <h2 className="mb-4 text-sm font-semibold text-slate-700">Sessions completed</h2>
+          <SplitDonut
+            size={104}
+            stroke={13}
+            segments={[
+              { label: "Daily", value: profile.totalDailySessions, color: "#6366f1" },
+              { label: "Fast Practice", value: profile.totalFastSessions, color: "#f59e0b" },
+            ]}
+          />
+        </div>
+
+        <div className="card p-5">
+          <h2 className="mb-3 text-sm font-semibold text-slate-700">Last 7 days</h2>
+          {activity ? <WeekStrip data={activity} /> : <p className="text-sm text-slate-400">Loading...</p>}
         </div>
       </div>
 

@@ -6,7 +6,6 @@ import { HomeRedirect } from "./components/HomeRedirect";
 import { Layout } from "./components/Layout";
 import { DashboardPage } from "./features/dashboard/pages/DashboardPage";
 import { PracticeHubPage } from "./features/practice/pages/PracticeHubPage";
-import { FastPracticeStartPage } from "./features/practice/pages/FastPracticeStartPage";
 import { PracticeSessionPage } from "./features/practice/pages/PracticeSessionPage";
 import { SessionResultPage } from "./features/practice/pages/SessionResultPage";
 import { ActiveSessionRedirect } from "./features/practice/pages/ActiveSessionRedirect";
@@ -42,7 +41,7 @@ function App() {
       >
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/practice" element={<PracticeHubPage />} />
-        <Route path="/practice/fast" element={<FastPracticeStartPage />} />
+        <Route path="/practice/fast" element={<Navigate to="/practice" replace />} />
         <Route path="/practice/active" element={<ActiveSessionRedirect />} />
         <Route path="/practice/session/:sessionId" element={<PracticeSessionPage />} />
         <Route path="/practice/result/:sessionId" element={<SessionResultPage />} />

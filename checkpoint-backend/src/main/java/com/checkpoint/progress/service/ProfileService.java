@@ -43,11 +43,6 @@ public class ProfileService {
 
     @Transactional(readOnly = true)
     public ProfileResponse getProfile(User user) {
-        // A student who hasn't completed a session yet has no StudentStats
-        // row (XpAwardService only creates one on first completion — see
-        // its javadoc). The profile view must still work for them, so a
-        // missing row is treated as all-zero stats here rather than 404
-        // or lazily creating a row from a read-only endpoint.
         StudentStats stats = studentStatsRepository.findByUserId(user.getId())
                 .orElseGet(() -> StudentStats.builder().userId(user.getId()).build());
 
@@ -60,7 +55,8 @@ public class ProfileService {
                 stats.getCurrentStreak(),
                 stats.getLongestStreak(),
                 stats.getTotalDailySessions(),
-                stats.getTotalFastSessions()
+                stats.getTotalFastSessions(),
+                levelCalculator.progressFor(stats.getTotalXp())
         );
     }
 
