@@ -65,7 +65,7 @@ export function PracticeHubPage() {
             <>
               <p className="mt-1 text-sm font-medium text-emerald-600">Done for today. Nice work!</p>
               <p className="mt-2 text-sm text-slate-500">
-                Your next Daily Session unlocks tomorrow (the day changes at midnight UTC). Fast Practice is open any time.
+                Your next Daily Session unlocks tomorrow (the day changes at 5:30 AM IST ). Fast Practice is open any time.
               </p>
             </>
           ) : (
