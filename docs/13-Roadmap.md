@@ -225,17 +225,20 @@ Build:
 
 # Phase 10 — Deployment and Release
 
-Prepare:
+Status: **Complete**
 
-- production database;
-- environment secrets;
-- backend deployment;
-- frontend deployment;
-- database migrations;
-- seed dataset;
-- smoke tests;
-- README;
-- final project report.
+Delivered:
+
+- Neon Postgres production database (Flyway migrations run on startup);
+- backend on Render, built from `checkpoint-backend/Dockerfile`;
+- frontend on Vercel with SPA rewrites (`vercel.json`);
+- secrets held in host environment variables, with a new JWT secret and a non-default admin password;
+- environment-driven configuration (database, CORS origins, port, log levels);
+- `/api/health` endpoint and a 5-minute uptime ping to keep the free backend awake;
+- all question datasets seeded through the admin upload page;
+- live smoke tests: admin login, dataset upload, student registration, daily and fast practice.
+
+See `docs/14-Deployment.md` for the full setup.
 
 ---
 
