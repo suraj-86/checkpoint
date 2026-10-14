@@ -3,10 +3,16 @@ spring:
     name: checkpoint-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5434/checkpoint_dev
-    username: checkpoint_user
-    password: devpassword
+    url: ${CHECKPOINT_DB_URL:jdbc:postgresql://localhost:5434/checkpoint_dev}
+    username: ${CHECKPOINT_DB_USER:checkpoint_user}
+    password: ${CHECKPOINT_DB_PASSWORD:devpassword}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: ${CHECKPOINT_DB_POOL_SIZE:5}
+      minimum-idle: 0
+      idle-timeout: 120000
+      max-lifetime: 600000
+      connection-timeout: 30000
 
   jpa:
     hibernate:
@@ -23,9 +29,11 @@ spring:
     baseline-on-migrate: true
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 checkpoint:
+  cors:
+    allowed-origins: ${CHECKPOINT_CORS_ORIGINS:http://localhost:5180}
   jwt:
     secret: ${CHECKPOINT_JWT_SECRET:dev-only-secret-key-change-me-please-this-is-not-secure-enough-for-prod-1234567890}
     expiration-ms: 86400000
@@ -36,5 +44,5 @@ checkpoint:
 
 logging:
   level:
-    com.checkpoint: DEBUG
-    org.hibernate.SQL: DEBUG
+    com.checkpoint: ${CHECKPOINT_LOG_LEVEL:DEBUG}
+    org.hibernate.SQL: ${CHECKPOINT_SQL_LOG_LEVEL:DEBUG}

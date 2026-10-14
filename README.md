@@ -17,51 +17,6 @@ The result should feel similar in spirit to a modern learning product while rema
 
 ---
 
-## Project status
-
-- ✅ **Phase 0** — Planning and architecture complete (D1–D15 finalized).
-- ✅ **Phase 1** — Project foundation complete: backend (Spring Boot + PostgreSQL + Flyway, all 8 tables migrated) and frontend (Vite + React + Tailwind) both run locally.
-- ✅ **Phase 2** — Authentication complete: JWT-based register/login, BCrypt password hashing, role-based access (STUDENT/ADMIN), protected frontend routes, automatic admin bootstrap.
-- ✅ **Phase 3** — Question Bank complete: topic/dataset/question models, validated transactional dataset import (all-or-nothing, upsert by externalId), admin question browser with filters/pagination, soft retire/restore.
-- ✅ **Phase 4** — Review Engine complete: spaced-review state machine (5 stages, NEEDS_REVIEW/STABLE), prioritized question selection, same-session requeue mechanism, backed by 22 unit tests.
-- ✅ **Phase 5** — Practice Engine complete: Daily Session and Fast Practice, question delivery with no answer leakage, answer grading, same-session requeue, session completion. The app is playable end-to-end through the API.
-- ✅ **Phase 6** — XP and Streak complete: difficulty-weighted performance scoring, 20-level progression, Fast Practice's daily XP cap, streak tracking with milestone bonuses. 100 unit tests across the project, two real bugs caught and fixed during development.
-- ✅ **Phase 7** — Student Experience complete: dashboard, Daily Session and Fast Practice screens, session result, progress page (topic statistics, 30-day activity chart, session history) and profile. The frontend dev server runs on port 5180.
-- ✅ **Phase 8** — Admin Experience complete: role-aware admin area with dashboard, dataset upload with validate-then-import, dataset history, and a filterable question browser with retire/restore. 109 tests across the project.
-- ✅ **Phase 9** — Integration and Hardening complete: full student and admin flows verified manually in the browser, plus the Activity chart date bug fixed. 115 unit tests across the project.
-- ⏳ **Phase 10** — Deployment and Release — up next.
-  
----
-
-## Why Phase 0 existed
-
-Phase 0 is the planning and architecture stage. No major product feature should be implemented before the important decisions are recorded.
-
-During Phase 0 we made fifteen decisions, D1 through D15. These decisions cover:
-
-- product scope;
-- users and roles;
-- question types;
-- practice modes;
-- progress;
-- database;
-- backend architecture;
-- authentication;
-- dataset management;
-- API;
-- frontend;
-- review algorithm;
-- XP and levels;
-- question content.
-
-The detailed decisions are consolidated in:
-
-`12-Phase-0-Decisions.md`
-
-That document is the highest-level Phase 0 source of truth.
-
----
-
 ## V1 philosophy
 
 Checkpoint V1 should be:
@@ -168,15 +123,5 @@ The student can then use Fast Practice if they want additional practice.
 - React Hook Form
 - Zod
 - Lucide React
-
----
-
-## Architecture
-
-V1 is a **modular monolith**.
-
-This means the backend is one deployable Spring Boot application, but its internal responsibilities are separated into modules such as authentication, practice, review, XP, questions and administration.
-
-We are not using microservices because they would add operational complexity without providing meaningful value for this project.
 
 ---

@@ -4,6 +4,7 @@ import com.checkpoint.auth.security.CheckpointUserDetailsService;
 import com.checkpoint.auth.security.JwtAccessDeniedHandler;
 import com.checkpoint.auth.security.JwtAuthenticationEntryPoint;
 import com.checkpoint.auth.security.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,15 +33,18 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final List<String> allowedOrigins;
 
     public SecurityConfig(CheckpointUserDetailsService userDetailsService,
                            JwtAuthenticationFilter jwtAuthenticationFilter,
                            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                           JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+                           JwtAccessDeniedHandler jwtAccessDeniedHandler,
+                           @Value("${checkpoint.cors.allowed-origins}") List<String> allowedOrigins) {
         this.userDetailsService = userDetailsService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.allowedOrigins = allowedOrigins;
     }
 
     @Bean
@@ -74,6 +78,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/health").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // Practice is a student activity; the single admin has no student stats.
                         .requestMatchers("/api/practice/**").hasRole("STUDENT")
@@ -86,17 +91,10 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /**
-     * Allows the Vite dev server (localhost:5180 — a dedicated port, not
-     * Vite's default 5173, to avoid colliding with other projects) to
-     * call the API during
-     * local development. Tighten this to the real frontend origin(s) when
-     * deploying.
-     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5180"));
+        configuration.setAllowedOrigins(allowedOrigins);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
