@@ -12,7 +12,8 @@ export function PracticeHubPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: active } = useQuery({ queryKey: ["active-session"], queryFn: getActiveSession, retry: false });
+  const { data: cachedActive, isError: noActiveSession } = useQuery({ queryKey: ["active-session"], queryFn: getActiveSession, retry: false });
+  const active = noActiveSession ? undefined : cachedActive;
   const { data: dashboard } = useQuery({ queryKey: ["dashboard"], queryFn: getDashboard });
 
   const startDailyMutation = useMutation({
@@ -64,7 +65,7 @@ export function PracticeHubPage() {
             <>
               <p className="mt-1 text-sm font-medium text-emerald-600">Done for today. Nice work!</p>
               <p className="mt-2 text-sm text-slate-500">
-                Your next Daily Session unlocks tomorrow at 5:30 am IST. Fast Practice is open any time.
+                Your next Daily Session unlocks tomorrow (the day changes at midnight UTC). Fast Practice is open any time.
               </p>
             </>
           ) : (

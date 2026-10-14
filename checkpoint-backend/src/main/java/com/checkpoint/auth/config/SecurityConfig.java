@@ -79,6 +79,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/health").permitAll()
+                        .requestMatchers(HttpMethod.HEAD, "/api/health").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // Practice is a student activity; the single admin has no student stats.
                         .requestMatchers("/api/practice/**").hasRole("STUDENT")
@@ -91,6 +92,13 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Allows the Vite dev server (localhost:5180 — a dedicated port, not
+     * Vite's default 5173, to avoid colliding with other projects) to
+     * call the API during
+     * local development. Tighten this to the real frontend origin(s) when
+     * deploying.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

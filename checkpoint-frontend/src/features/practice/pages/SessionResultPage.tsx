@@ -13,7 +13,7 @@ export function SessionResultPage() {
     mutationFn: () => completeSession(sessionId!),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });
-      queryClient.invalidateQueries({ queryKey: ["active-session"] });
+      queryClient.removeQueries({ queryKey: ["active-session"] });
     },
   });
 
