@@ -9,6 +9,7 @@ export interface Account {
   goal: string | null;
   avatarColor: string | null;
   createdAt: string;
+  usernameChangeAvailableAt: string | null;
 }
 
 export interface ProfileUpdate {

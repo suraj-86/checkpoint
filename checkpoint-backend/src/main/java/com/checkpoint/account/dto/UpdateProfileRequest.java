@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Size;
 
 public record UpdateProfileRequest(
 
+        @Size(max = 50, message = "Username is too long")
+        String username,
+
         @Size(max = 60, message = "Display name must be at most 60 characters")
         String displayName,
 

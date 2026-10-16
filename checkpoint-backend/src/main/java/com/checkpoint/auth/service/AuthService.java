@@ -7,11 +7,13 @@ import com.checkpoint.auth.dto.UserResponse;
 import com.checkpoint.auth.security.JwtService;
 import com.checkpoint.auth.security.LoginAttemptTracker;
 import com.checkpoint.common.exception.AccountLockedException;
+import com.checkpoint.common.exception.BadRequestException;
 import com.checkpoint.common.exception.ConflictException;
 import com.checkpoint.common.exception.InvalidCredentialsException;
 import com.checkpoint.user.entity.Role;
 import com.checkpoint.user.entity.User;
 import com.checkpoint.user.repository.UserRepository;
+import com.checkpoint.user.rules.UsernameRules;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +38,10 @@ public class AuthService {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.existsByUsername(request.username())) {
+        if (UsernameRules.isReserved(request.username())) {
+            throw new BadRequestException("That username is reserved.");
+        }
+        if (userRepository.existsByUsernameIgnoreCase(request.username())) {
             throw new ConflictException("Username is already taken.");
         }
         if (userRepository.existsByEmail(request.email())) {

@@ -12,9 +12,10 @@ public record AccountResponse(
         String bio,
         String goal,
         String avatarColor,
-        Instant createdAt
+        Instant createdAt,
+        Instant usernameChangeAvailableAt
 ) {
-    public static AccountResponse from(User user) {
+    public static AccountResponse from(User user, Instant usernameChangeAvailableAt) {
         return new AccountResponse(
                 user.getUsername(),
                 user.getEmail(),
@@ -23,7 +24,8 @@ public record AccountResponse(
                 user.getBio(),
                 user.getGoal(),
                 user.getAvatarColor(),
-                user.getCreatedAt()
+                user.getCreatedAt(),
+                usernameChangeAvailableAt
         );
     }
 }
