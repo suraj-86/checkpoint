@@ -15,6 +15,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,12 +37,14 @@ class AccountServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    private static final Clock CLOCK = Clock.fixed(Instant.parse("2026-10-16T10:00:00Z"), ZoneOffset.UTC);
+
     private AccountService service;
     private User user;
 
     @BeforeEach
     void setUp() {
-        service = new AccountService(userRepository, passwordEncoder);
+        service = new AccountService(userRepository, passwordEncoder, CLOCK, 7);
         user = User.builder()
                 .id(UUID.randomUUID())
                 .username("student")
@@ -51,7 +56,11 @@ class AccountServiceTest {
     }
 
     private UpdateProfileRequest profile(String displayName, String email, String bio, String goal, String color) {
-        return new UpdateProfileRequest(displayName, email, bio, goal, color);
+        return new UpdateProfileRequest(null, displayName, email, bio, goal, color);
+    }
+
+    private UpdateProfileRequest withUsername(String username) {
+        return new UpdateProfileRequest(username, null, "old@example.com", null, null, null);
     }
 
     @Test
@@ -129,5 +138,83 @@ class AccountServiceTest {
 
         assertThat(user.getPasswordHash()).isEqualTo("new-hash");
         verify(userRepository).save(user);
+    }
+
+    @Test
+    void usernameIsChangedAndTheChangeTimeRecorded() {
+        when(userRepository.existsByUsernameIgnoreCaseAndIdNot("new_name", user.getId())).thenReturn(false);
+        when(userRepository.save(any(User.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        AccountResponse response = service.updateProfile(user.getId(), withUsername("new_name"));
+
+        assertThat(response.username()).isEqualTo("new_name");
+        assertThat(user.getUsernameChangedAt()).isEqualTo(CLOCK.instant());
+        assertThat(response.usernameChangeAvailableAt()).isEqualTo(CLOCK.instant().plusSeconds(7 * 86400L));
+    }
+
+    @Test
+    void usernameTakenByAnotherAccountIsRejectedCaseInsensitively() {
+        when(userRepository.existsByUsernameIgnoreCaseAndIdNot("Taken", user.getId())).thenReturn(true);
+
+        assertThatThrownBy(() -> service.updateProfile(user.getId(), withUsername("Taken")))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining("already taken");
+
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void usernameWithSpacesIsRejected() {
+        assertThatThrownBy(() -> service.updateProfile(user.getId(), withUsername("has space")))
+                .isInstanceOf(BadRequestException.class);
+
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void reservedUsernameIsRejected() {
+        assertThatThrownBy(() -> service.updateProfile(user.getId(), withUsername("Admin")))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessageContaining("reserved");
+    }
+
+    @Test
+    void usernameCannotBeChangedAgainDuringTheCooldown() {
+        user.setUsernameChangedAt(CLOCK.instant().minusSeconds(86400L));
+
+        assertThatThrownBy(() -> service.updateProfile(user.getId(), withUsername("another_one")))
+                .isInstanceOf(ConflictException.class)
+                .hasMessageContaining("again in");
+
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void usernameCanBeChangedAfterTheCooldownHasPassed() {
+        user.setUsernameChangedAt(CLOCK.instant().minusSeconds(8 * 86400L));
+        when(userRepository.existsByUsernameIgnoreCaseAndIdNot("another_one", user.getId())).thenReturn(false);
+        when(userRepository.save(any(User.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        AccountResponse response = service.updateProfile(user.getId(), withUsername("another_one"));
+
+        assertThat(response.username()).isEqualTo("another_one");
+    }
+
+    @Test
+    void adminUsernameCannotBeChanged() {
+        user.setRole(Role.ADMIN);
+
+        assertThatThrownBy(() -> service.updateProfile(user.getId(), withUsername("boss_man")))
+                .isInstanceOf(BadRequestException.class);
+    }
+
+    @Test
+    void unchangedUsernameSkipsAllUsernameChecks() {
+        when(userRepository.save(any(User.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        service.updateProfile(user.getId(), withUsername("student"));
+
+        verify(userRepository, never()).existsByUsernameIgnoreCaseAndIdNot(any(), any());
+        assertThat(user.getUsernameChangedAt()).isNull();
     }
 }

@@ -7,10 +7,15 @@ import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import type { ApiErrorResponse } from "../types/auth.types";
+import { validateUsername } from "../../../lib/username";
+import { UsernameHints } from "../components/UsernameHints";
+import { blocksSubmit, useUsernameStatus } from "../hooks/useUsernameStatus";
 
-// Mirrors backend RegisterRequest validation exactly (docs section 2 + our DTO).
 const schema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters").max(50),
+  username: z.string().superRefine((v, ctx) => {
+    const problem = validateUsername(v);
+    if (problem) ctx.addIssue({ code: "custom", message: problem });
+  }),
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
@@ -26,8 +31,11 @@ export function RegisterPage() {
     register,
     handleSubmit,
     setError,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
+
+  const usernameState = useUsernameStatus(watch("username") ?? "");
 
   async function onSubmit(values: FormValues) {
     setServerError(null);
@@ -38,10 +46,13 @@ export function RegisterPage() {
       const apiError: ApiErrorResponse | undefined = err?.response?.data;
 
       if (apiError?.errors) {
-        // Field-level validation errors from the backend
         Object.entries(apiError.errors).forEach(([field, message]) => {
           setError(field as keyof FormValues, { message });
         });
+        return;
+      }
+      if (apiError?.message?.toLowerCase().startsWith("username")) {
+        setError("username", { message: apiError.message });
         return;
       }
       setServerError(apiError?.message ?? "Something went wrong. Please try again.");
@@ -67,10 +78,13 @@ export function RegisterPage() {
             <label className="mb-1 block text-sm font-medium text-slate-700">Username</label>
             <input
               type="text"
+              maxLength={20}
+              autoComplete="username"
               {...register("username")}
               className="w-full rounded-xl border border-slate-200 bg-white/80 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
             {errors.username && <p className="mt-1 text-xs text-red-600">{errors.username.message}</p>}
+            <UsernameHints state={usernameState} />
           </div>
 
           <div>
@@ -95,7 +109,7 @@ export function RegisterPage() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || blocksSubmit(usernameState)}
             className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 shadow-md shadow-indigo-200 px-3 py-2 text-sm font-medium text-white hover:from-indigo-700 hover:to-violet-700 disabled:opacity-50"
           >
             {isSubmitting ? "Creating account..." : "Register"}

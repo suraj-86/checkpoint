@@ -5,6 +5,9 @@ import { AVATAR_COLOR_KEYS, Avatar, avatarGradient } from "../../../components/u
 import { inputClass, labelClass, primaryButton } from "../../../components/ui/styles";
 import { useAuth } from "../../auth/context/AuthContext";
 import { updateProfile, type Account } from "../api/accountApi";
+import { UsernameHints } from "../../auth/components/UsernameHints";
+import { blocksSubmit, useUsernameStatus } from "../../auth/hooks/useUsernameStatus";
+import { formatDay } from "../../../lib/format";
 
 export function ProfileForm({ account }: { account: Account }) {
   const queryClient = useQueryClient();
@@ -16,6 +19,11 @@ export function ProfileForm({ account }: { account: Account }) {
   const [goal, setGoal] = useState(account.goal ?? "");
   const [color, setColor] = useState(account.avatarColor ?? "indigo");
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
+
+  const usernameState = useUsernameStatus(username, account.username);
+  const lockedUntil = account.usernameChangeAvailableAt ? new Date(account.usernameChangeAvailableAt) : null;
+  const cooldownActive = lockedUntil !== null && lockedUntil.getTime() > Date.now();
+  const usernameLocked = account.role === "ADMIN" || cooldownActive;
 
   const mutation = useMutation({
     mutationFn: () => updateProfile({ username, displayName, email, bio, goal, avatarColor: color }),
@@ -75,14 +83,21 @@ export function ProfileForm({ account }: { account: Account }) {
             <input
               id="username"
               value={username}
-              minLength={3}
-              maxLength={50}
-              disabled={account.role === "ADMIN"}
+              maxLength={20}
+              autoComplete="off"
+              disabled={usernameLocked}
               onChange={(e) => touch(setUsername)(e.target.value)}
-              className={`${inputClass} ${account.role === "ADMIN" ? "cursor-not-allowed opacity-60" : ""}`}
+              className={`${inputClass} ${usernameLocked ? "cursor-not-allowed opacity-60" : ""}`}
             />
-            {username !== account.username && (
-              <p className="mt-1 text-xs text-amber-600">You will be signed out after saving and must log in with the new username.</p>
+            {cooldownActive && lockedUntil && (
+              <p className="mt-1 text-xs text-slate-500">You can change your username again on {formatDay(lockedUntil.toISOString())}.</p>
+            )}
+            {account.role === "ADMIN" && <p className="mt-1 text-xs text-slate-500">The admin username cannot be changed.</p>}
+            {!usernameLocked && <UsernameHints state={usernameState} />}
+            {!usernameLocked && username !== account.username && (
+              <p className="mt-1 text-xs text-amber-600">
+                You will be signed out after saving and must log in with the new username. You can change it again after 7 days.
+              </p>
             )}
           </div>
         </div>
@@ -148,7 +163,7 @@ export function ProfileForm({ account }: { account: Account }) {
         </div>
 
         <div className="flex items-center gap-3 pt-1">
-          <button type="submit" disabled={!dirty || mutation.isPending} className={primaryButton}>
+          <button type="submit" disabled={!dirty || mutation.isPending || blocksSubmit(usernameState)} className={primaryButton}>
             {mutation.isPending ? "Saving..." : "Save changes"}
           </button>
           {message && (

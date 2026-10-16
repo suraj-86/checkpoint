@@ -57,6 +57,9 @@ public class User {
     @Column(name = "avatar_color", length = 20)
     private String avatarColor;
 
+    @Column(name = "username_changed_at")
+    private Instant usernameChangedAt;
+
     @PrePersist
     protected void onCreate() {
         Instant now = Instant.now();

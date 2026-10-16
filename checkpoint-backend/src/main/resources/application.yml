@@ -37,6 +37,8 @@ checkpoint:
   jwt:
     secret: ${CHECKPOINT_JWT_SECRET:dev-only-secret-key-change-me-please-this-is-not-secure-enough-for-prod-1234567890}
     expiration-ms: 86400000
+  account:
+    username-change-cooldown-days: ${CHECKPOINT_USERNAME_COOLDOWN_DAYS:7}
   admin:
     username: ${CHECKPOINT_ADMIN_USERNAME:admin}
     email: ${CHECKPOINT_ADMIN_EMAIL:admin@checkpoint.local}
