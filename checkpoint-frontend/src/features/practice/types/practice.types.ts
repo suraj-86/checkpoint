@@ -8,6 +8,30 @@ export interface StudentQuestion {
   difficulty: string;
 }
 
+export type SlotStatus = "CORRECT" | "WRONG" | "SKIPPED" | "NOT_ATTEMPTED";
+
+export interface SlotInfo {
+  position: number;
+  questionId: string;
+  primary: boolean;
+  status: SlotStatus;
+}
+
+export interface SlotReview {
+  correct: boolean;
+  yourAnswer: string | boolean | null;
+  correctAnswer: unknown;
+  explanation: string | null;
+}
+
+export interface SlotQuestion {
+  position: number;
+  status: SlotStatus;
+  primary: boolean;
+  question: StudentQuestion;
+  review: SlotReview | null;
+}
+
 export interface ActiveSession {
   sessionId: string;
   sessionType: "DAILY" | "FAST";
@@ -16,6 +40,8 @@ export interface ActiveSession {
   totalSlots: number;
   answeredSlots: number;
   currentQuestion: StudentQuestion | null;
+  slots: SlotInfo[];
+  currentPosition: number;
 }
 
 export interface AnswerSubmitRequest {
@@ -51,4 +77,6 @@ export interface SessionCompletion {
   currentStreak: number;
   longestStreak: number;
   streakMilestoneBonus: number;
+  answeredCount: number;
+  unattemptedCount: number;
 }

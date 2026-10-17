@@ -16,6 +16,8 @@ public record SessionCompletionResponse(
         boolean leveledUp,
         int currentStreak,
         int longestStreak,
-        int streakMilestoneBonus
+        int streakMilestoneBonus,
+        int answeredCount,
+        int unattemptedCount
 ) {
 }

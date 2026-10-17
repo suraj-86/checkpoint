@@ -61,4 +61,30 @@ public class PracticeController {
     ) {
         return practiceSessionService.abandonSession(principal.getUser(), sessionId);
     }
+
+    @GetMapping("/{sessionId}/overview")
+    public ActiveSessionResponse overview(
+            @AuthenticationPrincipal CheckpointUserDetails principal,
+            @PathVariable UUID sessionId
+    ) {
+        return practiceSessionService.getOverview(principal.getUser(), sessionId);
+    }
+
+    @GetMapping("/{sessionId}/slots/{position}")
+    public SlotQuestionResponse slot(
+            @AuthenticationPrincipal CheckpointUserDetails principal,
+            @PathVariable UUID sessionId,
+            @PathVariable int position
+    ) {
+        return practiceSessionService.getSlot(principal.getUser(), sessionId, position);
+    }
+
+    @PostMapping("/{sessionId}/slots/{position}/skip")
+    public ActiveSessionResponse skip(
+            @AuthenticationPrincipal CheckpointUserDetails principal,
+            @PathVariable UUID sessionId,
+            @PathVariable int position
+    ) {
+        return practiceSessionService.skipSlot(principal.getUser(), sessionId, position);
+    }
 }
