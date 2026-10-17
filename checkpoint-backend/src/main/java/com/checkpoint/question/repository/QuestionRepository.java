@@ -21,6 +21,15 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
 
     long countByActive(boolean active);
 
+    long countByTopicId(UUID topicId);
+
+    @Query("""
+            SELECT q.topic.id, COUNT(q), COUNT(CASE WHEN q.active = true THEN 1 END)
+            FROM Question q
+            GROUP BY q.topic.id
+            """)
+    List<Object[]> countPerTopic();
+
     @Query("SELECT q.difficulty, COUNT(q) FROM Question q WHERE q.active = true GROUP BY q.difficulty")
     List<Object[]> countActiveByDifficulty();
 

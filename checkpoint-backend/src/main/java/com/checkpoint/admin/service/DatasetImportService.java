@@ -2,6 +2,7 @@ package com.checkpoint.admin.service;
 
 import com.checkpoint.admin.dto.*;
 import com.checkpoint.admin.validation.QuestionValidator;
+import com.checkpoint.catalog.service.CatalogService;
 import com.checkpoint.common.exception.DatasetValidationException;
 import com.checkpoint.question.entity.Difficulty;
 import com.checkpoint.question.entity.Question;
@@ -10,7 +11,6 @@ import com.checkpoint.question.util.QuestionTypeCodec;
 import com.checkpoint.question.repository.QuestionDatasetRepository;
 import com.checkpoint.question.repository.QuestionRepository;
 import com.checkpoint.topic.entity.Topic;
-import com.checkpoint.topic.repository.TopicRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,18 +25,18 @@ public class DatasetImportService {
     private final QuestionValidator validator;
     private final QuestionDatasetRepository datasetRepository;
     private final QuestionRepository questionRepository;
-    private final TopicRepository topicRepository;
+    private final CatalogService catalogService;
 
     public DatasetImportService(
             QuestionValidator validator,
             QuestionDatasetRepository datasetRepository,
             QuestionRepository questionRepository,
-            TopicRepository topicRepository
+            CatalogService catalogService
     ) {
         this.validator = validator;
         this.datasetRepository = datasetRepository;
         this.questionRepository = questionRepository;
-        this.topicRepository = topicRepository;
+        this.catalogService = catalogService;
     }
 
     public ValidationResponse validate(DatasetUploadRequest request) {
@@ -122,8 +122,7 @@ public class DatasetImportService {
     }
 
     private Topic findOrCreateTopic(String name) {
-        return topicRepository.findByName(name)
-                .orElseGet(() -> topicRepository.save(Topic.builder().name(name).build()));
+        return catalogService.findOrCreateTopicByName(name);
     }
 
     @Transactional(readOnly = true)

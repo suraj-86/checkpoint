@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   History,
   Database,
+  Layers,
   LayoutDashboard,
   ListChecks,
   LogOut,
@@ -28,6 +29,7 @@ const studentNav = [
 
 const adminNav = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/admin/catalog", label: "Catalog", icon: Layers },
   { to: "/admin/datasets/upload", label: "Upload", icon: Upload },
   { to: "/admin/datasets", label: "Datasets", icon: Database },
   { to: "/admin/questions", label: "Questions", icon: ListChecks },
