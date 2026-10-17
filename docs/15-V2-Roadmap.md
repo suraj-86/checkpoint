@@ -12,3 +12,7 @@ Each phase lives on its own git branch, stacked on the previous one (phase 2 sta
 | 6 | `v2/p6-game-ui` | Game feel: new design system, animated sidebar, dashboard renamed Home with more analytics | 9, 10, 11 |
 
 Rules for every phase: backward-compatible database migrations only (new tables or nullable columns), backend tests updated, and a step-by-step test checklist delivered with the zip.
+
+## Status
+- Phase 1: tested and working.
+- Phase 2: delivered, awaiting test.

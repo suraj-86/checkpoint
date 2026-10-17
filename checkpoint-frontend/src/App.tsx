@@ -10,6 +10,8 @@ import { PracticeSessionPage } from "./features/practice/pages/PracticeSessionPa
 import { SessionResultPage } from "./features/practice/pages/SessionResultPage";
 import { ActiveSessionRedirect } from "./features/practice/pages/ActiveSessionRedirect";
 import { ProgressPage } from "./features/progress/pages/ProgressPage";
+import { HistoryPage } from "./features/progress/pages/HistoryPage";
+import { SessionDetailPage } from "./features/progress/pages/SessionDetailPage";
 import { ProfilePage } from "./features/progress/pages/ProfilePage";
 import { AdminDashboardPage } from "./features/admin/pages/AdminDashboardPage";
 import { DatasetUploadPage } from "./features/admin/pages/DatasetUploadPage";
@@ -46,6 +48,8 @@ function App() {
         <Route path="/practice/session/:sessionId" element={<PracticeSessionPage />} />
         <Route path="/practice/result/:sessionId" element={<SessionResultPage />} />
         <Route path="/progress" element={<ProgressPage />} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/progress/sessions/:sessionId" element={<SessionDetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Route>
 

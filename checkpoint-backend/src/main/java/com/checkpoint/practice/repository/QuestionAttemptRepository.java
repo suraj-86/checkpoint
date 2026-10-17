@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface QuestionAttemptRepository extends JpaRepository<QuestionAttempt, UUID> {
 
     List<QuestionAttempt> findBySessionIdAndPrimaryTrue(UUID sessionId);
+
+    List<QuestionAttempt> findBySessionIdOrderByAnsweredAtAsc(UUID sessionId);
 }

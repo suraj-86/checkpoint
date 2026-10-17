@@ -6,7 +6,17 @@ import com.checkpoint.progress.dto.ActivityDayPoint;
 import com.checkpoint.progress.dto.ProgressOverallResponse;
 import com.checkpoint.progress.dto.SessionSummary;
 import com.checkpoint.progress.dto.TopicPerformance;
+import com.checkpoint.progress.dto.SessionDetailResponse;
 import com.checkpoint.progress.service.ProgressService;
+import com.checkpoint.progress.service.SessionDetailService;
+import org.springframework.web.bind.annotation.PathVariable;
+import com.checkpoint.practice.entity.SessionStatus;
+import com.checkpoint.practice.entity.SessionType;
+import com.checkpoint.progress.dto.SessionHistoryFilter;
+import com.checkpoint.progress.dto.SessionHistoryItem;
+import com.checkpoint.progress.service.SessionHistoryService;
+import java.time.Instant;
+import java.util.UUID;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,9 +32,14 @@ import java.util.List;
 public class ProgressController {
 
     private final ProgressService progressService;
+    private final SessionDetailService sessionDetailService;
+    private final SessionHistoryService sessionHistoryService;
 
-    public ProgressController(ProgressService progressService) {
+    public ProgressController(ProgressService progressService, SessionDetailService sessionDetailService,
+                              SessionHistoryService sessionHistoryService) {
         this.progressService = progressService;
+        this.sessionDetailService = sessionDetailService;
+        this.sessionHistoryService = sessionHistoryService;
     }
 
     @GetMapping
@@ -32,13 +47,11 @@ public class ProgressController {
         return progressService.getOverall(principal.getUser());
     }
 
-    /** docs section 5: topic-level performance. */
     @GetMapping("/topics")
     public List<TopicPerformance> getTopics(@AuthenticationPrincipal CheckpointUserDetails principal) {
         return progressService.getTopicPerformance(principal.getUser());
     }
 
-    /** Activity chart data; defaults to the last 30 days. */
     @GetMapping("/activity")
     public List<ActivityDayPoint> getActivity(
             @AuthenticationPrincipal CheckpointUserDetails principal,
@@ -55,5 +68,32 @@ public class ProgressController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return progressService.getSessionHistory(principal.getUser(), pageable);
+    }
+
+    @GetMapping("/sessions/{sessionId}")
+    public SessionDetailResponse getSessionDetail(
+            @AuthenticationPrincipal CheckpointUserDetails principal,
+            @PathVariable UUID sessionId
+    ) {
+        return sessionDetailService.getDetail(principal.getUser(), sessionId);
+    }
+
+    @GetMapping("/history")
+    public PageResponse<SessionHistoryItem> searchHistory(
+            @AuthenticationPrincipal CheckpointUserDetails principal,
+            @RequestParam(required = false) SessionType type,
+            @RequestParam(required = false) SessionStatus status,
+            @RequestParam(required = false) UUID topicId,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) Instant from,
+            @RequestParam(required = false) Instant to,
+            @RequestParam(required = false) String result,
+            @RequestParam(defaultValue = "newest") String sort,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size
+    ) {
+        SessionHistoryFilter filter = new SessionHistoryFilter(
+                type, status, topicId, q, from, to, result, "oldest".equalsIgnoreCase(sort));
+        return sessionHistoryService.search(principal.getUser(), filter, page, size);
     }
 }
