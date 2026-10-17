@@ -36,3 +36,8 @@ export async function deleteDataset(id: string, confirmName: string): Promise<Da
   });
   return data;
 }
+
+export async function moveDatasetToTopic(id: string, topicId: string): Promise<DatasetActionResult> {
+  const { data } = await apiClient.patch<DatasetActionResult>(`/api/admin/datasets/${id}/topic`, { topicId });
+  return data;
+}

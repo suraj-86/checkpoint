@@ -1,7 +1,11 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { importDataset, validateDataset } from "../api/adminApi";
+import * as catalogApi from "../api/catalogApi";
+import type { Catalog } from "../types/catalog.types";
+import { EMPTY_TARGET, TargetPicker, targetReady, type Target } from "../components/TargetPicker";
+import { useCatalogActions } from "../hooks/useCatalogActions";
 import type { ImportResponse, UploadPayload, ValidationResponse } from "../types/admin.types";
 import { messageFromError, validationFromError } from "../utils/format";
 
@@ -20,6 +24,55 @@ function describePayload(payload: UploadPayload) {
 
 export function DatasetUploadPage() {
   const queryClient = useQueryClient();
+  const [params] = useSearchParams();
+  const { catalog, run, error: catalogError } = useCatalogActions();
+  const [target, setTarget] = useState<Target>(EMPTY_TARGET);
+  const preselected = useRef(false);
+
+  useEffect(() => {
+    if (!catalog || preselected.current) return;
+    preselected.current = true;
+    const topicParam = params.get("topic");
+    const subjectParam = params.get("subject");
+    const streamParam = params.get("stream") ?? "";
+    if (topicParam) {
+      const owner = catalog.subjects.find((s) => s.topics.some((t) => t.id === topicParam));
+      if (owner) {
+        setTarget({ streamId: streamParam, subjectId: owner.id, topicId: topicParam, mode: "topic" });
+        return;
+      }
+    }
+    if (subjectParam && catalog.subjects.some((s) => s.id === subjectParam)) {
+      setTarget({ streamId: streamParam, subjectId: subjectParam, topicId: "", mode: "topic" });
+      return;
+    }
+    if (streamParam) setTarget({ ...EMPTY_TARGET, streamId: streamParam });
+  }, [catalog, params]);
+
+  const targetKey = `${target.mode}:${target.topicId}:${target.subjectId}`;
+  useEffect(() => {
+    setValidation(null);
+  }, [targetKey]);
+
+  async function createTopicInline(subjectId: string, name: string): Promise<string | null> {
+    const box: { next?: Catalog } = {};
+    const ok = await run(async () => {
+      box.next = await catalogApi.createTopicInSubject({ subjectId, name });
+      return box.next;
+    });
+    if (!ok) return null;
+    const created = box.next?.subjects
+      .find((s) => s.id === subjectId)
+      ?.topics.find((t) => t.name.toLowerCase() === name.toLowerCase());
+    return created?.id ?? null;
+  }
+
+  function withTarget(base: UploadPayload): UploadPayload {
+    const { topicId: _t, subjectId: _s, ...rest } = base;
+    void _t;
+    void _s;
+    return target.mode === "topic" ? { ...rest, topicId: target.topicId } : { ...rest, subjectId: target.subjectId };
+  }
 
   const [fileKey, setFileKey] = useState(0);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -97,7 +150,8 @@ export function DatasetUploadPage() {
   });
 
   const summary = payload ? describePayload(payload) : null;
-  const canImport = payload !== null && validation !== null && isFullyValid(validation);
+  const ready = targetReady(target);
+  const canImport = payload !== null && ready && validation !== null && isFullyValid(validation);
   const busy = validateMutation.isPending || importMutation.isPending;
 
   return (
@@ -111,9 +165,12 @@ export function DatasetUploadPage() {
             {importResult.datasetName} v{importResult.datasetVersion}: {importResult.totalProcessed} questions processed,{" "}
             <strong>{importResult.created} created</strong>, <strong>{importResult.updated} updated</strong>.
           </p>
+          <p className="text-sm text-green-800">
+            Saved to: <strong>{importResult.target}</strong>
+          </p>
           <div className="flex gap-3">
             <Link
-              to="/admin/questions"
+              to={target.mode === "topic" && target.topicId ? `/admin/questions?topic=${target.topicId}` : target.subjectId ? `/admin/questions?subject=${target.subjectId}` : "/admin/questions"}
               className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
             >
               View questions
@@ -134,6 +191,13 @@ export function DatasetUploadPage() {
         </div>
       ) : (
         <>
+          {catalogError && <p className="rounded-xl bg-rose-50 px-4 py-2 text-sm text-rose-700">{catalogError}</p>}
+          {catalog ? (
+            <TargetPicker catalog={catalog} target={target} onChange={setTarget} onCreateTopic={createTopicInline} disabled={busy} />
+          ) : (
+            <p className="text-sm text-slate-500">Loading subjects and topics...</p>
+          )}
+
           <div className="card p-5">
             <label className="mb-2 block text-sm font-medium text-slate-700">Dataset file (.json)</label>
             <input
@@ -157,14 +221,14 @@ export function DatasetUploadPage() {
 
             <div className="mt-4 flex gap-3">
               <button
-                onClick={() => payload && validateMutation.mutate(payload)}
-                disabled={!payload || busy}
+                onClick={() => payload && validateMutation.mutate(withTarget(payload))}
+                disabled={!payload || !ready || busy}
                 className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
               >
                 {validateMutation.isPending ? "Validating..." : "Validate"}
               </button>
               <button
-                onClick={() => payload && importMutation.mutate(payload)}
+                onClick={() => payload && importMutation.mutate(withTarget(payload))}
                 disabled={!canImport || busy}
                 className="rounded-md bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 disabled:opacity-40"
               >
@@ -181,7 +245,7 @@ export function DatasetUploadPage() {
               )}
             </div>
             <p className="mt-2 text-xs text-slate-400">
-              Import is only enabled after a clean validation. Import is all-or-nothing: if anything fails, nothing is saved.
+              {ready ? "" : "Choose where the dataset goes first. "}Import is only enabled after a clean validation. Import is all-or-nothing: if anything fails, nothing is saved.
             </p>
           </div>
 

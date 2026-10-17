@@ -1,24 +1,68 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getTopics } from "@/features/progress/api/progressApi";
-import { restoreQuestion, retireQuestion, searchQuestions } from "../api/adminApi";
+import { useSearchParams } from "react-router-dom";
+import { getDatasets, restoreQuestion, retireQuestion, searchQuestions } from "../api/adminApi";
+import { getCatalog } from "../api/catalogApi";
+import { CATALOG_KEY } from "../hooks/useCatalogActions";
+import { SearchBox } from "../components/catalogUi";
 import type { AdminQuestion, QuestionFilters } from "../types/admin.types";
 import { messageFromError, prettify } from "../utils/format";
 
 const PAGE_SIZE = 20;
 
-const EMPTY_FILTERS: QuestionFilters = { topicId: "", difficulty: "", type: "", active: "" };
+const EMPTY_FILTERS: QuestionFilters = {
+  streamId: "",
+  examId: "",
+  subjectId: "",
+  topicId: "",
+  datasetId: "",
+  difficulty: "",
+  type: "",
+  active: "",
+  q: "",
+};
 
 const selectClass = "rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm";
 
 export function QuestionBrowserPage() {
   const queryClient = useQueryClient();
-  const [filters, setFilters] = useState<QuestionFilters>(EMPTY_FILTERS);
+  const [params] = useSearchParams();
+  const [filters, setFilters] = useState<QuestionFilters>(() => ({
+    ...EMPTY_FILTERS,
+    streamId: params.get("stream") ?? "",
+    examId: params.get("exam") ?? "",
+    subjectId: params.get("subject") ?? "",
+    topicId: params.get("topic") ?? "",
+    datasetId: params.get("dataset") ?? "",
+    active: params.get("active") ?? "",
+  }));
+  const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(0);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
 
-  const { data: topics } = useQuery({ queryKey: ["topics"], queryFn: getTopics });
+  const { data: catalog } = useQuery({ queryKey: CATALOG_KEY, queryFn: getCatalog });
+  const { data: datasets } = useQuery({ queryKey: ["admin-datasets"], queryFn: getDatasets });
+
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      setFilters((prev) => (prev.q === searchText ? prev : { ...prev, q: searchText }));
+      setPage(0);
+    }, 300);
+    return () => window.clearTimeout(id);
+  }, [searchText]);
+
+  const subjectOptions = useMemo(() => {
+    if (!catalog) return [];
+    return catalog.subjects.filter(
+      (s) => (!filters.streamId || s.streamIds.includes(filters.streamId)) && (!filters.examId || s.examIds.includes(filters.examId))
+    );
+  }, [catalog, filters.streamId, filters.examId]);
+
+  const topicOptions = useMemo(() => {
+    const pool = filters.subjectId ? subjectOptions.filter((s) => s.id === filters.subjectId) : subjectOptions;
+    return pool.flatMap((s) => s.topics.map((t) => ({ id: t.id, name: filters.subjectId ? t.name : `${s.name}: ${t.name}` })));
+  }, [subjectOptions, filters.subjectId]);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["admin-questions", filters, page],
@@ -38,7 +82,23 @@ export function QuestionBrowserPage() {
   });
 
   function updateFilter(key: keyof QuestionFilters, value: string) {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    setFilters((prev) => {
+      const next = { ...prev, [key]: value };
+      if (key === "streamId" || key === "examId") {
+        const stillOk = catalog?.subjects.some(
+          (s) =>
+            s.id === next.subjectId &&
+            (!next.streamId || s.streamIds.includes(next.streamId)) &&
+            (!next.examId || s.examIds.includes(next.examId))
+        );
+        if (!stillOk) {
+          next.subjectId = "";
+          next.topicId = "";
+        }
+      }
+      if (key === "subjectId") next.topicId = "";
+      return next;
+    });
     setPage(0);
     setExpandedId(null);
   }
@@ -57,11 +117,49 @@ export function QuestionBrowserPage() {
       <h1 className="text-2xl font-semibold text-slate-800">Question browser</h1>
 
       <div className="flex flex-wrap items-center gap-3 card p-3">
-        <select value={filters.topicId} onChange={(e) => updateFilter("topicId", e.target.value)} className={selectClass}>
+        <SearchBox value={searchText} onChange={setSearchText} placeholder="Search question text, ID or subtopic" />
+
+        <select aria-label="Filter by stream" value={filters.streamId} onChange={(e) => updateFilter("streamId", e.target.value)} className={selectClass}>
+          <option value="">All streams</option>
+          {catalog?.streams.map((x) => (
+            <option key={x.id} value={x.id}>
+              {x.name}
+            </option>
+          ))}
+        </select>
+
+        <select aria-label="Filter by exam" value={filters.examId} onChange={(e) => updateFilter("examId", e.target.value)} className={selectClass}>
+          <option value="">All exams</option>
+          {catalog?.exams.map((x) => (
+            <option key={x.id} value={x.id}>
+              {x.name}
+            </option>
+          ))}
+        </select>
+
+        <select aria-label="Filter by subject" value={filters.subjectId} onChange={(e) => updateFilter("subjectId", e.target.value)} className={selectClass}>
+          <option value="">All subjects</option>
+          {subjectOptions.map((x) => (
+            <option key={x.id} value={x.id}>
+              {x.name}
+            </option>
+          ))}
+        </select>
+
+        <select aria-label="Filter by topic" value={filters.topicId} onChange={(e) => updateFilter("topicId", e.target.value)} className={selectClass}>
           <option value="">All topics</option>
-          {topics?.map((t) => (
+          {topicOptions.map((t) => (
             <option key={t.id} value={t.id}>
               {t.name}
+            </option>
+          ))}
+        </select>
+
+        <select aria-label="Filter by dataset" value={filters.datasetId} onChange={(e) => updateFilter("datasetId", e.target.value)} className={selectClass}>
+          <option value="">All datasets</option>
+          {datasets?.map((d) => (
+            <option key={d.id} value={d.id}>
+              {d.name} v{d.version}
             </option>
           ))}
         </select>
@@ -91,6 +189,7 @@ export function QuestionBrowserPage() {
           <button
             onClick={() => {
               setFilters(EMPTY_FILTERS);
+              setSearchText("");
               setPage(0);
               setExpandedId(null);
             }}
@@ -122,7 +221,8 @@ export function QuestionBrowserPage() {
             <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase text-slate-500">
               <tr>
                 <th className="px-3 py-2">ID</th>
-                <th className="px-3 py-2">Topic</th>
+                <th className="px-3 py-2">Subject / topic</th>
+                <th className="px-3 py-2">Dataset</th>
                 <th className="px-3 py-2">Type</th>
                 <th className="px-3 py-2">Difficulty</th>
                 <th className="px-3 py-2">Question</th>
@@ -141,9 +241,11 @@ export function QuestionBrowserPage() {
                     >
                       <td className="whitespace-nowrap px-3 py-2 font-medium">{q.externalId}</td>
                       <td className="whitespace-nowrap px-3 py-2">
+                        {q.subject ? `${q.subject} › ` : ""}
                         {q.topic}
                         {q.subtopic ? ` / ${q.subtopic}` : ""}
                       </td>
+                      <td className="whitespace-nowrap px-3 py-2 text-slate-500">{q.dataset}</td>
                       <td className="whitespace-nowrap px-3 py-2">{prettify(q.questionType)}</td>
                       <td className="whitespace-nowrap px-3 py-2">{prettify(q.difficulty)}</td>
                       <td className="max-w-xs truncate px-3 py-2">{q.questionText}</td>
@@ -171,7 +273,7 @@ export function QuestionBrowserPage() {
                     </tr>
                     {expanded && (
                       <tr className="border-b border-slate-100 bg-slate-50">
-                        <td colSpan={7} className="px-4 py-3">
+                        <td colSpan={8} className="px-4 py-3">
                           <QuestionDetail question={q} />
                         </td>
                       </tr>

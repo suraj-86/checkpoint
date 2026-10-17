@@ -2,10 +2,8 @@ package com.checkpoint.question.repository;
 
 import com.checkpoint.question.entity.Difficulty;
 import com.checkpoint.question.entity.Question;
-import com.checkpoint.question.entity.QuestionType;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -13,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface QuestionRepository extends JpaRepository<Question, UUID> {
+public interface QuestionRepository extends JpaRepository<Question, UUID>, JpaSpecificationExecutor<Question> {
 
     Optional<Question> findByDatasetIdAndExternalId(UUID datasetId, String externalId);
 
@@ -52,20 +50,20 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
     List<Object[]> countPerDataset();
 
     @Query("""
-            SELECT q FROM Question q
-            WHERE (:topicId IS NULL OR q.topic.id = :topicId)
-              AND (:difficulty IS NULL OR q.difficulty = :difficulty)
-              AND (:questionType IS NULL OR q.questionType = :questionType)
-              AND (:active IS NULL OR q.active = :active)
-            ORDER BY q.createdAt DESC
+            SELECT s.id, s.name, COUNT(q) FROM Question q
+            JOIN q.topic t JOIN t.subject s
+            WHERE q.active = true
+            GROUP BY s.id, s.name
+            ORDER BY COUNT(q) DESC, s.name ASC
             """)
-    Page<Question> search(
-            @Param("topicId") UUID topicId,
-            @Param("difficulty") Difficulty difficulty,
-            @Param("questionType") QuestionType questionType,
-            @Param("active") Boolean active,
-            Pageable pageable
-    );
+    List<Object[]> countActiveBySubject();
+
+    @Query("""
+            SELECT q.dataset.id, t.id, t.name, s.id, s.name, COUNT(q)
+            FROM Question q JOIN q.topic t LEFT JOIN t.subject s
+            GROUP BY q.dataset.id, t.id, t.name, s.id, s.name
+            """)
+    List<Object[]> countPerDatasetAndTopic();
 
     @Query(value = """
             SELECT * FROM questions q

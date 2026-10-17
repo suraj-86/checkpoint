@@ -182,7 +182,7 @@ class CatalogServiceTest {
         when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(Subject.builder().id(subjectId).name("Maths").build()));
         when(topicRepository.existsByNameIgnoreCase("Sets")).thenReturn(true);
 
-        assertThatThrownBy(() -> service.createTopic(subjectId, new TopicRequest("Sets", null, null)))
+        assertThatThrownBy(() -> service.createTopic(subjectId, new TopicRequest("Sets", null, null, null)))
                 .isInstanceOf(ConflictException.class);
         verify(topicRepository, never()).save(any());
     }
@@ -218,5 +218,99 @@ class CatalogServiceTest {
         assertThat(created.getName()).isEqualTo("Rust");
         assertThat(created.getSubject().getName()).isEqualTo("Rust");
         assertThat(created.getSubject().getStreams()).containsExactly(defaultStream);
+    }
+
+    @Test
+    void setStreamSubjectsAddsAndRemovesLinks() {
+        UUID streamId = UUID.randomUUID();
+        Stream stream = Stream.builder().id(streamId).name("Commerce").build();
+        Subject linked = Subject.builder().id(UUID.randomUUID()).name("Maths").build();
+        linked.getStreams().add(stream);
+        Subject free = Subject.builder().id(UUID.randomUUID()).name("Accounts").build();
+        when(streamRepository.findById(streamId)).thenReturn(Optional.of(stream));
+        when(subjectRepository.findAll()).thenReturn(List.of(linked, free));
+
+        service.setStreamSubjects(streamId, List.of(free.getId()));
+
+        assertThat(linked.getStreams()).isEmpty();
+        assertThat(free.getStreams()).containsExactly(stream);
+    }
+
+    @Test
+    void setExamSubjectsRejectsUnknownSubject() {
+        UUID examId = UUID.randomUUID();
+        when(examRepository.findById(examId)).thenReturn(Optional.of(Exam.builder().id(examId).name("JEE").build()));
+        when(subjectRepository.findAll()).thenReturn(List.of());
+
+        assertThatThrownBy(() -> service.setExamSubjects(examId, List.of(UUID.randomUUID())))
+                .isInstanceOf(BadRequestException.class);
+    }
+
+    @Test
+    void createTopicWithoutSubjectIsRejected() {
+        assertThatThrownBy(() -> service.createTopic(new TopicRequest("Sets", null, null, null)))
+                .isInstanceOf(BadRequestException.class);
+    }
+
+    @Test
+    void updateTopicCanMoveItToAnotherSubject() {
+        UUID topicId = UUID.randomUUID();
+        UUID newSubjectId = UUID.randomUUID();
+        Subject oldSubject = Subject.builder().id(UUID.randomUUID()).name("Maths").build();
+        Subject newSubject = Subject.builder().id(newSubjectId).name("Physics").build();
+        Topic topic = Topic.builder().id(topicId).name("Vectors").subject(oldSubject).build();
+        when(topicRepository.findById(topicId)).thenReturn(Optional.of(topic));
+        when(topicRepository.existsByNameIgnoreCaseAndIdNot("Vectors", topicId)).thenReturn(false);
+        when(subjectRepository.findById(newSubjectId)).thenReturn(Optional.of(newSubject));
+
+        service.updateTopic(topicId, new TopicRequest("Vectors", null, null, newSubjectId));
+
+        assertThat(topic.getSubject()).isSameAs(newSubject);
+    }
+
+    @Test
+    void requireTopicRejectsRetiredTopics() {
+        UUID id = UUID.randomUUID();
+        when(topicRepository.findById(id)).thenReturn(Optional.of(Topic.builder().id(id).name("Old").active(false).build()));
+
+        assertThatThrownBy(() -> service.requireTopic(id)).isInstanceOf(BadRequestException.class).hasMessageContaining("retired");
+    }
+
+    @Test
+    void findOrCreateTopicInSubjectReusesTheTopicWithThatName() {
+        UUID subjectId = UUID.randomUUID();
+        Subject subject = Subject.builder().id(subjectId).name("Java").build();
+        Topic existing = Topic.builder().id(UUID.randomUUID()).name("Streams").subject(subject).build();
+        when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subject));
+        when(topicRepository.findBySubjectId(subjectId)).thenReturn(List.of(existing));
+
+        assertThat(service.findOrCreateTopicInSubject(subjectId, " streams ")).isSameAs(existing);
+        verify(topicRepository, never()).save(any());
+    }
+
+    @Test
+    void findOrCreateTopicInSubjectRefusesANameUsedUnderAnotherSubject() {
+        UUID subjectId = UUID.randomUUID();
+        when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(Subject.builder().id(subjectId).name("Java").build()));
+        when(topicRepository.findBySubjectId(subjectId)).thenReturn(List.of());
+        when(topicRepository.existsByNameIgnoreCase("Basics")).thenReturn(true);
+
+        assertThatThrownBy(() -> service.findOrCreateTopicInSubject(subjectId, "Basics"))
+                .isInstanceOf(ConflictException.class);
+    }
+
+    @Test
+    void findOrCreateTopicInSubjectCreatesMissingTopicInThatSubject() {
+        UUID subjectId = UUID.randomUUID();
+        Subject subject = Subject.builder().id(subjectId).name("Java").build();
+        when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subject));
+        when(topicRepository.findBySubjectId(subjectId)).thenReturn(List.of());
+        when(topicRepository.existsByNameIgnoreCase("Streams")).thenReturn(false);
+        when(topicRepository.save(any(Topic.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        Topic created = service.findOrCreateTopicInSubject(subjectId, "Streams");
+
+        assertThat(created.getSubject()).isSameAs(subject);
+        assertThat(created.getName()).isEqualTo("Streams");
     }
 }

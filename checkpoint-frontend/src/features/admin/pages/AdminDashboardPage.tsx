@@ -16,10 +16,13 @@ export function AdminDashboardPage() {
   }
 
   const stats = [
-    { label: "Active questions", value: data.activeQuestions, color: "text-green-600" },
-    { label: "Retired questions", value: data.retiredQuestions, color: "text-amber-600" },
-    { label: "Topics", value: data.topicCount, color: "text-slate-800" },
-    { label: "Datasets", value: data.datasetCount, color: "text-slate-800" },
+    { label: "Active questions", value: data.activeQuestions, color: "text-green-600", to: "/admin/questions?active=true" },
+    { label: "Retired questions", value: data.retiredQuestions, color: "text-amber-600", to: "/admin/questions?active=false" },
+    { label: "Streams", value: data.streamCount, color: "text-slate-800", to: "/admin/streams" },
+    { label: "Exams", value: data.examCount, color: "text-slate-800", to: "/admin/exams" },
+    { label: "Subjects", value: data.subjectCount, color: "text-slate-800", to: "/admin/subjects" },
+    { label: "Topics", value: data.topicCount, color: "text-slate-800", to: "/admin/topics" },
+    { label: "Datasets", value: data.datasetCount, color: "text-slate-800", to: "/admin/datasets" },
     { label: "Students", value: data.studentCount, color: "text-slate-800" },
   ];
 
@@ -41,13 +44,29 @@ export function AdminDashboardPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
-        {stats.map((s) => (
-          <div key={s.label} className="card p-4">
-            <p className="text-xs text-slate-500">{s.label}</p>
-            <p className={`text-xl font-semibold ${s.color}`}>{s.value}</p>
-          </div>
-        ))}
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
+        {stats.map((s) => {
+          const body = (
+            <>
+              <p className="text-xs text-slate-500">{s.label}</p>
+              <p className={`text-xl font-semibold ${s.color}`}>{s.value}</p>
+            </>
+          );
+          return s.to ? (
+            <Link key={s.label} to={s.to} className="card p-4 transition hover:-translate-y-0.5 hover:shadow-md">
+              {body}
+            </Link>
+          ) : (
+            <div key={s.label} className="card p-4">
+              {body}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <BreakdownBars title="Active by stream" items={data.activeByStream.map((n) => ({ label: n.name, value: n.count }))} />
+        <BreakdownBars title="Active by subject" items={data.activeBySubject.map((n) => ({ label: n.name, value: n.count }))} />
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">

@@ -5,10 +5,12 @@ import java.util.UUID;
 
 public record CatalogResponse(List<StreamItem> streams, List<SubjectItem> subjects, List<ExamItem> exams) {
 
-    public record StreamItem(UUID id, String name, String description, int sortOrder, boolean active, int subjectCount) {
+    public record StreamItem(
+            UUID id, String name, String description, int sortOrder, boolean active, int subjectCount, List<UUID> subjectIds) {
     }
 
-    public record ExamItem(UUID id, String name, String description, int sortOrder, boolean active, int subjectCount) {
+    public record ExamItem(
+            UUID id, String name, String description, int sortOrder, boolean active, int subjectCount, List<UUID> subjectIds) {
     }
 
     public record SubjectItem(
@@ -23,6 +25,14 @@ public record CatalogResponse(List<StreamItem> streams, List<SubjectItem> subjec
     ) {
     }
 
-    public record TopicItem(UUID id, String name, int sortOrder, boolean active, long questionCount, long activeQuestionCount) {
+    public record TopicItem(
+            UUID id,
+            UUID subjectId,
+            String name,
+            int sortOrder,
+            boolean active,
+            long questionCount,
+            long activeQuestionCount
+    ) {
     }
 }

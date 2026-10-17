@@ -2,7 +2,13 @@ package com.checkpoint.admin.service;
 
 import com.checkpoint.admin.dto.AdminDashboardResponse;
 import com.checkpoint.admin.dto.DatasetSummary;
+import com.checkpoint.admin.dto.NameCount;
 import com.checkpoint.admin.dto.TopicCount;
+import com.checkpoint.catalog.entity.Stream;
+import com.checkpoint.catalog.entity.Subject;
+import com.checkpoint.catalog.repository.ExamRepository;
+import com.checkpoint.catalog.repository.StreamRepository;
+import com.checkpoint.catalog.repository.SubjectRepository;
 import com.checkpoint.question.entity.Difficulty;
 import com.checkpoint.question.entity.QuestionType;
 import com.checkpoint.question.repository.QuestionDatasetRepository;
@@ -13,9 +19,12 @@ import com.checkpoint.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class AdminDashboardService {
@@ -25,19 +34,28 @@ public class AdminDashboardService {
     private final TopicRepository topicRepository;
     private final UserRepository userRepository;
     private final DatasetImportService datasetImportService;
+    private final SubjectRepository subjectRepository;
+    private final StreamRepository streamRepository;
+    private final ExamRepository examRepository;
 
     public AdminDashboardService(
             QuestionRepository questionRepository,
             QuestionDatasetRepository datasetRepository,
             TopicRepository topicRepository,
             UserRepository userRepository,
-            DatasetImportService datasetImportService
+            DatasetImportService datasetImportService,
+            SubjectRepository subjectRepository,
+            StreamRepository streamRepository,
+            ExamRepository examRepository
     ) {
         this.questionRepository = questionRepository;
         this.datasetRepository = datasetRepository;
         this.topicRepository = topicRepository;
         this.userRepository = userRepository;
         this.datasetImportService = datasetImportService;
+        this.subjectRepository = subjectRepository;
+        this.streamRepository = streamRepository;
+        this.examRepository = examRepository;
     }
 
     @Transactional(readOnly = true)
@@ -65,6 +83,22 @@ public class AdminDashboardService {
                 .map(row -> new TopicCount((String) row[0], (Long) row[1]))
                 .toList();
 
+        List<NameCount> bySubject = new java.util.ArrayList<>();
+        Map<UUID, Long> subjectCounts = new HashMap<>();
+        for (Object[] row : questionRepository.countActiveBySubject()) {
+            bySubject.add(new NameCount((String) row[1], (Long) row[2]));
+            subjectCounts.put((UUID) row[0], (Long) row[2]);
+        }
+        Map<String, Long> streamTotals = new HashMap<>();
+        for (Subject subject : subjectRepository.findAll()) {
+            long n = subjectCounts.getOrDefault(subject.getId(), 0L);
+            for (Stream stream : subject.getStreams()) streamTotals.merge(stream.getName(), n, Long::sum);
+        }
+        List<NameCount> byStream = streamTotals.entrySet().stream()
+                .map(e -> new NameCount(e.getKey(), e.getValue()))
+                .sorted(Comparator.comparingLong(NameCount::count).reversed().thenComparing(NameCount::name))
+                .toList();
+
         List<DatasetSummary> datasets = datasetImportService.listDatasets();
         DatasetSummary latest = datasets.isEmpty() ? null : datasets.get(0);
 
@@ -73,11 +107,16 @@ public class AdminDashboardService {
                 active,
                 retired,
                 topicRepository.count(),
+                subjectRepository.count(),
+                streamRepository.count(),
+                examRepository.count(),
                 datasetRepository.count(),
                 userRepository.countByRole(Role.STUDENT),
                 byDifficulty,
                 byType,
                 byTopic,
+                bySubject,
+                byStream,
                 latest
         );
     }

@@ -5,12 +5,14 @@ export interface CatalogStream {
   sortOrder: number;
   active: boolean;
   subjectCount: number;
+  subjectIds: string[];
 }
 
 export type CatalogExam = CatalogStream;
 
 export interface CatalogTopic {
   id: string;
+  subjectId: string;
   name: string;
   sortOrder: number;
   active: boolean;
@@ -51,4 +53,5 @@ export interface TopicPayload {
   name: string;
   sortOrder?: number;
   active?: boolean;
+  subjectId?: string;
 }
