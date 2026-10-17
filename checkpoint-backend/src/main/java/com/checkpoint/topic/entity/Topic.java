@@ -1,5 +1,6 @@
 package com.checkpoint.topic.entity;
 
+import com.checkpoint.catalog.entity.Subject;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,17 @@ public class Topic {
 
     @Column(nullable = false, unique = true, length = 100)
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
+
+    @Column(name = "sort_order", nullable = false)
+    private int sortOrder;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean active = true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
