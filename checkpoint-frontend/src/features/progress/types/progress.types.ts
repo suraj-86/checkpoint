@@ -82,3 +82,42 @@ export interface Topic {
   id: string;
   name: string;
 }
+
+export interface QuestionReview {
+  number: number;
+  questionId: string;
+  question: string;
+  type: "MCQ" | "TRUE_FALSE" | "FILL_IN_BLANK";
+  difficulty: string;
+  topic: string;
+  subtopic: string | null;
+  options: string[] | null;
+  status: "CORRECT" | "WRONG" | "UNANSWERED";
+  yourAnswer: string | boolean | null;
+  correctAnswer: unknown;
+  explanation: string | null;
+}
+
+export interface SessionDetail {
+  summary: SessionSummary;
+  totalQuestions: number;
+  unansweredCount: number;
+  questions: QuestionReview[];
+}
+
+export interface SessionHistoryItem {
+  summary: SessionSummary;
+  totalQuestions: number;
+  topics: string[];
+}
+
+export interface HistoryFilters {
+  q: string;
+  type: "" | "DAILY" | "FAST";
+  status: "" | "COMPLETED" | "ABANDONED" | "IN_PROGRESS";
+  topicId: string;
+  result: "" | "PERFECT" | "HAS_WRONG";
+  fromDate: string;
+  toDate: string;
+  sort: "newest" | "oldest";
+}

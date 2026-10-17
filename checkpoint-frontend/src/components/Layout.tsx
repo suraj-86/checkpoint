@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   BookOpen,
   CheckCircle2,
+  History,
   Database,
   LayoutDashboard,
   ListChecks,
@@ -21,6 +22,7 @@ const studentNav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/practice", label: "Practice", icon: BookOpen },
   { to: "/progress", label: "Progress", icon: TrendingUp },
+  { to: "/history", label: "History", icon: History },
   { to: "/profile", label: "Profile", icon: User },
 ];
 
