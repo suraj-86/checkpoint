@@ -111,4 +111,20 @@ class QuestionValidatorTest {
         assertThat(r.invalidCount()).isEqualTo(1);
         assertThat(r.errors().get(0).messages()).hasSize(3);
     }
+
+    @Test
+    void topicInTheFileIsOptionalWhenATargetTopicIsChosen() {
+        QuestionUpload noTopic = new QuestionUpload(
+                "A-1", null, null, "MCQ", "EASY", "Which keyword inherits a class?",
+                List.of("extends", "implements", "inherits", "super"), "extends", "extends is used for inheritance.");
+        DatasetMeta meta = new DatasetMeta("Java Core", "1.0", null);
+
+        ValidationResponse withTarget = validator.validate(
+                new DatasetUploadRequest(meta, List.of(noTopic), java.util.UUID.randomUUID(), null));
+        ValidationResponse withoutTarget = validator.validate(request(meta, List.of(noTopic)));
+
+        assertThat(withTarget.allValid()).isTrue();
+        assertThat(withoutTarget.allValid()).isFalse();
+        assertThat(withoutTarget.errors().get(0).messages()).contains("topic is required.");
+    }
 }

@@ -17,7 +17,10 @@ import { AdminDashboardPage } from "./features/admin/pages/AdminDashboardPage";
 import { DatasetUploadPage } from "./features/admin/pages/DatasetUploadPage";
 import { DatasetHistoryPage } from "./features/admin/pages/DatasetHistoryPage";
 import { QuestionBrowserPage } from "./features/admin/pages/QuestionBrowserPage";
-import { CatalogPage } from "./features/admin/pages/CatalogPage";
+import { StreamsPage } from "./features/admin/pages/StreamsPage";
+import { SubjectsPage } from "./features/admin/pages/SubjectsPage";
+import { ExamsPage } from "./features/admin/pages/ExamsPage";
+import { TopicsPage } from "./features/admin/pages/TopicsPage";
 import { AdminAccountPage } from "./features/account/pages/AdminAccountPage";
 
 function App() {
@@ -62,7 +65,11 @@ function App() {
         }
       >
         <Route path="/admin" element={<AdminDashboardPage />} />
-        <Route path="/admin/catalog" element={<CatalogPage />} />
+        <Route path="/admin/streams" element={<StreamsPage />} />
+        <Route path="/admin/exams" element={<ExamsPage />} />
+        <Route path="/admin/subjects" element={<SubjectsPage />} />
+        <Route path="/admin/topics" element={<TopicsPage />} />
+        <Route path="/admin/catalog" element={<Navigate to="/admin/subjects" replace />} />
         <Route path="/admin/datasets" element={<DatasetHistoryPage />} />
         <Route path="/admin/datasets/upload" element={<DatasetUploadPage />} />
         <Route path="/admin/questions" element={<QuestionBrowserPage />} />

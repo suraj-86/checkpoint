@@ -43,12 +43,12 @@ CREATE TABLE subject_exams (
 );
 CREATE INDEX idx_subject_exams_exam ON subject_exams (exam_id);
 
-
 ALTER TABLE topics
     ADD COLUMN subject_id UUID REFERENCES subjects (id) ON DELETE RESTRICT,
     ADD COLUMN sort_order INT     NOT NULL DEFAULT 0,
     ADD COLUMN active     BOOLEAN NOT NULL DEFAULT true;
 CREATE INDEX idx_topics_subject ON topics (subject_id);
+
 INSERT INTO streams (name, description)
 VALUES ('Computer Science', 'Programming languages, data structures and core computer science subjects');
 

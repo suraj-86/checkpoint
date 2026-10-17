@@ -3,6 +3,19 @@ export interface TopicCount {
   count: number;
 }
 
+export interface DatasetTopicRef {
+  topicId: string;
+  topicName: string;
+  subjectId: string | null;
+  subjectName: string | null;
+  questionCount: number;
+}
+
+export interface NameCount {
+  name: string;
+  count: number;
+}
+
 export interface DatasetSummary {
   id: string;
   name: string;
@@ -10,6 +23,7 @@ export interface DatasetSummary {
   importedAt: string;
   questionCount: number;
   activeQuestionCount: number;
+  topics: DatasetTopicRef[];
 }
 
 export interface AdminDashboard {
@@ -17,11 +31,16 @@ export interface AdminDashboard {
   activeQuestions: number;
   retiredQuestions: number;
   topicCount: number;
+  subjectCount: number;
+  streamCount: number;
+  examCount: number;
   datasetCount: number;
   studentCount: number;
   activeByDifficulty: Record<string, number>;
   activeByType: Record<string, number>;
   activeByTopic: TopicCount[];
+  activeBySubject: NameCount[];
+  activeByStream: NameCount[];
   latestDataset: DatasetSummary | null;
 }
 
@@ -46,6 +65,7 @@ export interface ImportResponse {
   totalProcessed: number;
   created: number;
   updated: number;
+  target: string;
 }
 
 export type UploadPayload = Record<string, unknown>;
@@ -54,6 +74,8 @@ export interface AdminQuestion {
   id: string;
   externalId: string;
   topic: string;
+  subject: string | null;
+  dataset: string;
   subtopic: string | null;
   questionType: string;
   difficulty: string;
@@ -64,8 +86,13 @@ export interface AdminQuestion {
 }
 
 export interface QuestionFilters {
+  streamId: string;
+  examId: string;
+  subjectId: string;
   topicId: string;
+  datasetId: string;
   difficulty: string;
   type: string;
   active: string;
+  q: string;
 }

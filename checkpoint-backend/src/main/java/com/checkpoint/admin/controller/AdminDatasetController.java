@@ -5,9 +5,11 @@ import com.checkpoint.admin.dto.DatasetImpactResponse;
 import com.checkpoint.admin.dto.DatasetSummary;
 import com.checkpoint.admin.dto.DatasetUploadRequest;
 import com.checkpoint.admin.dto.ImportResponse;
+import com.checkpoint.admin.dto.MoveDatasetRequest;
 import com.checkpoint.admin.dto.ValidationResponse;
 import com.checkpoint.admin.service.DatasetAdminService;
 import com.checkpoint.admin.service.DatasetImportService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +46,12 @@ public class AdminDatasetController {
     @GetMapping("/{id}/impact")
     public ResponseEntity<DatasetImpactResponse> impact(@PathVariable UUID id) {
         return ResponseEntity.ok(datasetAdminService.impact(id));
+    }
+
+    @PatchMapping("/{id}/topic")
+    public ResponseEntity<DatasetActionResponse> moveToTopic(
+            @PathVariable UUID id, @Valid @RequestBody MoveDatasetRequest request) {
+        return ResponseEntity.ok(datasetAdminService.moveToTopic(id, request.topicId()));
     }
 
     @PatchMapping("/{id}/retire")

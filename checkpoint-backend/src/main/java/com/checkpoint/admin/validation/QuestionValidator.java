@@ -38,7 +38,7 @@ public class QuestionValidator {
 
         for (QuestionUpload q : questions) {
             List<String> messages = new ArrayList<>();
-            validateOne(q, messages);
+            validateOne(q, messages, request.topicId() == null);
 
             if (StringUtils.hasText(q.externalId()) && duplicateExternalIds.contains(q.externalId())) {
                 messages.add("Duplicate externalId within this dataset upload.");
@@ -93,7 +93,7 @@ public class QuestionValidator {
         return problems;
     }
 
-    private void validateOne(QuestionUpload q, List<String> messages) {
+    private void validateOne(QuestionUpload q, List<String> messages, boolean topicRequired) {
         if (!StringUtils.hasText(q.externalId())) {
             messages.add("externalId is required.");
         }
@@ -101,7 +101,9 @@ public class QuestionValidator {
             messages.add("externalId is too long (max " + MAX_EXTERNAL_ID + " characters).");
         }
         if (!StringUtils.hasText(q.topic())) {
-            messages.add("topic is required.");
+            if (topicRequired) {
+                messages.add("topic is required.");
+            }
         } else if (q.topic().length() > MAX_TOPIC) {
             messages.add("topic is too long (max " + MAX_TOPIC + " characters).");
         }

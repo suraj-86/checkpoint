@@ -1,6 +1,7 @@
 package com.checkpoint.catalog.controller;
 
 import com.checkpoint.catalog.dto.CatalogResponse;
+import com.checkpoint.catalog.dto.IdListRequest;
 import com.checkpoint.catalog.dto.NamedItemRequest;
 import com.checkpoint.catalog.dto.SubjectRequest;
 import com.checkpoint.catalog.dto.TopicRequest;
@@ -39,6 +40,21 @@ public class AdminCatalogController {
     @DeleteMapping("/streams/{id}")
     public ResponseEntity<CatalogResponse> deleteStream(@PathVariable UUID id) {
         return ResponseEntity.ok(catalogService.deleteStream(id));
+    }
+
+    @PutMapping("/streams/{id}/subjects")
+    public ResponseEntity<CatalogResponse> setStreamSubjects(@PathVariable UUID id, @RequestBody IdListRequest request) {
+        return ResponseEntity.ok(catalogService.setStreamSubjects(id, request.ids()));
+    }
+
+    @PutMapping("/exams/{id}/subjects")
+    public ResponseEntity<CatalogResponse> setExamSubjects(@PathVariable UUID id, @RequestBody IdListRequest request) {
+        return ResponseEntity.ok(catalogService.setExamSubjects(id, request.ids()));
+    }
+
+    @PostMapping("/topics")
+    public ResponseEntity<CatalogResponse> createTopicInSubject(@Valid @RequestBody TopicRequest request) {
+        return ResponseEntity.ok(catalogService.createTopic(request));
     }
 
     @PostMapping("/exams")

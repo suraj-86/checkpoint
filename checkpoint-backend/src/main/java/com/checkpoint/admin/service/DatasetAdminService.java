@@ -5,7 +5,9 @@ import com.checkpoint.admin.dto.DatasetImpactResponse;
 import com.checkpoint.common.exception.BadRequestException;
 import com.checkpoint.common.exception.NotFoundException;
 import com.checkpoint.question.entity.QuestionDataset;
+import com.checkpoint.catalog.service.CatalogService;
 import com.checkpoint.question.repository.QuestionDatasetRepository;
+import com.checkpoint.topic.entity.Topic;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
@@ -19,12 +21,14 @@ public class DatasetAdminService {
     private static final String QUESTION_IDS = "SELECT id FROM questions WHERE dataset_id = :datasetId";
 
     private final QuestionDatasetRepository datasetRepository;
+    private final CatalogService catalogService;
 
     @PersistenceContext
     private EntityManager em;
 
-    public DatasetAdminService(QuestionDatasetRepository datasetRepository) {
+    public DatasetAdminService(QuestionDatasetRepository datasetRepository, CatalogService catalogService) {
         this.datasetRepository = datasetRepository;
+        this.catalogService = catalogService;
     }
 
     @Transactional(readOnly = true)
@@ -39,6 +43,19 @@ public class DatasetAdminService {
                 count("SELECT COUNT(*) FROM session_questions WHERE question_id IN (" + QUESTION_IDS + ")", datasetId),
                 count("SELECT COUNT(*) FROM user_question_progress WHERE question_id IN (" + QUESTION_IDS + ")", datasetId)
         );
+    }
+
+    @Transactional
+    public DatasetActionResponse moveToTopic(UUID datasetId, UUID topicId) {
+        QuestionDataset dataset = findOrThrow(datasetId);
+        Topic topic = catalogService.requireTopic(topicId);
+        int moved = em.createNativeQuery("UPDATE questions SET topic_id = :topicId WHERE dataset_id = :datasetId")
+                .setParameter("topicId", topicId)
+                .setParameter("datasetId", datasetId)
+                .executeUpdate();
+        String where = topic.getSubject() == null ? topic.getName() : topic.getSubject().getName() + " > " + topic.getName();
+        return new DatasetActionResponse(
+                "Moved " + moved + " questions of \"" + dataset.getName() + "\" to " + where + ".", moved);
     }
 
     @Transactional

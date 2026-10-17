@@ -8,11 +8,16 @@ public record AdminDashboardResponse(
         long activeQuestions,
         long retiredQuestions,
         long topicCount,
+        long subjectCount,
+        long streamCount,
+        long examCount,
         long datasetCount,
         long studentCount,
         Map<String, Long> activeByDifficulty,
         Map<String, Long> activeByType,
         List<TopicCount> activeByTopic,
+        List<NameCount> activeBySubject,
+        List<NameCount> activeByStream,
         DatasetSummary latestDataset
 ) {
 }

@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -72,18 +73,18 @@ public class CatalogService {
             topicsBySubject.computeIfAbsent(topic.getSubject().getId(), k -> new ArrayList<>()).add(topic);
         }
 
-        Map<UUID, Integer> subjectsPerStream = new HashMap<>();
-        Map<UUID, Integer> subjectsPerExam = new HashMap<>();
+        Map<UUID, List<UUID>> subjectsPerStream = new HashMap<>();
+        Map<UUID, List<UUID>> subjectsPerExam = new HashMap<>();
         List<SubjectItem> subjectItems = new ArrayList<>();
         for (Subject subject : subjects) {
-            for (Stream stream : subject.getStreams()) subjectsPerStream.merge(stream.getId(), 1, Integer::sum);
-            for (Exam exam : subject.getExams()) subjectsPerExam.merge(exam.getId(), 1, Integer::sum);
+            for (Stream stream : subject.getStreams()) subjectsPerStream.computeIfAbsent(stream.getId(), k -> new ArrayList<>()).add(subject.getId());
+            for (Exam exam : subject.getExams()) subjectsPerExam.computeIfAbsent(exam.getId(), k -> new ArrayList<>()).add(subject.getId());
 
             List<TopicItem> topicItems = topicsBySubject.getOrDefault(subject.getId(), List.of()).stream()
                     .sorted(Comparator.comparingInt(Topic::getSortOrder).thenComparing(Topic::getName, String.CASE_INSENSITIVE_ORDER))
                     .map(t -> {
                         long[] c = counts.getOrDefault(t.getId(), new long[]{0, 0});
-                        return new TopicItem(t.getId(), t.getName(), t.getSortOrder(), t.isActive(), c[0], c[1]);
+                        return new TopicItem(t.getId(), subject.getId(), t.getName(), t.getSortOrder(), t.isActive(), c[0], c[1]);
                     })
                     .toList();
 
@@ -96,11 +97,13 @@ public class CatalogService {
 
         List<StreamItem> streamItems = streamRepository.findAllByOrderBySortOrderAscNameAsc().stream()
                 .map(s -> new StreamItem(s.getId(), s.getName(), s.getDescription(), s.getSortOrder(), s.isActive(),
-                        subjectsPerStream.getOrDefault(s.getId(), 0)))
+                        subjectsPerStream.getOrDefault(s.getId(), List.of()).size(),
+                        subjectsPerStream.getOrDefault(s.getId(), List.of())))
                 .toList();
         List<ExamItem> examItems = examRepository.findAllByOrderBySortOrderAscNameAsc().stream()
                 .map(e -> new ExamItem(e.getId(), e.getName(), e.getDescription(), e.getSortOrder(), e.isActive(),
-                        subjectsPerExam.getOrDefault(e.getId(), 0)))
+                        subjectsPerExam.getOrDefault(e.getId(), List.of()).size(),
+                        subjectsPerExam.getOrDefault(e.getId(), List.of())))
                 .toList();
 
         return new CatalogResponse(streamItems, subjectItems, examItems);
@@ -179,6 +182,46 @@ public class CatalogService {
     }
 
     @Transactional
+    public CatalogResponse setStreamSubjects(UUID streamId, List<UUID> subjectIds) {
+        Stream stream = streamRepository.findById(streamId).orElseThrow(() -> new NotFoundException("Stream not found"));
+        Set<UUID> wanted = distinct(subjectIds);
+        Set<UUID> known = new LinkedHashSet<>();
+        for (Subject subject : subjectRepository.findAll()) {
+            known.add(subject.getId());
+            boolean has = subject.getStreams().stream().anyMatch(x -> x.getId().equals(streamId));
+            if (wanted.contains(subject.getId()) && !has) {
+                subject.getStreams().add(stream);
+                subjectRepository.save(subject);
+            } else if (!wanted.contains(subject.getId()) && has) {
+                subject.getStreams().removeIf(x -> x.getId().equals(streamId));
+                subjectRepository.save(subject);
+            }
+        }
+        if (!known.containsAll(wanted)) throw new BadRequestException("One or more subjects do not exist");
+        return snapshot();
+    }
+
+    @Transactional
+    public CatalogResponse setExamSubjects(UUID examId, List<UUID> subjectIds) {
+        Exam exam = examRepository.findById(examId).orElseThrow(() -> new NotFoundException("Exam not found"));
+        Set<UUID> wanted = distinct(subjectIds);
+        Set<UUID> known = new LinkedHashSet<>();
+        for (Subject subject : subjectRepository.findAll()) {
+            known.add(subject.getId());
+            boolean has = subject.getExams().stream().anyMatch(x -> x.getId().equals(examId));
+            if (wanted.contains(subject.getId()) && !has) {
+                subject.getExams().add(exam);
+                subjectRepository.save(subject);
+            } else if (!wanted.contains(subject.getId()) && has) {
+                subject.getExams().removeIf(x -> x.getId().equals(examId));
+                subjectRepository.save(subject);
+            }
+        }
+        if (!known.containsAll(wanted)) throw new BadRequestException("One or more subjects do not exist");
+        return snapshot();
+    }
+
+    @Transactional
     public CatalogResponse createSubject(SubjectRequest request) {
         String name = cleanName(request.name());
         if (subjectRepository.existsByNameIgnoreCase(name)) throw nameTaken("Subject", name);
@@ -242,6 +285,12 @@ public class CatalogService {
     }
 
     @Transactional
+    public CatalogResponse createTopic(TopicRequest request) {
+        if (request.subjectId() == null) throw new BadRequestException("Choose a subject for the topic");
+        return createTopic(request.subjectId(), request);
+    }
+
+    @Transactional
     public CatalogResponse updateTopic(UUID id, TopicRequest request) {
         Topic topic = topicRepository.findById(id).orElseThrow(() -> new NotFoundException("Topic not found"));
         String name = cleanName(request.name());
@@ -249,6 +298,10 @@ public class CatalogService {
         topic.setName(name);
         if (request.sortOrder() != null) topic.setSortOrder(request.sortOrder());
         if (request.active() != null) topic.setActive(request.active());
+        if (request.subjectId() != null && (topic.getSubject() == null || !topic.getSubject().getId().equals(request.subjectId()))) {
+            topic.setSubject(subjectRepository.findById(request.subjectId())
+                    .orElseThrow(() -> new NotFoundException("Subject not found")));
+        }
         topicRepository.save(topic);
         return snapshot();
     }
@@ -265,11 +318,6 @@ public class CatalogService {
         return snapshot();
     }
 
-    /**
-     * Used by the dataset importer until the upload page works with the hierarchy. A topic that does
-     * not exist yet gets a subject of the same name inside the default stream, so nothing is left
-     * outside the catalog.
-     */
     @Transactional
     public Topic findOrCreateTopicByName(String rawName) {
         String name = cleanName(rawName);
@@ -277,6 +325,33 @@ public class CatalogService {
             Subject subject = subjectRepository.findByNameIgnoreCase(name).orElseGet(() -> createLegacySubject(name));
             return topicRepository.save(Topic.builder().name(name).subject(subject).build());
         });
+    }
+
+    @Transactional(readOnly = true)
+    public Topic requireTopic(UUID topicId) {
+        Topic topic = topicRepository.findById(topicId)
+                .orElseThrow(() -> new BadRequestException("The selected topic does not exist"));
+        if (!topic.isActive()) {
+            throw new BadRequestException("The topic \"" + topic.getName() + "\" is retired. Restore it before uploading into it.");
+        }
+        return topic;
+    }
+
+    @Transactional
+    public Topic findOrCreateTopicInSubject(UUID subjectId, String rawName) {
+        String name = cleanName(rawName);
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new BadRequestException("The selected subject does not exist"));
+        Optional<Topic> inSubject = topicRepository.findBySubjectId(subjectId).stream()
+                .filter(t -> t.getName().equalsIgnoreCase(name))
+                .findFirst();
+        if (inSubject.isPresent()) return inSubject.get();
+        if (topicRepository.existsByNameIgnoreCase(name)) {
+            throw new ConflictException("TOPIC_NAME_TAKEN",
+                    "The topic \"" + name + "\" from the file already exists under a different subject. "
+                            + "Pick that topic directly or rename it first.");
+        }
+        return topicRepository.save(Topic.builder().name(name).subject(subject).build());
     }
 
     private Subject createLegacySubject(String name) {

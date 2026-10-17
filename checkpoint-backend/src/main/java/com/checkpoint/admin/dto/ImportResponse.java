@@ -5,6 +5,7 @@ public record ImportResponse(
         String datasetVersion,
         int totalProcessed,
         int created,
-        int updated
+        int updated,
+        String target
 ) {
 }

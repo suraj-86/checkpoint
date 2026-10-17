@@ -37,7 +37,12 @@ export async function searchQuestions(
 ): Promise<PageResponse<AdminQuestion>> {
   const { data } = await apiClient.get<PageResponse<AdminQuestion>>("/api/admin/questions", {
     params: {
+      streamId: filters.streamId || undefined,
+      examId: filters.examId || undefined,
+      subjectId: filters.subjectId || undefined,
       topicId: filters.topicId || undefined,
+      datasetId: filters.datasetId || undefined,
+      q: filters.q.trim() || undefined,
       difficulty: filters.difficulty || undefined,
       type: filters.type || undefined,
       active: filters.active || undefined,

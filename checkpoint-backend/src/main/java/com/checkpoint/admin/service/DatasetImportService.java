@@ -50,6 +50,8 @@ public class DatasetImportService {
             throw new DatasetValidationException(validation);
         }
 
+        Topic fixedTopic = request.topicId() == null ? null : catalogService.requireTopic(request.topicId());
+
         QuestionDataset dataset = findOrCreateDataset(request.dataset());
 
         Map<String, Topic> topicCache = new HashMap<>();
@@ -58,7 +60,9 @@ public class DatasetImportService {
         int updated = 0;
 
         for (QuestionUpload upload : request.questions()) {
-            Topic topic = topicCache.computeIfAbsent(upload.topic(), this::findOrCreateTopic);
+            Topic topic = fixedTopic != null
+                    ? fixedTopic
+                    : topicCache.computeIfAbsent(upload.topic(), name -> resolveTopic(request, name));
 
             Question existing = questionRepository.findFirstByExternalId(upload.externalId()).orElse(null);
 
@@ -82,7 +86,8 @@ public class DatasetImportService {
                 dataset.getVersion(),
                 request.questions().size(),
                 created,
-                updated
+                updated,
+                describeTarget(request, fixedTopic)
         );
     }
 
@@ -121,8 +126,19 @@ public class DatasetImportService {
                                 .build()));
     }
 
-    private Topic findOrCreateTopic(String name) {
+    private Topic resolveTopic(DatasetUploadRequest request, String name) {
+        if (request.subjectId() != null) {
+            return catalogService.findOrCreateTopicInSubject(request.subjectId(), name);
+        }
         return catalogService.findOrCreateTopicByName(name);
+    }
+
+    private String describeTarget(DatasetUploadRequest request, Topic fixedTopic) {
+        if (fixedTopic != null) {
+            String subject = fixedTopic.getSubject() == null ? null : fixedTopic.getSubject().getName();
+            return subject == null ? fixedTopic.getName() : subject + " > " + fixedTopic.getName();
+        }
+        return request.subjectId() != null ? "topics from the file" : "topics from the file (any subject)";
     }
 
     @Transactional(readOnly = true)
@@ -131,10 +147,15 @@ public class DatasetImportService {
         for (Object[] row : questionRepository.countPerDataset()) {
             counts.put((UUID) row[0], new long[]{(Long) row[1], (Long) row[2]});
         }
+        Map<UUID, List<DatasetTopicRef>> topics = new HashMap<>();
+        for (Object[] row : questionRepository.countPerDatasetAndTopic()) {
+            topics.computeIfAbsent((UUID) row[0], k -> new java.util.ArrayList<>())
+                    .add(new DatasetTopicRef((UUID) row[1], (String) row[2], (UUID) row[3], (String) row[4], (Long) row[5]));
+        }
         return datasetRepository.findAllByOrderByImportedAtDesc().stream()
                 .map(d -> {
                     long[] c = counts.getOrDefault(d.getId(), new long[]{0, 0});
-                    return DatasetSummary.from(d, c[0], c[1]);
+                    return DatasetSummary.from(d, c[0], c[1], topics.getOrDefault(d.getId(), List.of()));
                 })
                 .toList();
     }

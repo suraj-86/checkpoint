@@ -53,6 +53,21 @@ export async function deleteSubject(id: string): Promise<Catalog> {
   return data;
 }
 
+export async function setStreamSubjects(id: string, ids: string[]): Promise<Catalog> {
+  const { data } = await apiClient.put<Catalog>(`${base}/streams/${id}/subjects`, { ids });
+  return data;
+}
+
+export async function setExamSubjects(id: string, ids: string[]): Promise<Catalog> {
+  const { data } = await apiClient.put<Catalog>(`${base}/exams/${id}/subjects`, { ids });
+  return data;
+}
+
+export async function createTopicInSubject(payload: TopicPayload & { subjectId: string }): Promise<Catalog> {
+  const { data } = await apiClient.post<Catalog>(`${base}/topics`, payload);
+  return data;
+}
+
 export async function createTopic(subjectId: string, payload: TopicPayload): Promise<Catalog> {
   const { data } = await apiClient.post<Catalog>(`${base}/subjects/${subjectId}/topics`, payload);
   return data;
