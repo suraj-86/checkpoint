@@ -69,7 +69,7 @@ function OptionRow({ text, review }: { text: string; review: QuestionReview }) {
 
 function QuestionCard({ review, revise }: { review: QuestionReview; revise: boolean }) {
   const [revealed, setRevealed] = useState(false);
-  const hidden = revise && !revealed;
+  const hidden = (revise || review.status === "UNANSWERED") && !revealed;
   const canReveal = review.correctAnswer !== null;
 
   return (
@@ -81,7 +81,7 @@ function QuestionCard({ review, revise }: { review: QuestionReview; revise: bool
           {review.subtopic && <span className="text-slate-400">· {review.subtopic}</span>}
           <span className="text-slate-400">· {review.difficulty.toLowerCase()}</span>
         </div>
-        {!hidden && <StatusBadge status={review.status} />}
+        {(!hidden || review.status === "UNANSWERED") && <StatusBadge status={review.status} />}
       </div>
 
       <p className="mt-3 whitespace-pre-wrap break-words text-sm font-medium text-slate-800">{review.question}</p>
@@ -130,9 +130,6 @@ function QuestionCard({ review, revise }: { review: QuestionReview; revise: bool
             </div>
           )}
 
-          {review.status === "UNANSWERED" && review.type === "MCQ" && (
-            <p className="text-xs text-slate-500">You did not answer this one.</p>
-          )}
 
           {review.explanation && (
             <div className="rounded-xl bg-slate-50 px-3 py-2 text-sm text-slate-700">
@@ -141,7 +138,7 @@ function QuestionCard({ review, revise }: { review: QuestionReview; revise: bool
             </div>
           )}
 
-          {revise && (
+          {(revise || review.status === "UNANSWERED") && (
             <button type="button" onClick={() => setRevealed(false)} className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-700">
               <EyeOff size={13} /> Hide again
             </button>

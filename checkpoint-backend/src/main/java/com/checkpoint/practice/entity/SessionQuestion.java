@@ -36,4 +36,8 @@ public class SessionQuestion {
     @Column(nullable = false)
     @Builder.Default
     private boolean answered = false;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean skipped = false;
 }

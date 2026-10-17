@@ -1,5 +1,6 @@
 package com.checkpoint.practice.dto;
 
+import java.util.List;
 import java.util.UUID;
 
 public record ActiveSessionResponse(
@@ -9,6 +10,8 @@ public record ActiveSessionResponse(
         int answeredPrimaryCount,
         int totalSlots,
         int answeredSlots,
-        StudentQuestionResponse currentQuestion
+        StudentQuestionResponse currentQuestion,
+        List<SlotInfo> slots,
+        int currentPosition
 ) {
 }

@@ -7,6 +7,7 @@ public record SessionAbandonResponse(
         String status,
         int answeredCount,
         int correctCount,
-        int primaryQuestionCount
+        int primaryQuestionCount,
+        int skippedForLater
 ) {
 }

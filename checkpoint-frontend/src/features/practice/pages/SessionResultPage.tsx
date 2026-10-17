@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trophy, Flame, TrendingUp, TrendingDown } from "lucide-react";
 import { completeSession } from "../api/practiceApi";
+import { messageFromError } from "../../admin/utils/format";
 
 export function SessionResultPage() {
   const { sessionId } = useParams<{ sessionId: string }>();
@@ -18,13 +19,10 @@ export function SessionResultPage() {
   });
 
   useEffect(() => {
-    // Guard against React 18 StrictMode's double-invoke in dev, which
-    // would otherwise call POST .../complete twice on mount.
     if (sessionId && !hasRequested.current) {
       hasRequested.current = true;
       completeMutation.mutate();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
   if (completeMutation.isPending || completeMutation.isIdle) {
@@ -34,7 +32,7 @@ export function SessionResultPage() {
   if (completeMutation.isError) {
     return (
       <div className="mx-auto max-w-md text-center">
-        <p className="text-red-600">Could not complete the session.</p>
+        <p className="text-red-600">{messageFromError(completeMutation.error)}</p>
         <Link to="/dashboard" className="mt-3 inline-block text-sm text-slate-600 underline">
           Back to dashboard
         </Link>
@@ -65,6 +63,14 @@ export function SessionResultPage() {
             </p>
           </div>
         </div>
+
+        {result.unattemptedCount > 0 && (
+          <p className="mt-4 text-left text-xs text-slate-500">
+            You answered {result.answeredCount} and left {result.unattemptedCount} unattempted. Unattempted questions
+            count against accuracy and XP in a Daily Session. In Fast Practice only your answers are scored, and the
+            rest come back in your next sessions.
+          </p>
+        )}
 
         <div className={`mt-4 flex items-center justify-center gap-1.5 rounded-md py-2 text-sm font-medium ${
           positive ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"

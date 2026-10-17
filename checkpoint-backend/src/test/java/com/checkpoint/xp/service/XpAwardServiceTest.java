@@ -180,4 +180,28 @@ class XpAwardServiceTest {
             assertThat(result.totalXp()).isEqualTo(0);
         }
     }
+
+    @Nested
+    @DisplayName("Unattempted questions in a Daily Session")
+    class Unattempted {
+
+        @Test
+        @DisplayName("answering one question correctly and leaving nine unattempted is not a perfect session")
+        void unattemptedQuestionsCountAgainstThePerformance() {
+            when(studentStatsRepository.findByUserId(userId)).thenReturn(
+                    Optional.of(StudentStats.builder().userId(userId).totalXp(10_000).build()));
+            PracticeSession s = session(SessionType.DAILY);
+            when(attemptRepository.findBySessionIdAndPrimaryTrue(s.getId()))
+                    .thenReturn(List.of(correctAttempt(Difficulty.MEDIUM, true)));
+
+            XpAwardService.AwardResult withoutPenalty = service.award(s);
+            assertThat(withoutPenalty.xpChange()).isGreaterThan(0);
+
+            when(studentStatsRepository.findByUserId(userId)).thenReturn(
+                    Optional.of(StudentStats.builder().userId(userId).totalXp(10_000).build()));
+            XpAwardService.AwardResult withNine = service.award(s, java.util.Collections.nCopies(9, Difficulty.MEDIUM));
+
+            assertThat(withNine.xpChange()).isLessThan(0);
+        }
+    }
 }

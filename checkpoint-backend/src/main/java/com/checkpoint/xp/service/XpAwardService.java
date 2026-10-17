@@ -5,6 +5,7 @@ import com.checkpoint.practice.entity.QuestionAttempt;
 import com.checkpoint.practice.entity.SessionType;
 import com.checkpoint.practice.repository.PracticeSessionRepository;
 import com.checkpoint.practice.repository.QuestionAttemptRepository;
+import com.checkpoint.question.entity.Difficulty;
 import com.checkpoint.xp.algorithm.LevelCalculator;
 import com.checkpoint.xp.algorithm.StreakCalculator;
 import com.checkpoint.xp.algorithm.XpCalculator;
@@ -18,6 +19,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,8 +65,12 @@ public class XpAwardService {
     ) {
     }
 
-    @Transactional
     public AwardResult award(PracticeSession session) {
+        return award(session, List.of());
+    }
+
+    @Transactional
+    public AwardResult award(PracticeSession session, List<Difficulty> unattemptedPrimary) {
         UUID userId = session.getUser().getId();
         StudentStats stats = studentStatsRepository.findByUserId(userId)
                 .orElseGet(() -> StudentStats.builder().userId(userId).build());
@@ -72,10 +78,13 @@ public class XpAwardService {
         int totalXpBefore = stats.getTotalXp();
         int levelBefore = levelCalculator.levelForXp(totalXpBefore);
 
-        List<XpCalculator.AnsweredQuestion> answered = attemptRepository
+        List<XpCalculator.AnsweredQuestion> answered = new ArrayList<>(attemptRepository
                 .findBySessionIdAndPrimaryTrue(session.getId()).stream()
                 .map(this::toAnsweredQuestion)
-                .toList();
+                .toList());
+        for (Difficulty difficulty : unattemptedPrimary) {
+            answered.add(new XpCalculator.AnsweredQuestion(difficulty, false));
+        }
 
         XpCalculator.Result xpResult = xpCalculator.calculate(answered, totalXpBefore, session.getSessionType());
         int sessionXp = xpResult.xpChange();
