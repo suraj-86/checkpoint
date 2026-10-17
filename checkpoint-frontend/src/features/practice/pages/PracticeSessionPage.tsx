@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, ArrowRight, CheckCircle2, SkipForward, XCircle } from "lucide-react";
 import { messageFromError } from "../../admin/utils/format";
 import { secondaryButton } from "../../../components/ui/styles";
+import { ConfirmDialog } from "../../../components/ui/ConfirmDialog";
 import { abandonSession, getOverview, getSlot, skipSlot, submitAnswer } from "../api/practiceApi";
 import { QuestionPalette } from "../components/QuestionPalette";
 import type { SlotQuestion } from "../types/practice.types";
@@ -71,6 +72,7 @@ export function PracticeSessionPage() {
   const [position, setPosition] = useState<number | null>(null);
   const [textAnswer, setTextAnswer] = useState("");
   const [leaving, setLeaving] = useState(false);
+  const [dialog, setDialog] = useState<"none" | "submit" | "end" | "daily-empty">("none");
 
   const { data: overview, isError: overviewError } = useQuery({
     queryKey: ["session-overview", sessionId],
@@ -148,30 +150,20 @@ export function PracticeSessionPage() {
 
   function handleSubmit() {
     if (!overview) return;
-    if (answeredPrimary === 0) {
-      if (isDaily) {
-        window.alert("Answer at least one question before submitting your Daily Session.");
-        return;
-      }
-      if (
-        window.confirm(
-          "End this session? You have not answered anything, so it earns no XP. The questions will be offered again in your next sessions."
-        )
-      ) {
-        abandonMutation.mutate();
-      }
-      return;
-    }
-    const message = isDaily
-      ? `You answered ${answeredPrimary} of ${primarySlots.length}. The ${unattempted} unattempted question(s) will count as unattempted: your accuracy and XP are calculated out of ${primarySlots.length}. Submit the session?`
-      : unattempted > 0
-        ? `You answered ${answeredPrimary} of ${primarySlots.length}. Only your answered questions are scored. The ${unattempted} unanswered question(s) will be saved and offered again in your next sessions. Submit the session?`
-        : "Submit the session?";
-    if (window.confirm(message)) {
-      setLeaving(true);
-      queryClient.removeQueries({ queryKey: ["session-overview", sessionId] });
-      navigate(`/practice/result/${sessionId}`);
-    }
+    if (answeredPrimary === 0) setDialog(isDaily ? "daily-empty" : "end");
+    else setDialog("submit");
+  }
+
+  function confirmSubmit() {
+    setDialog("none");
+    setLeaving(true);
+    queryClient.removeQueries({ queryKey: ["session-overview", sessionId] });
+    navigate(`/practice/result/${sessionId}`);
+  }
+
+  function confirmEnd() {
+    setDialog("none");
+    abandonMutation.mutate();
   }
 
   if (overviewError) {
@@ -372,6 +364,54 @@ export function PracticeSessionPage() {
           {abandonMutation.isError && <p className="mt-2 text-xs text-red-600">Could not end the session. Try again.</p>}
         </div>
       </aside>
+
+      <ConfirmDialog
+        open={dialog === "submit"}
+        title="Submit this session?"
+        tone={unattempted > 0 ? "warning" : "primary"}
+        confirmLabel="Submit session"
+        cancelLabel="Keep practising"
+        onConfirm={confirmSubmit}
+        onCancel={() => setDialog("none")}
+      >
+        <p>
+          You answered <b className="text-slate-800">{answeredPrimary}</b> of <b className="text-slate-800">{primarySlots.length}</b> questions.
+        </p>
+        {unattempted > 0 && isDaily && (
+          <p>
+            The {unattempted} unattempted question{unattempted === 1 ? "" : "s"} will count against you: accuracy and XP are
+            calculated out of {primarySlots.length}.
+          </p>
+        )}
+        {unattempted > 0 && !isDaily && (
+          <p>
+            Only your answered questions are scored. The {unattempted} unanswered question{unattempted === 1 ? "" : "s"} will be
+            saved and offered again in your next sessions.
+          </p>
+        )}
+      </ConfirmDialog>
+
+      <ConfirmDialog
+        open={dialog === "end"}
+        title="End this session?"
+        tone="warning"
+        confirmLabel="End session"
+        cancelLabel="Keep practising"
+        onConfirm={confirmEnd}
+        onCancel={() => setDialog("none")}
+      >
+        <p>You have not answered anything, so this session earns no XP.</p>
+        <p>The questions will be offered again in your next sessions.</p>
+      </ConfirmDialog>
+
+      <ConfirmDialog
+        open={dialog === "daily-empty"}
+        title="Answer a question first"
+        tone="info"
+        onCancel={() => setDialog("none")}
+      >
+        <p>Answer at least one question before submitting your Daily Session.</p>
+      </ConfirmDialog>
     </div>
   );
 }

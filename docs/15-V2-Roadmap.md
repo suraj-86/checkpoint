@@ -16,4 +16,4 @@ Rules for every phase: backward-compatible database migrations only (new tables 
 ## Status
 - Phase 1: tested and working.
 - Phase 2 (session detail page) and 2b (History page with search and filters): tested, merged.
-- Phase 3 (session navigator): delivered, awaiting test.
+- Phase 3 (session navigator): delivered, awaiting test. and dialog box update.
