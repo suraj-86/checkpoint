@@ -9,6 +9,7 @@ import { getActivity, getDashboard, getOverallProgress } from "../../progress/ap
 import { ActivityChart } from "../../progress/components/ActivityChart";
 import { startDaily } from "../../practice/api/practiceApi";
 import { getInterests } from "../../interest/api/interestApi";
+import { getPreferences } from "../../preference/api/preferenceApi";
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -22,6 +23,11 @@ export function DashboardPage() {
   const { data: interests } = useQuery({
     queryKey: ["interests"],
     queryFn: getInterests,
+  });
+
+  const { data: preferences } = useQuery({
+    queryKey: ["preferences"],
+    queryFn: getPreferences,
   });
 
   const { data: overall } = useQuery({
@@ -77,11 +83,11 @@ export function DashboardPage() {
         />
       </div>
 
-      {interests && interests.topicIds.length === 0 && (
+      {interests && preferences && interests.topicIds.length === 0 && preferences.subjectIds.length === 0 && !preferences.streamId && !preferences.examId && (
         <div className="card border-indigo-100 bg-indigo-50/70 p-4 text-sm text-indigo-900">
           Your Daily Sessions currently include every topic.{" "}
           <Link to="/profile" className="font-medium underline">
-            Choose the topics you care about
+            Choose your stream, subjects or topics
           </Link>{" "}
           to focus your practice.
         </div>

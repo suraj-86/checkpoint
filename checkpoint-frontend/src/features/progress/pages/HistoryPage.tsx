@@ -4,13 +4,15 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ChevronRight, Search, X } from "lucide-react";
 import { inputClass, secondaryButton } from "../../../components/ui/styles";
 import { formatDateTime } from "../../../lib/format";
-import { getTopics, searchHistory } from "../api/progressApi";
+import { useStudentCatalog } from "../../catalog/hooks/useStudentCatalog";
+import { searchHistory } from "../api/progressApi";
 import type { HistoryFilters, SessionHistoryItem } from "../types/progress.types";
 
 const EMPTY: HistoryFilters = {
   q: "",
   type: "",
   status: "",
+  subjectId: "",
   topicId: "",
   result: "",
   fromDate: "",
@@ -85,7 +87,11 @@ export function HistoryPage() {
   const debouncedText = useDebounced(filters.q, 400);
   const effective = { ...filters, q: debouncedText };
 
-  const { data: topics } = useQuery({ queryKey: ["topics"], queryFn: getTopics });
+  const { data: catalog } = useStudentCatalog();
+  const subjectOptions = catalog?.subjects ?? [];
+  const topicOptions = subjectOptions
+    .filter((s) => !filters.subjectId || s.id === filters.subjectId)
+    .flatMap((s) => s.topics.map((t) => ({ id: t.id, name: filters.subjectId ? t.name : `${s.name} › ${t.name}` })));
   const { data, isError, isFetching } = useQuery({
     queryKey: ["history", effective, page],
     queryFn: () => searchHistory(effective, page),
@@ -120,9 +126,25 @@ export function HistoryPage() {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <select
+            value={filters.subjectId}
+            onChange={(e) => {
+              setPage(0);
+              setFilters((f) => ({ ...f, subjectId: e.target.value, topicId: "" }));
+            }}
+            className={inputClass}
+            aria-label="Subject"
+          >
+            <option value="">All subjects</option>
+            {subjectOptions.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
           <select value={filters.topicId} onChange={(e) => change("topicId", e.target.value)} className={inputClass} aria-label="Topic">
             <option value="">All topics</option>
-            {topics?.map((t) => (
+            {topicOptions.map((t) => (
               <option key={t.id} value={t.id}>
                 {t.name}
               </option>

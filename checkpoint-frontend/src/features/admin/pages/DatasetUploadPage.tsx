@@ -29,6 +29,7 @@ export function DatasetUploadPage() {
   const [target, setTarget] = useState<Target>(EMPTY_TARGET);
   const preselected = useRef(false);
 
+  // Preselect from deep links such as /admin/datasets/upload?topic=... (once, when the catalog arrives).
   useEffect(() => {
     if (!catalog || preselected.current) return;
     preselected.current = true;
@@ -49,6 +50,7 @@ export function DatasetUploadPage() {
     if (streamParam) setTarget({ ...EMPTY_TARGET, streamId: streamParam });
   }, [catalog, params]);
 
+  // A different target changes what the validator checks, so an old validation no longer counts.
   const targetKey = `${target.mode}:${target.topicId}:${target.subjectId}`;
   useEffect(() => {
     setValidation(null);
@@ -137,6 +139,7 @@ export function DatasetUploadPage() {
       queryClient.invalidateQueries({ queryKey: ["admin-datasets"] });
       queryClient.invalidateQueries({ queryKey: ["admin-questions"] });
       queryClient.invalidateQueries({ queryKey: ["topics"] });
+      queryClient.invalidateQueries({ queryKey: ["student-catalog"] });
     },
     onError: (err) => {
       const failed = validationFromError(err);

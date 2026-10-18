@@ -84,6 +84,7 @@ public class ProgressController {
             @RequestParam(required = false) SessionType type,
             @RequestParam(required = false) SessionStatus status,
             @RequestParam(required = false) UUID topicId,
+            @RequestParam(required = false) UUID subjectId,
             @RequestParam(required = false) String q,
             @RequestParam(required = false) Instant from,
             @RequestParam(required = false) Instant to,
@@ -93,7 +94,7 @@ public class ProgressController {
             @RequestParam(defaultValue = "15") int size
     ) {
         SessionHistoryFilter filter = new SessionHistoryFilter(
-                type, status, topicId, q, from, to, result, "oldest".equalsIgnoreCase(sort));
+                type, status, topicId, subjectId, q, from, to, result, "oldest".equalsIgnoreCase(sort));
         return sessionHistoryService.search(principal.getUser(), filter, page, size);
     }
 }

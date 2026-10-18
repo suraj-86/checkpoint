@@ -85,7 +85,7 @@ public class PracticeSessionService {
         requireNoActiveSession(student);
 
         Instant now = Instant.now(clock);
-        Set<UUID> interests = interestRepository.findTopicIds(student.getId());
+        Set<UUID> interests = interestRepository.findEffectiveTopicIds(student.getId());
         var selection = selectionService.selectForSession(student.getId(), DAILY_SESSION_SIZE, now, interests);
         List<Question> chosen = withSkippedFirst(student, selection.questions());
 
@@ -122,6 +122,8 @@ public class PracticeSessionService {
         final String typeFilter = questionTypeName;
         List<Question> skipped = skippedQuestionService.pool(student.getId()).stream()
                 .filter(q -> request.topicId() == null || q.getTopic().getId().equals(request.topicId()))
+                .filter(q -> request.topicId() != null || request.subjectId() == null
+                        || (q.getTopic().getSubject() != null && q.getTopic().getSubject().getId().equals(request.subjectId())))
                 .filter(q -> difficultyFilter == null || q.getDifficulty().name().equals(difficultyFilter))
                 .filter(q -> typeFilter == null || q.getQuestionType().name().equals(typeFilter))
                 .limit(request.count())
@@ -131,7 +133,8 @@ public class PracticeSessionService {
         Set<UUID> chosenIds = new HashSet<>();
         skipped.forEach(q -> chosenIds.add(q.getId()));
         for (Question q : questionRepository.findRandomActive(
-                request.topicId(), difficultyName, questionTypeName, request.count() + skipped.size())) {
+                request.topicId(), request.topicId() == null ? request.subjectId() : null,
+                difficultyName, questionTypeName, request.count() + skipped.size())) {
             if (chosen.size() >= request.count()) {
                 break;
             }

@@ -115,6 +115,7 @@ export interface HistoryFilters {
   q: string;
   type: "" | "DAILY" | "FAST";
   status: "" | "COMPLETED" | "ABANDONED" | "IN_PROGRESS";
+  subjectId: string;
   topicId: string;
   result: "" | "PERFECT" | "HAS_WRONG";
   fromDate: string;

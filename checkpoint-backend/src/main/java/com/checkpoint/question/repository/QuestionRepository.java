@@ -69,6 +69,7 @@ public interface QuestionRepository extends JpaRepository<Question, UUID>, JpaSp
             SELECT * FROM questions q
             WHERE q.is_active = true
               AND (:topicId IS NULL OR q.topic_id = :topicId)
+              AND (:subjectId IS NULL OR q.topic_id IN (SELECT t.id FROM topics t WHERE t.subject_id = :subjectId))
               AND (:difficulty IS NULL OR q.difficulty = :difficulty)
               AND (:questionType IS NULL OR q.question_type = :questionType)
             ORDER BY random()
@@ -76,6 +77,7 @@ public interface QuestionRepository extends JpaRepository<Question, UUID>, JpaSp
             """, nativeQuery = true)
     List<Question> findRandomActive(
             @Param("topicId") UUID topicId,
+            @Param("subjectId") UUID subjectId,
             @Param("difficulty") String difficulty,
             @Param("questionType") String questionType,
             @Param("count") int count
