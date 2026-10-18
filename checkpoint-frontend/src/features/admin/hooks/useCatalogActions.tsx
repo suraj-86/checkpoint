@@ -16,6 +16,7 @@ export interface Pending {
   action: () => Promise<Catalog>;
 }
 
+
 export function useCatalogActions() {
   const queryClient = useQueryClient();
   const [busy, setBusy] = useState(false);
@@ -33,6 +34,7 @@ export function useCatalogActions() {
       queryClient.invalidateQueries({ queryKey: ["topics"] });
       queryClient.invalidateQueries({ queryKey: ["admin-dashboard"] });
       queryClient.invalidateQueries({ queryKey: ["admin-datasets"] });
+      queryClient.invalidateQueries({ queryKey: ["student-catalog"] });
       return true;
     } catch (err) {
       setError(messageFromError(err));

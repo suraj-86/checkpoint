@@ -177,10 +177,10 @@ class CatalogServiceTest {
     }
 
     @Test
-    void createTopicRejectsNameUsedAnywhereInTheCatalog() {
+    void createTopicRejectsNameAlreadyUsedInTheSameSubject() {
         UUID subjectId = UUID.randomUUID();
         when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(Subject.builder().id(subjectId).name("Maths").build()));
-        when(topicRepository.existsByNameIgnoreCase("Sets")).thenReturn(true);
+        when(topicRepository.existsBySubjectIdAndNameIgnoreCase(subjectId, "Sets")).thenReturn(true);
 
         assertThatThrownBy(() -> service.createTopic(subjectId, new TopicRequest("Sets", null, null, null)))
                 .isInstanceOf(ConflictException.class);
@@ -260,7 +260,7 @@ class CatalogServiceTest {
         Subject newSubject = Subject.builder().id(newSubjectId).name("Physics").build();
         Topic topic = Topic.builder().id(topicId).name("Vectors").subject(oldSubject).build();
         when(topicRepository.findById(topicId)).thenReturn(Optional.of(topic));
-        when(topicRepository.existsByNameIgnoreCaseAndIdNot("Vectors", topicId)).thenReturn(false);
+        when(topicRepository.existsBySubjectIdAndNameIgnoreCaseAndIdNot(newSubjectId, "Vectors", topicId)).thenReturn(false);
         when(subjectRepository.findById(newSubjectId)).thenReturn(Optional.of(newSubject));
 
         service.updateTopic(topicId, new TopicRequest("Vectors", null, null, newSubjectId));
@@ -289,14 +289,17 @@ class CatalogServiceTest {
     }
 
     @Test
-    void findOrCreateTopicInSubjectRefusesANameUsedUnderAnotherSubject() {
+    void sameTopicNameCanLiveInAnotherSubject() {
         UUID subjectId = UUID.randomUUID();
-        when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(Subject.builder().id(subjectId).name("Java").build()));
+        Subject subject = Subject.builder().id(subjectId).name("Physics").build();
+        when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subject));
         when(topicRepository.findBySubjectId(subjectId)).thenReturn(List.of());
-        when(topicRepository.existsByNameIgnoreCase("Basics")).thenReturn(true);
+        when(topicRepository.save(any(Topic.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        assertThatThrownBy(() -> service.findOrCreateTopicInSubject(subjectId, "Basics"))
-                .isInstanceOf(ConflictException.class);
+        Topic created = service.findOrCreateTopicInSubject(subjectId, "Basics");
+
+        assertThat(created.getSubject()).isSameAs(subject);
+        assertThat(created.getName()).isEqualTo("Basics");
     }
 
     @Test
@@ -305,12 +308,44 @@ class CatalogServiceTest {
         Subject subject = Subject.builder().id(subjectId).name("Java").build();
         when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subject));
         when(topicRepository.findBySubjectId(subjectId)).thenReturn(List.of());
-        when(topicRepository.existsByNameIgnoreCase("Streams")).thenReturn(false);
         when(topicRepository.save(any(Topic.class))).thenAnswer(inv -> inv.getArgument(0));
 
         Topic created = service.findOrCreateTopicInSubject(subjectId, "Streams");
 
         assertThat(created.getSubject()).isSameAs(subject);
         assertThat(created.getName()).isEqualTo("Streams");
+    }
+
+    @Test
+    void studentSnapshotShowsOnlyActiveThingsWithQuestions() {
+        Stream cs = Stream.builder().id(UUID.randomUUID()).name("CS").build();
+        Stream hollow = Stream.builder().id(UUID.randomUUID()).name("Hollow").build();
+        Subject java = Subject.builder().id(UUID.randomUUID()).name("Java").build();
+        java.getStreams().add(cs);
+        Subject retired = Subject.builder().id(UUID.randomUUID()).name("Old").active(false).build();
+        retired.getStreams().add(cs);
+        Subject empty = Subject.builder().id(UUID.randomUUID()).name("Empty").build();
+        empty.getStreams().add(hollow);
+
+        Topic streams = Topic.builder().id(UUID.randomUUID()).name("Streams").subject(java).build();
+        Topic hidden = Topic.builder().id(UUID.randomUUID()).name("Hidden").subject(java).active(false).build();
+        Topic noQuestions = Topic.builder().id(UUID.randomUUID()).name("Nothing").subject(empty).build();
+        Topic oldTopic = Topic.builder().id(UUID.randomUUID()).name("Legacy").subject(retired).build();
+
+        when(subjectRepository.findAllByOrderBySortOrderAscNameAsc()).thenReturn(List.of(java, retired, empty));
+        when(streamRepository.findAllByOrderBySortOrderAscNameAsc()).thenReturn(List.of(cs, hollow));
+        when(topicRepository.findAll()).thenReturn(List.of(streams, hidden, noQuestions, oldTopic));
+        when(questionRepository.countPerTopic()).thenReturn(List.of(
+                new Object[]{streams.getId(), 5L, 5L},
+                new Object[]{hidden.getId(), 4L, 4L},
+                new Object[]{noQuestions.getId(), 2L, 0L},
+                new Object[]{oldTopic.getId(), 3L, 3L}));
+
+        var view = service.studentSnapshot();
+
+        assertThat(view.subjects()).extracting(s -> s.name()).containsExactly("Java");
+        assertThat(view.subjects().get(0).topics()).extracting(t -> t.name()).containsExactly("Streams");
+        assertThat(view.streams()).extracting(x -> x.name()).containsExactly("CS");
+        assertThat(view.streams().get(0).subjectIds()).containsExactly(java.getId());
     }
 }

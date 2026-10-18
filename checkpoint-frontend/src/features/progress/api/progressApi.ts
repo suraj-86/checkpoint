@@ -76,6 +76,7 @@ export async function searchHistory(
   if (filters.q.trim()) params.q = filters.q.trim();
   if (filters.type) params.type = filters.type;
   if (filters.status) params.status = filters.status;
+  if (filters.subjectId) params.subjectId = filters.subjectId;
   if (filters.topicId) params.topicId = filters.topicId;
   if (filters.result) params.result = filters.result;
   if (filters.fromDate) params.from = startOfLocalDay(filters.fromDate);

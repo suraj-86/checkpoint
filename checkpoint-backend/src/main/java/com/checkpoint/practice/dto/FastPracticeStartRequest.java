@@ -17,6 +17,11 @@ public record FastPracticeStartRequest(
 
         String difficulty,
 
-        String questionType
+        String questionType,
+
+        UUID subjectId
 ) {
+    public FastPracticeStartRequest(Integer count, UUID topicId, String difficulty, String questionType) {
+        this(count, topicId, difficulty, questionType, null);
+    }
 }

@@ -59,6 +59,7 @@ export interface AnswerResult {
 export interface FastPracticeStartRequest {
   count: number;
   topicId?: string | null;
+  subjectId?: string | null;
   difficulty?: string | null;
   questionType?: string | null;
 }

@@ -24,7 +24,7 @@ public class Topic {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

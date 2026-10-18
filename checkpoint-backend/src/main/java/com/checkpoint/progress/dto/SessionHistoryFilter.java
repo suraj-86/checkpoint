@@ -10,6 +10,7 @@ public record SessionHistoryFilter(
         SessionType type,
         SessionStatus status,
         UUID topicId,
+        UUID subjectId,
         String text,
         Instant from,
         Instant to,

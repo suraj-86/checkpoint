@@ -92,7 +92,7 @@ public class SessionHistoryService {
             }
 
             String text = f.text() == null ? "" : f.text().trim();
-            if (f.topicId() != null || !text.isEmpty()) {
+            if (f.topicId() != null || f.subjectId() != null || !text.isEmpty()) {
                 Subquery<Integer> sub = query.subquery(Integer.class);
                 Root<SessionQuestion> sq = sub.from(SessionQuestion.class);
                 Join<SessionQuestion, Question> q = sq.join("question");
@@ -101,6 +101,9 @@ public class SessionHistoryService {
                 inner.add(cb.isTrue(sq.<Boolean>get("primary")));
                 if (f.topicId() != null) {
                     inner.add(cb.equal(q.get("topic").get("id"), f.topicId()));
+                }
+                if (f.subjectId() != null) {
+                    inner.add(cb.equal(q.get("topic").get("subject").get("id"), f.subjectId()));
                 }
                 if (!text.isEmpty()) {
                     String pattern = "%" + escapeLike(text.toLowerCase(Locale.ROOT)) + "%";

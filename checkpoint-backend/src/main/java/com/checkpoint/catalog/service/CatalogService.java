@@ -109,6 +109,52 @@ public class CatalogService {
         return new CatalogResponse(streamItems, subjectItems, examItems);
     }
 
+    @Transactional(readOnly = true)
+    public CatalogResponse studentSnapshot() {
+        CatalogResponse all = snapshot();
+
+        List<SubjectItem> subjects = new ArrayList<>();
+        for (SubjectItem s : all.subjects()) {
+            if (!s.active()) continue;
+            List<TopicItem> topics = s.topics().stream().filter(t -> t.active() && t.activeQuestionCount() > 0).toList();
+            if (topics.isEmpty()) continue;
+            subjects.add(new SubjectItem(s.id(), s.name(), s.description(), s.sortOrder(), true, s.streamIds(), s.examIds(), topics));
+        }
+        Set<UUID> visible = new LinkedHashSet<>();
+        subjects.forEach(s -> visible.add(s.id()));
+
+        List<StreamItem> streams = all.streams().stream()
+                .filter(StreamItem::active)
+                .map(x -> {
+                    List<UUID> ids = x.subjectIds().stream().filter(visible::contains).toList();
+                    return new StreamItem(x.id(), x.name(), x.description(), x.sortOrder(), true, ids.size(), ids);
+                })
+                .filter(x -> x.subjectCount() > 0)
+                .toList();
+        List<ExamItem> exams = all.exams().stream()
+                .filter(ExamItem::active)
+                .map(x -> {
+                    List<UUID> ids = x.subjectIds().stream().filter(visible::contains).toList();
+                    return new ExamItem(x.id(), x.name(), x.description(), x.sortOrder(), true, ids.size(), ids);
+                })
+                .filter(x -> x.subjectCount() > 0)
+                .toList();
+
+        Set<UUID> visibleStreams = new LinkedHashSet<>();
+        streams.forEach(x -> visibleStreams.add(x.id()));
+        Set<UUID> visibleExams = new LinkedHashSet<>();
+        exams.forEach(x -> visibleExams.add(x.id()));
+
+        List<SubjectItem> trimmed = subjects.stream()
+                .map(s -> new SubjectItem(s.id(), s.name(), s.description(), s.sortOrder(), true,
+                        s.streamIds().stream().filter(visibleStreams::contains).toList(),
+                        s.examIds().stream().filter(visibleExams::contains).toList(),
+                        s.topics()))
+                .toList();
+
+        return new CatalogResponse(streams, trimmed, exams);
+    }
+
     @Transactional
     public CatalogResponse createStream(NamedItemRequest request) {
         String name = cleanName(request.name());
@@ -274,7 +320,7 @@ public class CatalogService {
     public CatalogResponse createTopic(UUID subjectId, TopicRequest request) {
         Subject subject = subjectRepository.findById(subjectId).orElseThrow(() -> new NotFoundException("Subject not found"));
         String name = cleanName(request.name());
-        if (topicRepository.existsByNameIgnoreCase(name)) throw nameTaken("Topic", name);
+        if (topicRepository.existsBySubjectIdAndNameIgnoreCase(subjectId, name)) throw nameTaken("Topic", name);
         topicRepository.save(Topic.builder()
                 .name(name)
                 .subject(subject)
@@ -294,7 +340,12 @@ public class CatalogService {
     public CatalogResponse updateTopic(UUID id, TopicRequest request) {
         Topic topic = topicRepository.findById(id).orElseThrow(() -> new NotFoundException("Topic not found"));
         String name = cleanName(request.name());
-        if (topicRepository.existsByNameIgnoreCaseAndIdNot(name, id)) throw nameTaken("Topic", name);
+        UUID targetSubjectId = request.subjectId() != null
+                ? request.subjectId()
+                : (topic.getSubject() == null ? null : topic.getSubject().getId());
+        if (targetSubjectId != null && topicRepository.existsBySubjectIdAndNameIgnoreCaseAndIdNot(targetSubjectId, name, id)) {
+            throw nameTaken("Topic", name);
+        }
         topic.setName(name);
         if (request.sortOrder() != null) topic.setSortOrder(request.sortOrder());
         if (request.active() != null) topic.setActive(request.active());
@@ -346,11 +397,6 @@ public class CatalogService {
                 .filter(t -> t.getName().equalsIgnoreCase(name))
                 .findFirst();
         if (inSubject.isPresent()) return inSubject.get();
-        if (topicRepository.existsByNameIgnoreCase(name)) {
-            throw new ConflictException("TOPIC_NAME_TAKEN",
-                    "The topic \"" + name + "\" from the file already exists under a different subject. "
-                            + "Pick that topic directly or rename it first.");
-        }
         return topicRepository.save(Topic.builder().name(name).subject(subject).build());
     }
 

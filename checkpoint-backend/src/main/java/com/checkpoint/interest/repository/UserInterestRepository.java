@@ -24,6 +24,38 @@ public class UserInterestRepository {
         return new LinkedHashSet<>(ids);
     }
 
+
+    public Set<UUID> findEffectiveTopicIds(UUID userId) {
+        Set<UUID> topics = findTopicIds(userId);
+        if (!topics.isEmpty()) {
+            return topics;
+        }
+
+        String activeTopics = """
+                SELECT t.id FROM topics t JOIN subjects s ON s.id = t.subject_id
+                WHERE t.active = true AND s.active = true AND s.id IN (%s)
+                """;
+
+        Set<UUID> fromSubjects = new LinkedHashSet<>(jdbcTemplate.queryForList(
+                activeTopics.formatted("SELECT subject_id FROM user_subject_preferences WHERE user_id = ?"), UUID.class, userId));
+        if (!fromSubjects.isEmpty()) {
+            return fromSubjects;
+        }
+
+        Set<UUID> fromExam = new LinkedHashSet<>(jdbcTemplate.queryForList(
+                activeTopics.formatted("""
+                        SELECT se.subject_id FROM subject_exams se
+                        JOIN user_preferences p ON p.exam_id = se.exam_id WHERE p.user_id = ?"""), UUID.class, userId));
+        if (!fromExam.isEmpty()) {
+            return fromExam;
+        }
+
+        return new LinkedHashSet<>(jdbcTemplate.queryForList(
+                activeTopics.formatted("""
+                        SELECT ss.subject_id FROM stream_subjects ss
+                        JOIN user_preferences p ON p.stream_id = ss.stream_id WHERE p.user_id = ?"""), UUID.class, userId));
+    }
+
     public void replaceAll(UUID userId, Collection<UUID> topicIds) {
         jdbcTemplate.update("DELETE FROM user_topic_interests WHERE user_id = ?", userId);
         if (topicIds.isEmpty()) {
