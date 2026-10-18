@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Check, ListChecks, Shuffle, ToggleLeft, Type, Zap } from "lucide-react";
 import { messageFromError } from "../../admin/utils/format";
 import { primaryButton } from "../../../components/ui/styles";
@@ -36,15 +36,17 @@ export function FastPracticeForm() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [count, setCount] = useState(10);
-  const [streamId, setStreamId] = useState("");
-  const [subjectId, setSubjectId] = useState("");
-  const [topicId, setTopicId] = useState("");
+  const [params] = useSearchParams();
+  const [streamId, setStreamId] = useState(params.get("stream") ?? "");
+  const [subjectId, setSubjectId] = useState(params.get("subject") ?? "");
+  const [topicId, setTopicId] = useState(params.get("topic") ?? "");
   const [difficulty, setDifficulty] = useState("");
   const [questionType, setQuestionType] = useState("");
 
   const { data: catalog } = useStudentCatalog();
   const subjects = (catalog?.subjects ?? []).filter((s) => !streamId || s.streamIds.includes(streamId));
   const subject = subjects.find((s) => s.id === subjectId);
+  const safeTopicId = subject?.topics.some((t) => t.id === topicId) ? topicId : "";
 
   const mutation = useMutation({
     mutationFn: startFast,
@@ -69,8 +71,8 @@ export function FastPracticeForm() {
         e.preventDefault();
         mutation.mutate({
           count,
-          topicId: topicId || null,
-          subjectId: topicId ? null : subjectId || null,
+          topicId: safeTopicId || null,
+          subjectId: safeTopicId || !subject ? null : subject.id,
           difficulty: difficulty || null,
           questionType: questionType || null,
         });

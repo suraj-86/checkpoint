@@ -4,6 +4,7 @@ import type {
   Dashboard,
   PageResponse,
   HistoryFilters,
+  MasteryResponse,
   Profile,
   SessionDetail,
   SessionHistoryItem,
@@ -82,5 +83,10 @@ export async function searchHistory(
   if (filters.fromDate) params.from = startOfLocalDay(filters.fromDate);
   if (filters.toDate) params.to = startOfNextLocalDay(filters.toDate);
   const { data } = await apiClient.get<PageResponse<SessionHistoryItem>>("/api/progress/history", { params });
+  return data;
+}
+
+export async function getMastery(): Promise<MasteryResponse> {
+  const { data } = await apiClient.get<MasteryResponse>("/api/progress/mastery");
   return data;
 }
