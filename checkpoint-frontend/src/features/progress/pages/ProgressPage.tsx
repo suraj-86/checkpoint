@@ -11,11 +11,11 @@ import {
   getOverallProgress,
   getProfile,
   getSessionHistory,
-  getTopicPerformance,
 } from "../api/progressApi";
 import { LevelProgressCard } from "../../../components/ui/LevelProgressCard";
 import { ActivityChart } from "../components/ActivityChart";
 import { XpTrendChart } from "../components/XpTrendChart";
+import { MasteryMap } from "../components/MasteryMap";
 
 const STATUS_LABELS: Record<string, { text: string; className: string }> = {
   IN_PROGRESS: { text: "In progress", className: "bg-sky-100 text-sky-700" },
@@ -27,7 +27,6 @@ export function ProgressPage() {
 
   const { data: overall } = useQuery({ queryKey: ["progress-overall"], queryFn: getOverallProgress });
   const { data: profile } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
-  const { data: topics } = useQuery({ queryKey: ["progress-topics"], queryFn: getTopicPerformance });
   const { data: activity } = useQuery({ queryKey: ["progress-activity", 30], queryFn: () => getActivity(30) });
   const { data: history } = useQuery({
     queryKey: ["progress-sessions", page],
@@ -97,33 +96,7 @@ export function ProgressPage() {
         </div>
       </div>
 
-      <div className="card p-5">
-        <h2 className="text-sm font-semibold text-slate-700">By topic</h2>
-        {!topics ? (
-          <p className="mt-3 text-sm text-slate-400">Loading...</p>
-        ) : topics.length === 0 ? (
-          <p className="mt-3 text-sm text-slate-400">Answer a few questions to see your topic breakdown.</p>
-        ) : (
-          <div className="mt-4 space-y-4">
-            {topics.map((t) => (
-              <div key={t.topicId}>
-                <div className="mb-1 flex items-baseline justify-between text-sm">
-                  <span className="font-medium text-slate-800">{t.topicName}</span>
-                  <span className="text-slate-500">
-                    {Number(t.accuracy)}% &middot; {t.correctCount} of {t.questionsAttempted} answers correct
-                  </span>
-                </div>
-                <div className="h-2.5 rounded-full bg-indigo-100">
-                  <div
-                    className="h-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
-                    style={{ width: `${Math.min(100, Number(t.accuracy))}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <MasteryMap />
 
       <div className="card p-5">
         <div className="flex items-center justify-between">

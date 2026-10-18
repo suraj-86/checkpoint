@@ -7,6 +7,8 @@ import com.checkpoint.progress.dto.ProgressOverallResponse;
 import com.checkpoint.progress.dto.SessionSummary;
 import com.checkpoint.progress.dto.TopicPerformance;
 import com.checkpoint.progress.dto.SessionDetailResponse;
+import com.checkpoint.progress.dto.MasteryResponse;
+import com.checkpoint.progress.service.MasteryService;
 import com.checkpoint.progress.service.ProgressService;
 import com.checkpoint.progress.service.SessionDetailService;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,12 +36,14 @@ public class ProgressController {
     private final ProgressService progressService;
     private final SessionDetailService sessionDetailService;
     private final SessionHistoryService sessionHistoryService;
+    private final MasteryService masteryService;
 
     public ProgressController(ProgressService progressService, SessionDetailService sessionDetailService,
-                              SessionHistoryService sessionHistoryService) {
+                              SessionHistoryService sessionHistoryService, MasteryService masteryService) {
         this.progressService = progressService;
         this.sessionDetailService = sessionDetailService;
         this.sessionHistoryService = sessionHistoryService;
+        this.masteryService = masteryService;
     }
 
     @GetMapping
@@ -50,6 +54,11 @@ public class ProgressController {
     @GetMapping("/topics")
     public List<TopicPerformance> getTopics(@AuthenticationPrincipal CheckpointUserDetails principal) {
         return progressService.getTopicPerformance(principal.getUser());
+    }
+
+    @GetMapping("/mastery")
+    public MasteryResponse getMastery(@AuthenticationPrincipal CheckpointUserDetails principal) {
+        return masteryService.getMastery(principal.getUser());
     }
 
     @GetMapping("/activity")

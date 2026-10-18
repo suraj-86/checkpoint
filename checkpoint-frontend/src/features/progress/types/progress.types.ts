@@ -122,3 +122,35 @@ export interface HistoryFilters {
   toDate: string;
   sort: "newest" | "oldest";
 }
+
+export type MasteryTier = "NOT_STARTED" | "STARTED" | "NEEDS_WORK" | "GROWING" | "STRONG";
+
+export interface TopicMastery {
+  topicId: string;
+  topicName: string;
+  subjectId: string;
+  subjectName: string;
+  activeQuestions: number;
+  questionsSeen: number;
+  answers: number;
+  correct: number;
+  accuracy: number;
+  stableQuestions: number;
+  tier: MasteryTier;
+}
+
+export interface SubjectMastery {
+  subjectId: string;
+  subjectName: string;
+  activeQuestions: number;
+  questionsSeen: number;
+  answers: number;
+  correct: number;
+  accuracy: number;
+  topics: TopicMastery[];
+}
+
+export interface MasteryResponse {
+  subjects: SubjectMastery[];
+  weakest: TopicMastery[];
+}

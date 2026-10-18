@@ -52,3 +52,30 @@
     animation: none;
   }
 }
+
+@keyframes node-pulse {
+  0% { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+.node-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-pulse 2.4s ease-out infinite;
+}
+
+.mastery-ring {
+  transition: stroke-dasharray 0.7s ease-out;
+}
+
+.mastery-node:hover circle:first-of-type + circle,
+.mastery-node:focus-visible circle:first-of-type + circle {
+  filter: brightness(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .node-pulse {
+    animation: none;
+    opacity: 0;
+  }
+}
