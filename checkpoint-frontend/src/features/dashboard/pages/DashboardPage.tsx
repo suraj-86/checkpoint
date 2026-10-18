@@ -5,7 +5,8 @@ import { Donut } from "../../../components/ui/Donut";
 import { StatCard } from "../../../components/ui/StatCard";
 import { primaryButton, secondaryButton } from "../../../components/ui/styles";
 import { formatDay, plural } from "../../../lib/format";
-import { getActivity, getDashboard, getOverallProgress } from "../../progress/api/progressApi";
+import { getActivity, getDashboard, getOverallProgress, getProfile } from "../../progress/api/progressApi";
+import { LevelProgressCard } from "../../../components/ui/LevelProgressCard";
 import { ActivityChart } from "../../progress/components/ActivityChart";
 import { startDaily } from "../../practice/api/practiceApi";
 import { getInterests } from "../../interest/api/interestApi";
@@ -19,6 +20,8 @@ export function DashboardPage() {
     queryKey: ["dashboard"],
     queryFn: getDashboard,
   });
+
+  const { data: profile } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
 
   const { data: interests } = useQuery({
     queryKey: ["interests"],
@@ -49,15 +52,17 @@ export function DashboardPage() {
   });
 
   if (isLoading) {
-    return <p className="text-slate-500">Loading dashboard...</p>;
+    return <p className="text-slate-500">Loading...</p>;
   }
 
   if (isError || !data) {
-    return <p className="text-red-600">Could not load your dashboard. Try refreshing.</p>;
+    return <p className="text-red-600">Could not load your home page. Try refreshing.</p>;
   }
 
   return (
     <div className="space-y-6">
+      {profile && <LevelProgressCard totalXp={profile.totalXp} progress={profile.levelProgress} />}
+
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard icon={Zap} tone="indigo" label="Total XP" value={data.totalXp} hint={`Level ${data.level}`} />
         <StatCard

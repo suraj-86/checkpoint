@@ -39,7 +39,7 @@ export function LevelProgressCard({ totalXp, progress }: { totalXp: number; prog
         title={`${progress.percent}% to the next level`}
       >
         <div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 transition-all duration-1000 ease-out"
+          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-1000 ease-out"
           style={{ width: `${width}%` }}
         />
       </div>

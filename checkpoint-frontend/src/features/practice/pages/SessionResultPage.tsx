@@ -33,7 +33,7 @@ export function SessionResultPage() {
     return (
       <div className="mx-auto max-w-md text-center">
         <p className="text-red-600">{messageFromError(completeMutation.error)}</p>
-        <Link to="/dashboard" className="mt-3 inline-block text-sm text-slate-600 underline">
+        <Link to="/home" className="mt-3 inline-block text-sm text-slate-600 underline">
           Back to dashboard
         </Link>
       </div>
@@ -100,7 +100,7 @@ export function SessionResultPage() {
       </div>
 
       <Link
-        to="/dashboard"
+        to="/home"
         className="mt-6 inline-block rounded-md bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-700"
       >
         Back to dashboard

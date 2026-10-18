@@ -142,7 +142,7 @@ export function PracticeSessionPage() {
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ["active-session"] });
       queryClient.removeQueries({ queryKey: ["session-overview", sessionId] });
-      navigate("/dashboard");
+      navigate("/home");
       queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] !== "active-session" });
     },
     onError: () => setLeaving(false),
@@ -170,7 +170,7 @@ export function PracticeSessionPage() {
     return (
       <div className="mx-auto max-w-md text-center">
         <p className="text-red-600">This session is not available any more.</p>
-        <button type="button" onClick={() => navigate("/dashboard")} className="mt-3 text-sm text-slate-600 underline">
+        <button type="button" onClick={() => navigate("/home")} className="mt-3 text-sm text-slate-600 underline">
           Back to dashboard
         </button>
       </div>
