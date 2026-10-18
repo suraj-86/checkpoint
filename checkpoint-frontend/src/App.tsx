@@ -4,6 +4,8 @@ import { RegisterPage } from "./features/auth/pages/RegisterPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { HomeRedirect } from "./components/HomeRedirect";
 import { Layout } from "./components/Layout";
+import { HelpPage } from "./features/help/pages/HelpPage";
+import { SupportRequestsPage } from "./features/admin/pages/SupportRequestsPage";
 import { DashboardPage } from "./features/dashboard/pages/DashboardPage";
 import { PracticeHubPage } from "./features/practice/pages/PracticeHubPage";
 import { PracticeSessionPage } from "./features/practice/pages/PracticeSessionPage";
@@ -56,6 +58,7 @@ function App() {
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/progress/sessions/:sessionId" element={<SessionDetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/help" element={<HelpPage />} />
       </Route>
 
       <Route
@@ -74,6 +77,7 @@ function App() {
         <Route path="/admin/datasets" element={<DatasetHistoryPage />} />
         <Route path="/admin/datasets/upload" element={<DatasetUploadPage />} />
         <Route path="/admin/questions" element={<QuestionBrowserPage />} />
+        <Route path="/admin/requests" element={<SupportRequestsPage />} />
         <Route path="/admin/account" element={<AdminAccountPage />} />
       </Route>
 

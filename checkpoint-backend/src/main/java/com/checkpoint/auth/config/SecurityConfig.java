@@ -82,7 +82,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.HEAD, "/api/health").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/practice/**").hasRole("STUDENT")
-                        .requestMatchers("/api/profile/**", "/api/progress/**").hasRole("STUDENT")
+                        .requestMatchers("/api/profile/**", "/api/progress/**", "/api/help/**").hasRole("STUDENT")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

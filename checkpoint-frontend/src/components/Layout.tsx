@@ -6,6 +6,8 @@ import {
   History,
   Database,
   Home,
+  Inbox,
+  LifeBuoy,
   GraduationCap,
   Layers,
   Library,
@@ -30,6 +32,7 @@ const studentNav = [
   { to: "/progress", label: "Progress", icon: TrendingUp },
   { to: "/history", label: "History", icon: History },
   { to: "/profile", label: "Profile", icon: User },
+  { to: "/help", label: "Help", icon: LifeBuoy },
 ];
 
 const adminNav = [
@@ -41,6 +44,7 @@ const adminNav = [
   { to: "/admin/datasets/upload", label: "Upload", icon: Upload },
   { to: "/admin/datasets", label: "Datasets", icon: Database },
   { to: "/admin/questions", label: "Questions", icon: ListChecks },
+  { to: "/admin/requests", label: "Requests", icon: Inbox },
   { to: "/admin/account", label: "Account", icon: Settings },
 ];
 
