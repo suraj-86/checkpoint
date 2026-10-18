@@ -45,7 +45,8 @@ function App() {
           </ProtectedRoute>
         }
       >
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/home" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<Navigate to="/home" replace />} />
         <Route path="/practice" element={<PracticeHubPage />} />
         <Route path="/practice/fast" element={<Navigate to="/practice" replace />} />
         <Route path="/practice/active" element={<ActiveSessionRedirect />} />

@@ -9,7 +9,7 @@ export function ActiveSessionRedirect() {
 
   useEffect(() => {
     if (data) navigate(`/practice/session/${data.sessionId}`, { replace: true });
-    if (isError) navigate("/dashboard", { replace: true });
+    if (isError) navigate("/home", { replace: true });
   }, [data, isError, navigate]);
 
   return <p className="text-slate-500">Finding your session...</p>;

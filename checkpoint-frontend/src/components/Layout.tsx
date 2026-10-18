@@ -1,10 +1,11 @@
-import { NavLink, Link, Outlet } from "react-router-dom";
+import { NavLink, Link, Outlet, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import {
   BookOpen,
   CheckCircle2,
   History,
   Database,
+  Home,
   GraduationCap,
   Layers,
   Library,
@@ -19,11 +20,12 @@ import {
 } from "lucide-react";
 import { useAuth } from "../features/auth/context/AuthContext";
 import { getAccount } from "../features/account/api/accountApi";
+import { getProfile } from "../features/progress/api/progressApi";
 import { Avatar } from "./ui/Avatar";
 import { Footer } from "./Footer";
 
 const studentNav = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/home", label: "Home", icon: Home },
   { to: "/practice", label: "Practice", icon: BookOpen },
   { to: "/progress", label: "Progress", icon: TrendingUp },
   { to: "/history", label: "History", icon: History },
@@ -53,8 +55,28 @@ function Brand() {
   );
 }
 
+function SidebarLevel() {
+  const { data: profile } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
+  if (!profile) return null;
+  const progress = profile.levelProgress;
+  const toNext = progress.xpToNextLevel;
+  return (
+    <Link to="/progress" className="mb-3 block rounded-xl bg-indigo-50/70 px-3 py-2 transition hover:bg-indigo-50">
+      <div className="flex items-baseline justify-between text-xs">
+        <span className="font-semibold text-indigo-700">Level {progress.level}</span>
+        <span className="text-slate-500">{profile.totalXp.toLocaleString()} XP</span>
+      </div>
+      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-indigo-100">
+        <div className="h-full rounded-full bg-indigo-500 transition-all duration-700 ease-out" style={{ width: `${progress.percent}%` }} />
+      </div>
+      <p className="mt-1 text-[11px] text-slate-500">{toNext === null ? "Max level" : `${toNext.toLocaleString()} XP to Level ${progress.level + 1}`}</p>
+    </Link>
+  );
+}
+
 export function Layout() {
   const { user, logout } = useAuth();
+  const location = useLocation();
   const isAdmin = user?.role === "ADMIN";
   const navItems = isAdmin ? adminNav : studentNav;
   const accountPath = isAdmin ? "/admin/account" : "/profile";
@@ -90,6 +112,7 @@ export function Layout() {
           </nav>
 
           <div className="border-t border-slate-200/70 pt-4">
+            {!isAdmin && <SidebarLevel />}
             <Link to={accountPath} className="flex items-center gap-3 rounded-xl p-1 hover:bg-white/70">
               <Avatar name={name} color={account?.avatarColor} size={38} />
               <div className="min-w-0">
@@ -139,7 +162,9 @@ export function Layout() {
         </div>
 
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 md:px-8">
-          <Outlet />
+          <div key={location.pathname} className="page-enter">
+            <Outlet />
+          </div>
         </main>
         <Footer />
       </div>
