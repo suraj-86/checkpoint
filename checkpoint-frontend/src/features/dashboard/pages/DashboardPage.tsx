@@ -1,16 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
-import { BookMarked, CheckCircle2, Flame, Zap } from "lucide-react";
-import { Donut } from "../../../components/ui/Donut";
+import { BookMarked, Brain, CheckCircle2, Flame } from "lucide-react";
 import { StatCard } from "../../../components/ui/StatCard";
-import { primaryButton, secondaryButton } from "../../../components/ui/styles";
 import { formatDay, plural } from "../../../lib/format";
-import { getActivity, getDashboard, getOverallProgress, getProfile } from "../../progress/api/progressApi";
+import { getActivity, getDashboard, getMastery, getOverallProgress, getProfile } from "../../progress/api/progressApi";
 import { LevelProgressCard } from "../../../components/ui/LevelProgressCard";
 import { ActivityChart } from "../../progress/components/ActivityChart";
 import { startDaily } from "../../practice/api/practiceApi";
 import { getInterests } from "../../interest/api/interestApi";
 import { getPreferences } from "../../preference/api/preferenceApi";
+import { MasterySummaryCard, NextMissionCard, QuestsCard, ShortcutsRow, TipCard, pickFocus } from "../components/HomeWidgets";
+import { useStudentCatalog } from "../../catalog/hooks/useStudentCatalog";
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -38,6 +38,10 @@ export function DashboardPage() {
     queryFn: getOverallProgress,
   });
 
+  const { data: catalog } = useStudentCatalog();
+
+  const { data: mastery } = useQuery({ queryKey: ["progress-mastery"], queryFn: getMastery });
+
   const { data: activity } = useQuery({
     queryKey: ["progress-activity", 14],
     queryFn: () => getActivity(14),
@@ -64,7 +68,6 @@ export function DashboardPage() {
       {profile && <LevelProgressCard totalXp={profile.totalXp} progress={profile.levelProgress} />}
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard icon={Zap} tone="indigo" label="Total XP" value={data.totalXp} hint={`Level ${data.level}`} />
         <StatCard
           icon={Flame}
           tone="amber"
@@ -78,6 +81,13 @@ export function DashboardPage() {
           label="Due for review"
           value={data.questionsNeedingReview}
           hint="Prioritised in your next Daily Session"
+        />
+        <StatCard
+          icon={Brain}
+          tone="indigo"
+          label="Well remembered"
+          value={overall ? overall.stableCount : "–"}
+          hint="Questions you answer reliably"
         />
         <StatCard
           icon={CheckCircle2}
@@ -99,62 +109,24 @@ export function DashboardPage() {
       )}
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="card flex flex-col justify-center p-6 lg:col-span-2">
-          {data.hasActiveSession ? (
-            <div>
-              <h2 className="text-lg font-semibold text-slate-800">You have a session in progress</h2>
-              <p className="mt-1 text-sm text-slate-500">Pick up where you left off.</p>
-              <Link to="/practice/active" className={`${primaryButton} mt-4 inline-block`}>
-                Resume session
-              </Link>
-            </div>
-          ) : data.dailySessionCompletedToday ? (
-            <div>
-              <h2 className="text-lg font-semibold text-slate-800">Daily Session complete for today</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                Come back tomorrow to keep your streak going, or try Fast Practice for extra reps.
-              </p>
-              <Link to="/practice/fast" className={`${secondaryButton} mt-4 inline-block`}>
-                Start Fast Practice
-              </Link>
-            </div>
-          ) : (
-            <div>
-              <h2 className="text-lg font-semibold text-slate-800">Ready for today's Daily Session?</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                10 questions, prioritised by what you need to review most.
-              </p>
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                <button
-                  onClick={() => startDailyMutation.mutate()}
-                  disabled={startDailyMutation.isPending}
-                  className={primaryButton}
-                >
-                  {startDailyMutation.isPending ? "Starting..." : "Start Daily Session"}
-                </button>
-                <Link to="/practice/fast" className={secondaryButton}>
-                  Fast Practice
-                </Link>
-              </div>
-              {startDailyMutation.isError && (
-                <p className="mt-3 text-sm text-red-600">
-                  Could not start a session. You may already have one, or there aren't enough questions yet.
-                </p>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className="card flex flex-col items-center justify-center p-6 text-center">
-          <p className="text-sm text-slate-500">Overall accuracy</p>
-          <div className="mt-3">
-            <Donut value={overall ? Number(overall.overallAccuracy) : 0} size={110} stroke={11} />
-          </div>
-          <p className="mt-3 text-xs text-slate-500">
-            {overall ? `${overall.distinctQuestionsAttempted} questions attempted` : "Loading..."}
-          </p>
-        </div>
+        <NextMissionCard
+          data={data}
+          focus={pickFocus(mastery, interests, preferences, catalog)}
+          starting={startDailyMutation.isPending}
+          startFailed={startDailyMutation.isError}
+          onStartDaily={() => startDailyMutation.mutate()}
+        />
+        <MasterySummaryCard overall={overall} mastery={mastery} />
       </div>
+
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <QuestsCard data={data} />
+        </div>
+        <TipCard />
+      </div>
+
+      <ShortcutsRow />
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="card p-5 lg:col-span-2">
