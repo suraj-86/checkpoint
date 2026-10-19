@@ -121,14 +121,15 @@ export function FastPracticeForm() {
                 <button
                   type="button"
                   key={st.id}
+                  disabled={st.subjectCount === 0}
                   onClick={() => {
                     setStreamId(st.id);
                     setSubjectId("");
                     setTopicId("");
                   }}
-                  className={chip(streamId === st.id)}
+                  className={`${chip(streamId === st.id)} disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-slate-200 disabled:hover:text-slate-600`}
                 >
-                  {st.name}
+                  {st.subjectCount === 0 ? `${st.name} (coming soon)` : st.name}
                 </button>
               ))}
             </div>

@@ -16,6 +16,7 @@ function chip(on: boolean) {
   }`;
 }
 
+/** Stream, exam, subjects and topics a student wants their Daily Sessions to focus on. */
 export function InterestPicker() {
   const queryClient = useQueryClient();
   const { data: catalog } = useStudentCatalog();
@@ -164,8 +165,8 @@ export function InterestPicker() {
               <select id="pref-stream" className={inputClass} value={streamId} onChange={(e) => changeStream(e.target.value)}>
                 <option value="">Any stream</option>
                 {streams.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.name}
+                  <option key={s.id} value={s.id} disabled={s.subjectCount === 0 && s.id !== streamId}>
+                    {s.subjectCount === 0 ? `${s.name} (coming soon)` : s.name}
                   </option>
                 ))}
               </select>
@@ -177,8 +178,8 @@ export function InterestPicker() {
               <select id="pref-exam" className={inputClass} value={examId} onChange={(e) => changeExam(e.target.value)}>
                 <option value="">Any exam</option>
                 {examOptions.map((e) => (
-                  <option key={e.id} value={e.id}>
-                    {e.name}
+                  <option key={e.id} value={e.id} disabled={e.subjectCount === 0 && e.id !== examId}>
+                    {e.subjectCount === 0 ? `${e.name} (coming soon)` : e.name}
                   </option>
                 ))}
               </select>

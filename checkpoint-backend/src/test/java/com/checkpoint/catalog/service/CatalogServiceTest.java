@@ -317,7 +317,7 @@ class CatalogServiceTest {
     }
 
     @Test
-    void studentSnapshotShowsOnlyActiveThingsWithQuestions() {
+    void studentSnapshotHidesEmptySubjectsButKeepsEmptyStreamsAsComingSoon() {
         Stream cs = Stream.builder().id(UUID.randomUUID()).name("CS").build();
         Stream hollow = Stream.builder().id(UUID.randomUUID()).name("Hollow").build();
         Subject java = Subject.builder().id(UUID.randomUUID()).name("Java").build();
@@ -345,7 +345,8 @@ class CatalogServiceTest {
 
         assertThat(view.subjects()).extracting(s -> s.name()).containsExactly("Java");
         assertThat(view.subjects().get(0).topics()).extracting(t -> t.name()).containsExactly("Streams");
-        assertThat(view.streams()).extracting(x -> x.name()).containsExactly("CS");
+        assertThat(view.streams()).extracting(x -> x.name()).containsExactly("CS", "Hollow");
         assertThat(view.streams().get(0).subjectIds()).containsExactly(java.getId());
+        assertThat(view.streams().get(1).subjectCount()).isZero();
     }
 }

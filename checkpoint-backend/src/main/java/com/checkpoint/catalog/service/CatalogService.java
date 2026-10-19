@@ -129,7 +129,6 @@ public class CatalogService {
                     List<UUID> ids = x.subjectIds().stream().filter(visible::contains).toList();
                     return new StreamItem(x.id(), x.name(), x.description(), x.sortOrder(), true, ids.size(), ids);
                 })
-                .filter(x -> x.subjectCount() > 0)
                 .toList();
         List<ExamItem> exams = all.exams().stream()
                 .filter(ExamItem::active)
@@ -137,7 +136,6 @@ public class CatalogService {
                     List<UUID> ids = x.subjectIds().stream().filter(visible::contains).toList();
                     return new ExamItem(x.id(), x.name(), x.description(), x.sortOrder(), true, ids.size(), ids);
                 })
-                .filter(x -> x.subjectCount() > 0)
                 .toList();
 
         Set<UUID> visibleStreams = new LinkedHashSet<>();
