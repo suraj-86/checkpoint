@@ -47,6 +47,12 @@ public class QuestionAttempt {
     @Column(name = "submitted_answer", columnDefinition = "jsonb")
     private Map<String, Object> submittedAnswer;
 
+    @Column(name = "confidence", length = 10)
+    private String confidence;
+
+    @Column(name = "time_taken_seconds")
+    private Integer timeTakenSeconds;
+
     @Column(name = "answered_at", nullable = false)
     @Builder.Default
     private Instant answeredAt = Instant.now();

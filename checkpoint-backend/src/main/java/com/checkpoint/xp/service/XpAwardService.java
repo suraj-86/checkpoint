@@ -61,8 +61,30 @@ public class XpAwardService {
             boolean leveledUp,
             int currentStreak,
             int longestStreak,
-            int streakMilestoneBonus
+            int streakMilestoneBonus,
+            String performanceBand,
+            double performancePercent,
+            int sessionXp
     ) {
+
+        public AwardResult(int xpChange, int totalXp, int levelBefore, int levelAfter, boolean leveledUp,
+                           int currentStreak, int longestStreak, int streakMilestoneBonus) {
+            this(xpChange, totalXp, levelBefore, levelAfter, leveledUp, currentStreak, longestStreak,
+                    streakMilestoneBonus, null, 0.0, xpChange - streakMilestoneBonus);
+        }
+    }
+
+    public record BonusResult(int totalXp, int levelAfter) {
+    }
+
+    @Transactional
+    public BonusResult addBonusXp(UUID userId, int bonus) {
+        StudentStats stats = studentStatsRepository.findByUserId(userId)
+                .orElseGet(() -> StudentStats.builder().userId(userId).build());
+        int newTotal = Math.max(0, stats.getTotalXp() + bonus);
+        stats.setTotalXp(newTotal);
+        studentStatsRepository.save(stats);
+        return new BonusResult(newTotal, levelCalculator.levelForXp(newTotal));
     }
 
     public AwardResult award(PracticeSession session) {
@@ -124,7 +146,10 @@ public class XpAwardService {
                 levelAfter > levelBefore,
                 stats.getCurrentStreak(),
                 stats.getLongestStreak(),
-                streakBonus
+                streakBonus,
+                xpResult.band().name(),
+                xpResult.performancePercent(),
+                sessionXp
         );
     }
 

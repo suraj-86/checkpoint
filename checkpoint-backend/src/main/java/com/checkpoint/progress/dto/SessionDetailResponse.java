@@ -17,6 +17,8 @@ public record SessionDetailResponse(
             String type,
             String difficulty,
             String topic,
+            UUID topicId,
+            String subject,
             String subtopic,
             List<String> options,
             String status,

@@ -2,20 +2,287 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Lavender Garden themes. Colours are stored as space-separated RGB channels so
+ * Tailwind opacity modifiers (bg-indigo-500/50) keep working. The slate and
+ * indigo scales are remapped to these in tailwind.config.js.
+ */
+:root,
+:root[data-theme="morning"] {
+  --slate-50: 244 240 252;
+  --slate-100: 236 231 251;
+  --slate-200: 214 204 242;
+  --slate-300: 185 172 223;
+  --slate-400: 104 92 150;
+  --slate-500: 100 88 143;
+  --slate-600: 80 68 125;
+  --slate-700: 62 50 105;
+  --slate-800: 47 36 87;
+  --slate-900: 35 26 70;
+
+  --indigo-50: 244 240 255;
+  --indigo-100: 232 224 255;
+  --indigo-200: 212 198 252;
+  --indigo-300: 185 163 245;
+  --indigo-400: 169 139 245;
+  --indigo-500: 122 88 224;
+  --indigo-600: 98 66 200;
+  --indigo-700: 98 66 200;
+  --indigo-800: 76 50 160;
+  --indigo-900: 56 38 120;
+
+  --panel: 236 231 251;
+  --raise: 221 212 244;
+  --line: 185 172 223;
+  --cb: 122 104 196;
+  --cs: 179 165 224;
+  --bg-1: 228 222 246;
+  --bg-2: 240 236 251;
+  --blob: 207 190 249;
+  --pri: 122 88 224;
+  --pri-text: 255 255 255;
+  --ink: 47 36 87;
+  --sky-1: 205 192 244;
+  --sky-2: 226 219 247;
+  --sky-3: 244 224 239;
+}
+
+:root[data-theme="dawn"] {
+  --slate-50: 252 249 255;
+  --slate-100: 247 243 253;
+  --slate-200: 232 224 247;
+  --slate-300: 216 205 240;
+  --slate-400: 114 102 158;
+  --slate-500: 109 97 151;
+  --slate-600: 85 72 130;
+  --slate-700: 65 52 108;
+  --slate-800: 47 36 87;
+  --slate-900: 35 26 70;
+
+  --panel: 255 255 255;
+  --raise: 241 234 251;
+  --line: 216 205 240;
+  --cb: 185 168 234;
+  --cs: 217 204 243;
+  --bg-1: 248 244 254;
+  --bg-2: 255 244 240;
+  --blob: 255 201 217;
+  --sky-1: 236 228 253;
+  --sky-2: 244 238 252;
+  --sky-3: 253 232 241;
+}
+
+:root[data-theme="night"] {
+  --slate-50: 27 20 51;
+  --slate-100: 42 32 80;
+  --slate-200: 56 44 102;
+  --slate-300: 76 61 130;
+  --slate-400: 150 138 200;
+  --slate-500: 180 168 220;
+  --slate-600: 205 196 235;
+  --slate-700: 225 218 245;
+  --slate-800: 241 236 255;
+  --slate-900: 250 247 255;
+
+  --indigo-50: 42 32 80;
+  --indigo-100: 56 44 102;
+  --indigo-200: 76 61 130;
+  --indigo-300: 107 88 184;
+  --indigo-400: 150 125 240;
+  --indigo-500: 122 88 224;
+  --indigo-600: 169 139 245;
+  --indigo-700: 185 163 250;
+  --indigo-800: 212 198 252;
+  --indigo-900: 232 224 255;
+
+  --panel: 42 32 80;
+  --raise: 56 44 102;
+  --line: 76 61 130;
+  --cb: 107 88 184;
+  --cs: 18 12 38;
+  --bg-1: 33 25 62;
+  --bg-2: 41 31 78;
+  --blob: 86 69 156;
+  --pri: 169 139 245;
+  --pri-text: 27 20 51;
+  --ink: 241 236 255;
+  --sky-1: 38 29 80;
+  --sky-2: 50 39 100;
+  --sky-3: 72 51 116;
+}
+
 @layer base {
+  html {
+    color-scheme: light;
+  }
+  html[data-theme="night"] {
+    color-scheme: dark;
+  }
   body {
-    @apply text-slate-700 antialiased;
+    @apply font-sans text-slate-700 antialiased;
+    background: rgb(var(--bg-1));
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+  :focus-visible {
+    outline: 3px solid rgb(var(--pri) / 0.6);
+    outline-offset: 2px;
   }
 }
 
 @layer components {
   .app-bg {
-    @apply bg-gradient-to-br from-sky-50 via-indigo-50 to-violet-50 bg-fixed;
+    background: linear-gradient(160deg, rgb(var(--bg-1)), rgb(var(--bg-2)));
+    background-attachment: fixed;
+  }
+
+  /* Sky scene behind everything: gradient, soft blobs, moon, hills, dust. */
+  .scene {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgb(var(--sky-1)) 0%, rgb(var(--sky-2)) 42%, rgb(var(--sky-3)) 100%);
+  }
+  .scene .blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: blob-drift 32s ease-in-out infinite alternate;
+  }
+  .scene .moon {
+    position: absolute;
+    right: 11%;
+    top: 9%;
+    width: 96px;
+    height: 96px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 35%, #fff, #fff3c9 60%, #f4c95d);
+    box-shadow: 0 0 70px 24px rgba(255, 243, 201, 0.5);
+  }
+  .scene svg {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 42vh;
+  }
+  .scene canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .scene .grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
   }
 
   .card {
-    @apply rounded-2xl border border-white/80 bg-white/70 shadow-sm shadow-slate-200/60 backdrop-blur-md;
+    @apply rounded-3xl;
+    background: rgb(var(--panel) / 0.9);
+    backdrop-filter: blur(6px);
+    border: 2px solid rgb(var(--cb));
+    box-shadow: 0 5px 0 rgb(var(--cs));
   }
+
+  /* Big gradient card used for the Home hero. */
+  .hero-card {
+    @apply relative overflow-hidden rounded-3xl text-white;
+    background: linear-gradient(135deg, #7c5ae6 0%, #7653dc 55%, #c85a8c 100%);
+    border: 2px solid #4b35a8;
+    box-shadow: 0 5px 0 rgb(var(--cs));
+  }
+  .hero-card::after {
+    content: "";
+    position: absolute;
+    right: -30px;
+    bottom: -70px;
+    width: 290px;
+    height: 290px;
+    border-radius: 9999px;
+    border: 2px dashed rgba(255, 255, 255, 0.55);
+    pointer-events: none;
+  }
+  @media (max-width: 639px) {
+    .hero-card::after {
+      right: -70px;
+      bottom: -90px;
+      width: 190px;
+      height: 190px;
+      opacity: 0.4;
+    }
+  }
+  .btn-white {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition;
+    background: #fff;
+    color: #4b35a8;
+    box-shadow: 0 4px 0 rgba(47, 36, 87, 0.28);
+  }
+  .btn-white:active {
+    transform: translateY(3px);
+    box-shadow: none;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 text-sm font-bold transition;
+    transition-property: transform, box-shadow, background-color, opacity;
+    transition-duration: 0.08s;
+  }
+  .btn-primary {
+    background: rgb(var(--pri));
+    border-color: rgb(var(--pri));
+    color: rgb(var(--pri-text));
+    box-shadow: 0 4px 0 rgb(var(--cb));
+  }
+  .btn-secondary {
+    background: rgb(var(--raise));
+    border-color: rgb(var(--cb));
+    color: rgb(var(--ink));
+    box-shadow: 0 4px 0 rgb(var(--cs));
+  }
+  .btn-primary:active:not(:disabled),
+  .btn-secondary:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 rgb(var(--cs));
+  }
+  .btn-primary:disabled,
+  .btn-secondary:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .kbd {
+    @apply rounded-md border-2 px-1.5 text-[11px] font-bold;
+    border-color: rgb(var(--line));
+    border-bottom-width: 3px;
+    background: rgb(var(--panel));
+  }
+}
+
+/*
+ * Night: existing screens use bg-white for inputs and panels. Make those follow
+ * the theme panel colour so nothing glares. Text colours already follow the
+ * remapped slate scale.
+ */
+:root[data-theme="night"] [class*="bg-white"] {
+  background-color: rgb(var(--panel) / 0.85) !important;
+}
+:root[data-theme="night"] [class*="border-white"] {
+  border-color: rgb(var(--line)) !important;
+}
+
+@keyframes blob-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(90px, 60px) scale(1.12); }
 }
 
 @keyframes dialog-fade {
@@ -46,6 +313,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .scene .blob,
   .page-enter,
   .dialog-backdrop,
   .dialog-panel {
@@ -77,5 +345,67 @@
   .node-pulse {
     animation: none;
     opacity: 0;
+  }
+}
+
+/* Knowledge tree: labels show on hover or focus, drooping leaves sway gently. */
+.tree-leaf,
+.tree-tag {
+  cursor: pointer;
+  outline: none;
+}
+.tree-lbl {
+  display: none;
+  pointer-events: none;
+}
+.tree-leaf:hover .tree-lbl,
+.tree-leaf:focus-visible .tree-lbl,
+.tree-leaf.sel .tree-lbl {
+  display: block;
+}
+.tree-leaf .cl {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  transition: filter 0.2s;
+}
+.tree-leaf:hover .cl,
+.tree-leaf:focus-visible .cl,
+.tree-leaf.sel .cl {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95));
+}
+.tree-leaf.droop .cl {
+  animation: tree-sway 3.2s ease-in-out infinite;
+}
+.tree-tag:focus-visible rect {
+  stroke: #8b6cf0;
+  stroke-width: 2.5;
+}
+@keyframes tree-sway {
+  50% { rotate: 2.5deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tree-leaf.droop .cl {
+    animation: none;
+  }
+}
+
+/* Rewards: chest opening */
+@keyframes chest-shake {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-8deg) scale(1.05); }
+  40% { transform: rotate(8deg) scale(1.08); }
+  60% { transform: rotate(-6deg) scale(1.1); }
+  80% { transform: rotate(6deg) scale(1.08); }
+}
+@keyframes reveal-pop {
+  from { opacity: 0; transform: scale(0.6) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.chest-shake { animation: chest-shake 0.7s ease-in-out; }
+.reveal-pop { animation: reveal-pop 0.45s cubic-bezier(0.2, 1.4, 0.4, 1); }
+@media (prefers-reduced-motion: reduce) {
+  .chest-shake,
+  .reveal-pop {
+    animation: none;
   }
 }

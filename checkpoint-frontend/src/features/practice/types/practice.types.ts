@@ -1,3 +1,4 @@
+import type { SessionRewards } from "../../rewards/types/rewards.types";
 export type QuestionType = "MCQ" | "TRUE_FALSE" | "FILL_IN_BLANK";
 
 export interface StudentQuestion {
@@ -44,9 +45,13 @@ export interface ActiveSession {
   currentPosition: number;
 }
 
+export type Confidence = "GUESS" | "UNSURE" | "SURE";
+
 export interface AnswerSubmitRequest {
   questionId: string;
   answer: string | boolean;
+  confidence?: Confidence | null;
+  timeTakenSeconds?: number | null;
 }
 
 export interface AnswerResult {
@@ -80,4 +85,11 @@ export interface SessionCompletion {
   streakMilestoneBonus: number;
   answeredCount: number;
   unattemptedCount: number;
+  performanceBand: PerformanceBand | null;
+  performancePercent: number;
+  sessionXp: number;
+  levelBefore: number;
+  rewards?: SessionRewards | null;
 }
+
+export type PerformanceBand = "EXCELLENT" | "GOOD" | "FAIR" | "WEAK" | "POOR";

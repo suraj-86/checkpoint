@@ -159,7 +159,7 @@ export function DatasetUploadPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-5">
-      <h1 className="text-2xl font-semibold text-slate-800">Upload dataset</h1>
+      <h1 className="font-display text-[clamp(26px,3.5vw,36px)] font-extrabold text-slate-800">Upload dataset</h1>
 
       {importResult ? (
         <div className="space-y-3 rounded-lg border border-green-200 bg-green-50 p-5">
@@ -174,19 +174,19 @@ export function DatasetUploadPage() {
           <div className="flex gap-3">
             <Link
               to={target.mode === "topic" && target.topicId ? `/admin/questions?topic=${target.topicId}` : target.subjectId ? `/admin/questions?subject=${target.subjectId}` : "/admin/questions"}
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+              className="btn-primary"
             >
               View questions
             </Link>
             <Link
               to="/admin/datasets"
-              className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+              className="btn-secondary"
             >
               Dataset history
             </Link>
             <button
               onClick={resetAll}
-              className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+              className="btn-secondary"
             >
               Upload another
             </button>
@@ -202,18 +202,18 @@ export function DatasetUploadPage() {
           )}
 
           <div className="card p-5">
-            <label className="mb-2 block text-sm font-medium text-slate-700">Dataset file (.json)</label>
+            <label className="mb-2 block text-sm font-extrabold text-slate-700">Dataset file (.json)</label>
             <input
               key={fileKey}
               type="file"
               accept=".json,application/json"
               onChange={handleFile}
-              className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-indigo-600 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-indigo-700"
+              className="block w-full text-sm text-slate-600 file:mr-3 file:cursor-pointer file:rounded-xl file:border-2 file:border-indigo-700 file:bg-indigo-500 file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-indigo-600"
             />
             {parseError && <p className="mt-3 text-sm text-red-600">{parseError}</p>}
 
             {summary && (
-              <div className="mt-4 rounded-md bg-slate-50 p-3 text-sm text-slate-700">
+              <div className="mt-4 rounded-2xl bg-slate-100 p-3 text-sm text-slate-700">
                 <p className="text-xs text-slate-500">{fileName}</p>
                 <p>
                   <span className="font-medium">{summary.name}</span> · version {summary.version} ·{" "}
@@ -226,14 +226,14 @@ export function DatasetUploadPage() {
               <button
                 onClick={() => payload && validateMutation.mutate(withTarget(payload))}
                 disabled={!payload || !ready || busy}
-                className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+                className="btn-primary"
               >
                 {validateMutation.isPending ? "Validating..." : "Validate"}
               </button>
               <button
                 onClick={() => payload && importMutation.mutate(withTarget(payload))}
                 disabled={!canImport || busy}
-                className="rounded-md bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-600 disabled:opacity-40"
+                className="btn-primary"
               >
                 {importMutation.isPending ? "Importing..." : "Import"}
               </button>
@@ -241,7 +241,7 @@ export function DatasetUploadPage() {
                 <button
                   onClick={resetAll}
                   disabled={busy}
-                  className="rounded-md border border-slate-300 px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 disabled:opacity-50"
+                  className="btn-secondary"
                 >
                   Clear
                 </button>
@@ -253,7 +253,7 @@ export function DatasetUploadPage() {
           </div>
 
           {serverError && (
-            <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{serverError}</div>
+            <div className="rounded-2xl border-2 border-rose-400 bg-rose-500/10 p-3 text-sm font-semibold text-rose-700">{serverError}</div>
           )}
 
           {validation && <ValidationReport result={validation} />}
@@ -280,15 +280,15 @@ function ValidationReport({ result }: { result: ValidationResponse }) {
       </div>
 
       <div className="grid grid-cols-3 gap-3 text-center">
-        <div className="rounded-md bg-slate-50 p-3">
+        <div className="rounded-2xl bg-slate-100 p-3">
           <p className="text-xs text-slate-500">Total</p>
-          <p className="text-lg font-semibold text-slate-800">{result.total}</p>
+          <p className="font-display text-xl font-bold text-slate-800">{result.total}</p>
         </div>
-        <div className="rounded-md bg-slate-50 p-3">
+        <div className="rounded-2xl bg-slate-100 p-3">
           <p className="text-xs text-slate-500">Valid</p>
           <p className="text-lg font-semibold text-green-600">{result.validCount}</p>
         </div>
-        <div className="rounded-md bg-slate-50 p-3">
+        <div className="rounded-2xl bg-slate-100 p-3">
           <p className="text-xs text-slate-500">Invalid</p>
           <p className="text-lg font-semibold text-red-600">{result.invalidCount}</p>
         </div>

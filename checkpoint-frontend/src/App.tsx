@@ -15,6 +15,8 @@ import { ProgressPage } from "./features/progress/pages/ProgressPage";
 import { HistoryPage } from "./features/progress/pages/HistoryPage";
 import { SessionDetailPage } from "./features/progress/pages/SessionDetailPage";
 import { ProfilePage } from "./features/progress/pages/ProfilePage";
+import { GardenPage } from "./features/progress/pages/GardenPage";
+import { FocusPage } from "./features/focus/pages/FocusPage";
 import { AdminDashboardPage } from "./features/admin/pages/AdminDashboardPage";
 import { DatasetUploadPage } from "./features/admin/pages/DatasetUploadPage";
 import { DatasetHistoryPage } from "./features/admin/pages/DatasetHistoryPage";
@@ -23,6 +25,8 @@ import { StreamsPage } from "./features/admin/pages/StreamsPage";
 import { SubjectsPage } from "./features/admin/pages/SubjectsPage";
 import { ExamsPage } from "./features/admin/pages/ExamsPage";
 import { TopicsPage } from "./features/admin/pages/TopicsPage";
+import { RewardsPage } from "./features/rewards/pages/RewardsPage";
+import { RewardsAdminPage } from "./features/admin/pages/RewardsAdminPage";
 import { AdminAccountPage } from "./features/account/pages/AdminAccountPage";
 
 function App() {
@@ -55,9 +59,12 @@ function App() {
         <Route path="/practice/session/:sessionId" element={<PracticeSessionPage />} />
         <Route path="/practice/result/:sessionId" element={<SessionResultPage />} />
         <Route path="/progress" element={<ProgressPage />} />
+        <Route path="/garden" element={<GardenPage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/progress/sessions/:sessionId" element={<SessionDetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/focus" element={<FocusPage />} />
+        <Route path="/rewards" element={<RewardsPage />} />
         <Route path="/help" element={<HelpPage />} />
       </Route>
 
@@ -77,6 +84,7 @@ function App() {
         <Route path="/admin/datasets" element={<DatasetHistoryPage />} />
         <Route path="/admin/datasets/upload" element={<DatasetUploadPage />} />
         <Route path="/admin/questions" element={<QuestionBrowserPage />} />
+        <Route path="/admin/rewards" element={<RewardsAdminPage />} />
         <Route path="/admin/requests" element={<SupportRequestsPage />} />
         <Route path="/admin/account" element={<AdminAccountPage />} />
       </Route>

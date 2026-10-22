@@ -1,10 +1,10 @@
-import { CheckCircle2 } from "lucide-react";
-import { Footer } from "../../../components/Footer";
+import { AuthShell } from "../components/AuthShell";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
+import { inputClass, labelClass, primaryButton } from "../../../components/ui/styles";
 import { useAuth } from "../context/AuthContext";
 import type { ApiErrorResponse } from "../types/auth.types";
 import { validateUsername } from "../../../lib/username";
@@ -60,49 +60,41 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col app-bg">
-      <div className="flex flex-1 items-center justify-center px-4 py-8">
-      <div className="w-full max-w-sm">
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-500 text-white shadow-lg shadow-indigo-200">
-          <CheckCircle2 size={26} />
-        </div>
-        <h1 className="mb-1 text-center text-2xl font-semibold text-slate-800">Checkpoint</h1>
-        <p className="mb-6 text-center text-sm text-slate-500">Create your student account</p>
-
+    <AuthShell subtitle="Create your student account" mood={serverError ? "oops" : "happy"}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 card p-6">
           {serverError && (
-            <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{serverError}</div>
+            <div className="rounded-xl border-2 border-rose-300 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700">{serverError}</div>
           )}
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Username</label>
+            <label className={labelClass}>Username</label>
             <input
               type="text"
               maxLength={20}
               autoComplete="username"
               {...register("username")}
-              className="w-full rounded-xl border border-slate-200 bg-white/80 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className={inputClass}
             />
             {errors.username && <p className="mt-1 text-xs text-red-600">{errors.username.message}</p>}
             <UsernameHints state={usernameState} />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Email</label>
+            <label className={labelClass}>Email</label>
             <input
               type="email"
               {...register("email")}
-              className="w-full rounded-xl border border-slate-200 bg-white/80 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className={inputClass}
             />
             {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Password</label>
+            <label className={labelClass}>Password</label>
             <input
               type="password"
               {...register("password")}
-              className="w-full rounded-xl border border-slate-200 bg-white/80 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className={inputClass}
             />
             {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>}
           </div>
@@ -110,7 +102,7 @@ export function RegisterPage() {
           <button
             type="submit"
             disabled={isSubmitting || blocksSubmit(usernameState)}
-            className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 shadow-md shadow-indigo-200 px-3 py-2 text-sm font-medium text-white hover:from-indigo-700 hover:to-violet-700 disabled:opacity-50"
+            className={`${primaryButton} w-full`}
           >
             {isSubmitting ? "Creating account..." : "Register"}
           </button>
@@ -118,13 +110,10 @@ export function RegisterPage() {
 
         <p className="mt-4 text-center text-sm text-slate-500">
           Already have an account?{" "}
-          <Link to="/login" className="font-medium text-indigo-600 underline">
+          <Link to="/login" className="font-bold text-indigo-600 underline">
             Log in
           </Link>
         </p>
-      </div>
-      </div>
-      <Footer />
-    </div>
+    </AuthShell>
   );
 }

@@ -3,6 +3,7 @@ package com.checkpoint.practice.service;
 import com.checkpoint.common.exception.BadRequestException;
 import com.checkpoint.interest.repository.UserInterestRepository;
 import com.checkpoint.practice.dto.ActiveSessionResponse;
+import com.checkpoint.practice.dto.AnswerSubmitRequest;
 import com.checkpoint.practice.dto.SessionAbandonResponse;
 import com.checkpoint.practice.dto.SessionCompletionResponse;
 import com.checkpoint.practice.dto.SlotQuestionResponse;
@@ -220,5 +221,57 @@ class PracticeSessionNavigationTest {
         assertThat(first.question().options()).containsExactlyElementsOf(second.question().options());
         assertThat(first.review()).isNull();
         assertThat(first.status()).isEqualTo("NOT_ATTEMPTED");
+    }
+
+    @Test
+    void submittingAnAnswerStoresConfidenceAndTimeTaken() {
+        PracticeSession s = session(SessionType.DAILY, 10, 0, 0);
+        Question q = question();
+        SessionQuestion slot = SessionQuestion.builder().id(UUID.randomUUID()).session(s).question(q)
+                .queuePosition(0).primary(true).answered(false).build();
+        when(questionRepository.findById(q.getId())).thenReturn(Optional.of(q));
+        when(sessionQuestionRepository.findFirstBySessionIdAndQuestionIdAndAnsweredFalseOrderByQueuePositionAsc(
+                s.getId(), q.getId())).thenReturn(Optional.of(slot));
+
+        service.submitAnswer(user, s.getId(), new AnswerSubmitRequest(q.getId(), "a", "SURE", 12));
+
+        ArgumentCaptor<QuestionAttempt> captor = ArgumentCaptor.forClass(QuestionAttempt.class);
+        verify(attemptRepository).save(captor.capture());
+        assertThat(captor.getValue().getConfidence()).isEqualTo("SURE");
+        assertThat(captor.getValue().getTimeTakenSeconds()).isEqualTo(12);
+        assertThat(captor.getValue().isCorrect()).isTrue();
+    }
+
+    @Test
+    void anAnswerWithoutConfidenceOrTimeStillWorks() {
+        PracticeSession s = session(SessionType.DAILY, 10, 0, 0);
+        Question q = question();
+        SessionQuestion slot = SessionQuestion.builder().id(UUID.randomUUID()).session(s).question(q)
+                .queuePosition(0).primary(true).answered(false).build();
+        when(questionRepository.findById(q.getId())).thenReturn(Optional.of(q));
+        when(sessionQuestionRepository.findFirstBySessionIdAndQuestionIdAndAnsweredFalseOrderByQueuePositionAsc(
+                s.getId(), q.getId())).thenReturn(Optional.of(slot));
+
+        service.submitAnswer(user, s.getId(), new AnswerSubmitRequest(q.getId(), "a"));
+
+        ArgumentCaptor<QuestionAttempt> captor = ArgumentCaptor.forClass(QuestionAttempt.class);
+        verify(attemptRepository).save(captor.capture());
+        assertThat(captor.getValue().getConfidence()).isNull();
+        assertThat(captor.getValue().getTimeTakenSeconds()).isNull();
+    }
+
+    @Test
+    void completionCarriesTheXpBreakdown() {
+        PracticeSession s = session(SessionType.FAST, 10, 3, 1);
+        slots(s, 10, 4);
+        when(xpAwardService.award(eq(s), any())).thenReturn(
+                new XpAwardService.AwardResult(9, 109, 1, 1, false, 1, 1, 0, "GOOD", 77.5, 9));
+
+        SessionCompletionResponse r = service.completeSession(user, s.getId());
+
+        assertThat(r.performanceBand()).isEqualTo("GOOD");
+        assertThat(r.performancePercent()).isEqualTo(77.5);
+        assertThat(r.sessionXp()).isEqualTo(9);
+        assertThat(r.levelBefore()).isEqualTo(1);
     }
 }

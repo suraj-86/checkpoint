@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { messageFromError } from "../utils/format";
+import { Chip } from "../../../components/ui/Chip";
 import { secondaryButton } from "../../../components/ui/styles";
 import { formatDateTime } from "../../../lib/format";
 import { KIND_LABELS, listAdminRequests, setRequestStatus } from "../../help/api/helpApi";
@@ -30,7 +31,8 @@ export function SupportRequestsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-800">Requests</h1>
+        <p className="text-sm font-semibold text-slate-500">From your students</p>
+        <h1 className="font-display text-[clamp(28px,4vw,40px)] font-extrabold leading-tight text-slate-800">Requests</h1>
         <p className="text-sm text-slate-500">Topic requests, feedback and problems sent by students.</p>
       </div>
 
@@ -43,10 +45,11 @@ export function SupportRequestsPage() {
               setStatus(f.value);
               setPage(0);
             }}
-            className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${
+            aria-pressed={status === f.value}
+            className={`rounded-full border-2 px-4 py-1.5 text-sm font-bold transition ${
               status === f.value
-                ? "border-indigo-600 bg-indigo-600 text-white shadow-sm shadow-indigo-200"
-                : "border-slate-200 bg-white/80 text-slate-600 hover:border-indigo-300 hover:text-indigo-700"
+                ? "border-amber-400 bg-amber-300 text-slate-900"
+                : "border-slate-300 bg-slate-100 text-slate-600 hover:border-indigo-400"
             }`}
           >
             {f.label}
@@ -63,12 +66,13 @@ export function SupportRequestsPage() {
           <p className="text-sm text-slate-400">Nothing here.</p>
         ) : (
           <>
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y-2 divide-slate-200">
               {data.content.map((r) => (
                 <li key={r.id} className="py-4 text-sm">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-medium text-indigo-700">{KIND_LABELS[r.kind]}</span>
-                    {r.subject && <span className="font-medium text-slate-800">{r.subject}</span>}
+                    <Chip tone={r.kind === "BUG" ? "bad" : r.kind === "TOPIC_REQUEST" ? "pri" : "neutral"}>{KIND_LABELS[r.kind]}</Chip>
+                    {r.status === "DONE" && <Chip tone="good">Done</Chip>}
+                    {r.subject && <span className="font-bold text-slate-800">{r.subject}</span>}
                     <span className="text-xs text-slate-400">
                       @{r.username} · {formatDateTime(r.createdAt)}
                     </span>

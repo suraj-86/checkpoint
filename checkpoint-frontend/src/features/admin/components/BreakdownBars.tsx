@@ -8,7 +8,7 @@ export function BreakdownBars({ title, items }: BreakdownBarsProps) {
 
   return (
     <div className="card p-4">
-      <h2 className="mb-3 text-sm font-semibold text-slate-700">{title}</h2>
+      <h2 className="mb-3 text-sm font-bold text-slate-800">{title}</h2>
       {items.length === 0 ? (
         <p className="text-sm text-slate-400">No data yet.</p>
       ) : (
@@ -19,7 +19,7 @@ export function BreakdownBars({ title, items }: BreakdownBarsProps) {
                 <span>{item.label}</span>
                 <span className="font-medium">{item.value}</span>
               </div>
-              <div className="h-2 rounded-full bg-slate-100">
+              <div className="h-2 rounded-full bg-slate-200">
                 <div
                   className="h-2 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500"
                   style={{ width: `${(item.value / max) * 100}%` }}

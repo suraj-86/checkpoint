@@ -90,6 +90,8 @@ export interface QuestionReview {
   type: "MCQ" | "TRUE_FALSE" | "FILL_IN_BLANK";
   difficulty: string;
   topic: string;
+  topicId: string;
+  subject: string | null;
   subtopic: string | null;
   options: string[] | null;
   status: "CORRECT" | "WRONG" | "UNANSWERED";

@@ -152,10 +152,10 @@ export function DatasetHistoryPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-800">Datasets</h1>
+        <h1 className="font-display text-[clamp(26px,3.5vw,36px)] font-extrabold text-slate-800">Datasets</h1>
         <Link
           to="/admin/datasets/upload"
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+          className="btn-primary"
         >
           Upload dataset
         </Link>
@@ -328,14 +328,14 @@ export function DatasetHistoryPage() {
 
       {deleting && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4">
-          <div className="w-full max-w-md space-y-4 rounded-xl bg-white p-6 shadow-xl">
-            <h2 className="text-lg font-semibold text-slate-800">Delete dataset</h2>
+          <div className="w-full max-w-md card space-y-4 p-6">
+            <h2 className="font-display text-xl font-bold text-slate-800">Delete dataset</h2>
             <p className="text-sm text-slate-600">
               This permanently deletes <span className="font-semibold">{deleting.name}</span>. It cannot be undone. If you
               only want students to stop seeing these questions, use "Retire all" instead.
             </p>
 
-            <div className="rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-700">
+            <div className="rounded-2xl bg-slate-100 px-3 py-2 text-sm text-slate-700">
               {impactQuery.isLoading && "Checking what will be removed..."}
               {impactQuery.isError && "Could not load the impact summary."}
               {impact && (
@@ -356,7 +356,7 @@ export function DatasetHistoryPage() {
                 value={typedName}
                 onChange={(e) => setTypedName(e.target.value)}
                 placeholder={deleting.name}
-                className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-red-500 focus:outline-none"
+                className="w-full rounded-xl border-2 border-slate-300 bg-white/80 px-3 py-2 text-sm font-semibold text-slate-800 focus:border-rose-500 focus:outline-none"
               />
             </div>
 
@@ -364,7 +364,7 @@ export function DatasetHistoryPage() {
               <button
                 type="button"
                 onClick={closeDeleteDialog}
-                className="rounded-md px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
+                className="btn-secondary"
               >
                 Cancel
               </button>
@@ -372,7 +372,7 @@ export function DatasetHistoryPage() {
                 type="button"
                 disabled={!nameMatches || deleteMutation.isPending}
                 onClick={() => deleteMutation.mutate(deleting)}
-                className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-xl border-2 border-rose-800 bg-rose-600 px-4 py-2 text-sm font-bold text-white hover:bg-rose-700 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {deleteMutation.isPending ? "Deleting..." : "Delete permanently"}
               </button>

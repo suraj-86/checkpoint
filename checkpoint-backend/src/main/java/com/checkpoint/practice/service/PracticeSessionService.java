@@ -14,9 +14,13 @@ import com.checkpoint.question.repository.QuestionRepository;
 import com.checkpoint.question.util.QuestionTypeCodec;
 import com.checkpoint.review.service.QuestionSelectionService;
 import com.checkpoint.review.service.ReviewProgressService;
+import com.checkpoint.reward.dto.SessionRewards;
+import com.checkpoint.reward.service.RewardService;
 import com.checkpoint.user.entity.User;
 import com.checkpoint.xp.service.XpAwardService;
 import com.checkpoint.question.entity.Difficulty;
+import com.checkpoint.settings.service.SettingsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +41,7 @@ import java.util.UUID;
 @Service
 public class PracticeSessionService {
 
-    private static final int DAILY_SESSION_SIZE = 10;
+    private static final int DEFAULT_DAILY_SESSION_SIZE = 10;
 
     private static final int DAILY_SKIPPED_LIMIT = 3;
 
@@ -52,6 +56,22 @@ public class PracticeSessionService {
     private final UserInterestRepository interestRepository;
     private final SkippedQuestionService skippedQuestionService;
     private final Clock clock;
+
+    /** Set by Spring; stays null in plain unit tests, which then use the default size. */
+    private SettingsService settingsService;
+
+    /** Set by Spring; stays null in plain unit tests, which then skip rewards. */
+    private RewardService rewardService;
+
+    @Autowired(required = false)
+    public void setRewardService(RewardService rewardService) {
+        this.rewardService = rewardService;
+    }
+
+    @Autowired(required = false)
+    public void setSettingsService(SettingsService settingsService) {
+        this.settingsService = settingsService;
+    }
 
     public PracticeSessionService(
             PracticeSessionRepository sessionRepository,
@@ -86,8 +106,11 @@ public class PracticeSessionService {
 
         Instant now = Instant.now(clock);
         Set<UUID> interests = interestRepository.findEffectiveTopicIds(student.getId());
-        var selection = selectionService.selectForSession(student.getId(), DAILY_SESSION_SIZE, now, interests);
-        List<Question> chosen = withSkippedFirst(student, selection.questions());
+        int size = settingsService == null
+                ? DEFAULT_DAILY_SESSION_SIZE
+                : settingsService.dailySessionSize(student.getId());
+        var selection = selectionService.selectForSession(student.getId(), size, now, interests);
+        List<Question> chosen = withSkippedFirst(student, selection.questions(), size);
 
         if (chosen.isEmpty()) {
             throw new BadRequestException("No questions are available to build a session yet.");
@@ -188,7 +211,7 @@ public class PracticeSessionService {
         return buildActiveSessionResponse(session);
     }
 
-    private List<Question> withSkippedFirst(User student, List<Question> selected) {
+    private List<Question> withSkippedFirst(User student, List<Question> selected, int size) {
         List<Question> skipped = skippedQuestionService.pool(student.getId()).stream()
                 .limit(DAILY_SKIPPED_LIMIT)
                 .toList();
@@ -199,7 +222,7 @@ public class PracticeSessionService {
         Set<UUID> ids = new HashSet<>();
         skipped.forEach(q -> ids.add(q.getId()));
         for (Question q : selected) {
-            if (result.size() >= DAILY_SESSION_SIZE) {
+            if (result.size() >= size) {
                 break;
             }
             if (ids.add(q.getId())) {
@@ -383,6 +406,8 @@ public class PracticeSessionService {
                 .primary(slot.isPrimary())
                 .correct(result.correct())
                 .submittedAnswer(Map.of("value", request.answer()))
+                .confidence(request.confidence())
+                .timeTakenSeconds(request.timeTakenSeconds())
                 .answeredAt(Instant.now(clock))
                 .build());
 
@@ -497,9 +522,26 @@ public class PracticeSessionService {
             rememberUnansweredPrimaryQuestions(student, session);
         }
 
+        int xpChange = award.xpChange();
+        int totalXp = award.totalXp();
+        int levelAfter = award.levelAfter();
+        boolean leveledUp = award.leveledUp();
+        SessionRewards rewards = null;
+        if (rewardService != null) {
+            rewards = rewardService.onSessionCompleted(student.getId(), session.getId(), daily, answeredCount,
+                    award.performancePercent(), award.xpChange(), award.currentStreak());
+            if (rewards.boostApplied() != null && rewards.boostApplied().bonusXp() > 0) {
+                XpAwardService.BonusResult bonus = xpAwardService.addBonusXp(student.getId(), rewards.boostApplied().bonusXp());
+                xpChange += rewards.boostApplied().bonusXp();
+                totalXp = bonus.totalXp();
+                levelAfter = bonus.levelAfter();
+                leveledUp = levelAfter > award.levelBefore();
+            }
+        }
+
         session.setStatus(SessionStatus.COMPLETED);
         session.setAccuracy(accuracy);
-        session.setXpChange(award.xpChange());
+        session.setXpChange(xpChange);
         session.setCompletedAt(Instant.now(clock));
         sessionRepository.save(session);
 
@@ -510,15 +552,20 @@ public class PracticeSessionService {
                 session.getCorrectCount(),
                 session.getWrongCount(),
                 session.getAccuracy(),
-                award.xpChange(),
-                award.totalXp(),
-                award.levelAfter(),
-                award.leveledUp(),
+                xpChange,
+                totalXp,
+                levelAfter,
+                leveledUp,
                 award.currentStreak(),
                 award.longestStreak(),
                 award.streakMilestoneBonus(),
                 answeredCount,
-                unanswered.size()
+                unanswered.size(),
+                award.performanceBand(),
+                award.performancePercent(),
+                award.sessionXp(),
+                award.levelBefore(),
+                rewards
         );
     }
 }
