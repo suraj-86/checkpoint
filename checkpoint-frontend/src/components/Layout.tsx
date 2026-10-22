@@ -75,7 +75,7 @@ function RailNav({ items, isAdmin }: { items: NavEntry[]; isAdmin: boolean }) {
   let lastGroup: string | undefined;
   return (
     <nav className="grid gap-1" aria-label="Main">
-      {items.map(({ to, label, group }, i) => {
+      {items.map(({ to, label, group }) => {
         const heading = group && group !== lastGroup ? group : null;
         lastGroup = group;
         return (
