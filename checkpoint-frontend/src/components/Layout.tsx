@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Gift, LifeBuoy, LogOut, Search, Timer } from "lucide-react";
+import { LifeBuoy, LogOut, Search } from "lucide-react";
 import { useAuth } from "../features/auth/context/AuthContext";
 import { getAccount } from "../features/account/api/accountApi";
 import { getDashboard, getProfile } from "../features/progress/api/progressApi";
 import { Avatar } from "./ui/Avatar";
 import { Mascot, type MascotMood } from "./mascot/Mascot";
-import { useEquippedSkin } from "../features/rewards/hooks/useRewards";
-import { UserAvatar } from "../features/rewards/components/UserAvatar";
 import { BackgroundScene } from "./BackgroundScene";
 import { CommandPalette } from "./CommandPalette";
 import { ThemeSwitcher } from "./ThemeSwitcher";
@@ -38,10 +36,9 @@ function mascotMood(d: { hasActiveSession: boolean; dailySessionCompletedToday: 
 function MascotCard() {
   const { data } = useQuery({ queryKey: ["dashboard"], queryFn: getDashboard });
   const { mood, line } = mascotMood(data);
-  const skin = useEquippedSkin();
   return (
     <div className="card grid justify-items-center gap-1.5 p-3 text-center">
-      <Mascot skin={skin} mood={mood} size={84} />
+      <Mascot mood={mood} size={84} />
       <p className="rounded-xl bg-slate-200 px-3 py-2 text-[13px] font-semibold text-slate-500">{line}</p>
     </div>
   );
@@ -95,6 +92,7 @@ function RailNav({ items, isAdmin }: { items: NavEntry[]; isAdmin: boolean }) {
               }
             >
               {label}
+              {!isAdmin && i < 9 && <span className="kbd ml-auto !text-slate-500">{i + 1}</span>}
             </NavLink>
           </div>
         );
@@ -127,6 +125,7 @@ export function Layout() {
         setPaletteOpen((o) => !o);
         return;
       }
+      // Number keys jump between the main pages, like the nav hints show.
       if (isAdmin || e.ctrlKey || e.metaKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
       if (target && (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))) return;
@@ -146,6 +145,7 @@ export function Layout() {
       <BackgroundScene />
 
       <div className="relative z-10 mx-auto grid w-full max-w-[1800px] gap-5 px-4 py-5 md:grid-cols-[240px_1fr] md:px-6 xl:gap-8 xl:px-8">
+        {/* Rail (desktop) */}
         <aside className="sticky top-5 hidden max-h-[calc(100vh-2.5rem)] gap-3 self-start overflow-y-auto md:grid">
           <Brand />
           {isAdmin && (
@@ -169,11 +169,7 @@ export function Layout() {
           <div className="card grid gap-2 p-2.5">
             <ThemeSwitcher />
             <Link to={accountPath} className="flex items-center gap-3 rounded-xl p-1 hover:bg-slate-200/70">
-              {isAdmin ? (
-                <Avatar name={name} color={account?.avatarColor} size={34} />
-              ) : (
-                <UserAvatar name={name} color={account?.avatarColor} size={34} />
-              )}
+              <Avatar name={name} color={account?.avatarColor} size={34} />
               <div className="min-w-0">
                 <p className="truncate text-sm font-bold text-slate-800">{name}</p>
                 <p className="truncate text-xs font-semibold text-slate-500">@{user?.username}</p>
@@ -187,6 +183,7 @@ export function Layout() {
         </aside>
 
         <div className="min-w-0">
+          {/* Phone header */}
           <header className="mb-4 md:hidden">
             <div className="card flex items-center justify-between px-3 py-2">
               <Brand />
@@ -194,16 +191,6 @@ export function Layout() {
                 <button onClick={() => setPaletteOpen(true)} aria-label="Jump to" className="rounded-lg p-2 text-slate-500">
                   <Search size={18} />
                 </button>
-                {!isAdmin && (
-                  <Link to="/focus" aria-label="Focus" className="rounded-lg p-2 text-slate-500">
-                    <Timer size={18} />
-                  </Link>
-                )}
-                {!isAdmin && (
-                  <Link to="/rewards" aria-label="Rewards" className="rounded-lg p-2 text-slate-500">
-                    <Gift size={18} />
-                  </Link>
-                )}
                 {!isAdmin && (
                   <Link to="/help" aria-label="Help" className="rounded-lg p-2 text-slate-500">
                     <LifeBuoy size={18} />
@@ -237,6 +224,7 @@ export function Layout() {
         <Footer />
       </div>
 
+      {/* Phone bottom tabs (students) */}
       {!isAdmin && (
         <nav
           className="fixed inset-x-3 bottom-3 z-30 flex justify-around rounded-3xl border-2 border-slate-400 bg-slate-100 p-1.5 shadow-[0_4px_0_rgb(var(--cs))] md:hidden"

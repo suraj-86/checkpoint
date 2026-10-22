@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getMastery } from "../api/progressApi";
 import { useStudentCatalog } from "../../catalog/hooks/useStudentCatalog";
-import type { SubjectMastery, TopicMastery } from "../types/progress.types";
+import type {TopicMastery } from "../types/progress.types";
 import { LEAF_PATH, SHADES, layoutTree, type TreeSubject } from "./treeGeometry";
 import {
   ATTENTION,
