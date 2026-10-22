@@ -19,17 +19,17 @@ const toneStyles: Record<DialogTone, { icon: ReactNode; ring: string; button: st
   primary: {
     icon: <CheckCircle2 size={22} />,
     ring: "bg-indigo-100 text-indigo-600",
-    button: "from-indigo-600 to-violet-600 shadow-indigo-200 hover:from-indigo-700 hover:to-violet-700",
+    button: "",
   },
   warning: {
     icon: <AlertTriangle size={22} />,
     ring: "bg-amber-100 text-amber-600",
-    button: "from-amber-500 to-orange-500 shadow-amber-200 hover:from-amber-600 hover:to-orange-600",
+    button: "!border-amber-700 !bg-amber-700 !text-white hover:!bg-amber-800",
   },
   info: {
     icon: <Info size={22} />,
     ring: "bg-sky-100 text-sky-600",
-    button: "from-sky-500 to-indigo-500 shadow-sky-200 hover:from-sky-600 hover:to-indigo-600",
+    button: "",
   },
 };
 
@@ -64,7 +64,7 @@ export function ConfirmDialog({
       aria-label={title}
     >
       <div className="dialog-backdrop absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={onCancel} />
-      <div className="dialog-panel relative w-full max-w-md rounded-2xl border border-white/80 bg-white p-6 shadow-2xl shadow-indigo-200/60">
+      <div className="dialog-panel card relative w-full max-w-md p-6">
         <div className="flex items-start gap-4">
           <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${style.ring}`}>{style.icon}</span>
           <div className="min-w-0 flex-1">
@@ -78,7 +78,7 @@ export function ConfirmDialog({
               type="button"
               onClick={onCancel}
               disabled={busy}
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-50"
+              className="btn-secondary"
             >
               {cancelLabel}
             </button>
@@ -88,7 +88,7 @@ export function ConfirmDialog({
             autoFocus
             onClick={onConfirm ?? onCancel}
             disabled={busy}
-            className={`rounded-xl bg-gradient-to-r px-4 py-2 text-sm font-semibold text-white shadow-md transition disabled:opacity-50 ${style.button}`}
+            className={`btn-primary ${style.button}`}
           >
             {onConfirm ? confirmLabel : "Got it"}
           </button>

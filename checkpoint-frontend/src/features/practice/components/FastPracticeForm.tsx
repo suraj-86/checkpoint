@@ -10,11 +10,11 @@ import { startFast } from "../api/practiceApi";
 const COUNTS = [5, 10, 15, 20, 30];
 
 const DIFFICULTIES = [
-  { value: "", label: "Any", active: "from-slate-600 to-slate-700" },
-  { value: "EASY", label: "Easy", active: "from-emerald-500 to-teal-500" },
-  { value: "MEDIUM", label: "Medium", active: "from-amber-500 to-orange-500" },
-  { value: "HARD", label: "Hard", active: "from-rose-500 to-pink-500" },
-  { value: "EXPERT", label: "Expert", active: "from-violet-600 to-purple-700" },
+  { value: "", label: "Any", active: "border-slate-500 bg-slate-600 text-white" },
+  { value: "EASY", label: "Easy", active: "border-emerald-600 bg-emerald-500 text-white" },
+  { value: "MEDIUM", label: "Medium", active: "border-amber-500 bg-amber-400 text-slate-900" },
+  { value: "HARD", label: "Hard", active: "border-rose-600 bg-rose-500 text-white" },
+  { value: "EXPERT", label: "Expert", active: "border-indigo-700 bg-indigo-600 text-white" },
 ];
 
 const TYPES = [
@@ -25,10 +25,10 @@ const TYPES = [
 ];
 
 function chip(active: boolean) {
-  return `rounded-full border px-3.5 py-1.5 text-sm font-medium transition ${
+  return `rounded-full border-2 px-3.5 py-1.5 text-sm font-bold transition ${
     active
-      ? "border-transparent bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-200"
-      : "border-slate-200 bg-white/80 text-slate-600 hover:border-indigo-300 hover:text-indigo-700"
+      ? "border-indigo-600 bg-indigo-500 text-white"
+      : "border-slate-300 bg-slate-100 text-slate-600 hover:border-indigo-400 hover:text-indigo-700"
   }`;
 }
 
@@ -80,8 +80,8 @@ export function FastPracticeForm() {
     >
       <section>
         <div className="flex items-baseline justify-between">
-          <h3 className="text-sm font-semibold text-slate-700">How many questions?</h3>
-          <span className="text-2xl font-semibold text-indigo-600">{count}</span>
+          <h3 className="text-sm font-extrabold text-slate-700">How many questions?</h3>
+          <span className="font-display text-3xl font-extrabold text-indigo-600">{count}</span>
         </div>
         <input
           type="range"
@@ -104,7 +104,7 @@ export function FastPracticeForm() {
       <section className="space-y-4">
         {(catalog?.streams.length ?? 0) > 1 && (
           <div>
-            <h3 className="text-sm font-semibold text-slate-700">Stream</h3>
+            <h3 className="text-sm font-extrabold text-slate-700">Stream</h3>
             <div className="mt-2 flex flex-wrap gap-2">
               <button
                 type="button"
@@ -137,7 +137,7 @@ export function FastPracticeForm() {
         )}
 
         <div>
-          <h3 className="text-sm font-semibold text-slate-700">Subject</h3>
+          <h3 className="text-sm font-extrabold text-slate-700">Subject</h3>
           <div className="mt-2 flex flex-wrap gap-2">
             <button
               type="button"
@@ -167,7 +167,7 @@ export function FastPracticeForm() {
 
         {subject && (
           <div>
-            <h3 className="text-sm font-semibold text-slate-700">Topic in {subject.name}</h3>
+            <h3 className="text-sm font-extrabold text-slate-700">Topic in {subject.name}</h3>
             <div className="mt-2 flex flex-wrap gap-2">
               <button type="button" onClick={() => setTopicId("")} className={chip(topicId === "")}>
                 All topics
@@ -184,17 +184,17 @@ export function FastPracticeForm() {
       </section>
 
       <section>
-        <h3 className="text-sm font-semibold text-slate-700">Difficulty</h3>
+        <h3 className="text-sm font-extrabold text-slate-700">Difficulty</h3>
         <div className="mt-2 grid grid-cols-5 gap-2">
           {DIFFICULTIES.map((d) => (
             <button
               type="button"
               key={d.label}
               onClick={() => setDifficulty(d.value)}
-              className={`rounded-xl px-2 py-2 text-sm font-medium transition ${
+              className={`rounded-xl border-2 px-2 py-2 text-sm font-bold transition ${
                 difficulty === d.value
-                  ? `bg-gradient-to-br ${d.active} text-white shadow-md`
-                  : "border border-slate-200 bg-white/80 text-slate-600 hover:border-indigo-300"
+                  ? d.active
+                  : "border-slate-300 bg-slate-100 text-slate-600 hover:border-indigo-400"
               }`}
             >
               {d.label}
@@ -204,7 +204,7 @@ export function FastPracticeForm() {
       </section>
 
       <section>
-        <h3 className="text-sm font-semibold text-slate-700">Question type</h3>
+        <h3 className="text-sm font-extrabold text-slate-700">Question type</h3>
         <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
           {TYPES.map(({ value, label, icon: Icon }) => {
             const active = questionType === value;
@@ -213,10 +213,10 @@ export function FastPracticeForm() {
                 type="button"
                 key={label}
                 onClick={() => setQuestionType(value)}
-                className={`relative flex flex-col items-center gap-1.5 rounded-xl border px-2 py-3 text-xs font-medium transition ${
+                className={`relative flex flex-col items-center gap-1.5 rounded-xl border-2 px-2 py-3 text-xs font-bold transition ${
                   active
-                    ? "border-indigo-400 bg-indigo-50 text-indigo-700 ring-2 ring-indigo-100"
-                    : "border-slate-200 bg-white/80 text-slate-600 hover:border-indigo-300"
+                    ? "border-indigo-500 bg-indigo-100 text-indigo-700"
+                    : "border-slate-300 bg-slate-100 text-slate-600 hover:border-indigo-400"
                 }`}
               >
                 {active && <Check size={12} className="absolute right-2 top-2" />}
@@ -228,7 +228,7 @@ export function FastPracticeForm() {
         </div>
       </section>
 
-      <div className="rounded-xl bg-indigo-50/80 px-4 py-3 text-sm text-slate-600">
+      <div className="rounded-2xl border-2 border-dashed border-indigo-300 bg-indigo-50 px-4 py-3 text-sm font-semibold text-slate-600">
         <Zap size={14} className="mr-1 inline text-indigo-500" />
         <strong className="text-slate-800">{count}</strong> {typeLabel} questions on{" "}
         <strong className="text-slate-800">{topicName}</strong>, difficulty <strong className="text-slate-800">{diffLabel}</strong>.
@@ -237,7 +237,7 @@ export function FastPracticeForm() {
 
       {mutation.isError && <p className="text-sm text-red-600">{messageFromError(mutation.error)}</p>}
 
-      <button type="submit" disabled={mutation.isPending} className={`${primaryButton} w-full py-3 text-base`}>
+      <button type="submit" disabled={mutation.isPending} className={`${primaryButton} w-full`}>
         {mutation.isPending ? "Starting..." : "Start Fast Practice"}
       </button>
     </form>

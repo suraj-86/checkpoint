@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { ArrowRight, Inbox } from "lucide-react";
+import { listAdminRequests } from "../../help/api/helpApi";
 import { getAdminDashboard } from "../api/adminApi";
 import { BreakdownBars } from "../components/BreakdownBars";
 import { formatDateTime, prettify } from "../utils/format";
@@ -10,13 +12,19 @@ export function AdminDashboardPage() {
     queryFn: getAdminDashboard,
   });
 
+  const { data: openRequests } = useQuery({
+    queryKey: ["admin-support", "OPEN", 0],
+    queryFn: () => listAdminRequests("OPEN", 0),
+  });
+  const openCount = openRequests?.totalElements ?? 0;
+
   if (isLoading) return <p className="text-sm text-slate-400">Loading...</p>;
   if (isError || !data) {
     return <p className="text-sm text-red-600">Could not load the admin dashboard.</p>;
   }
 
   const stats = [
-    { label: "Active questions", value: data.activeQuestions, color: "text-green-600", to: "/admin/questions?active=true" },
+    { label: "Active questions", value: data.activeQuestions, color: "text-emerald-600", to: "/admin/questions?active=true" },
     { label: "Retired questions", value: data.retiredQuestions, color: "text-amber-600", to: "/admin/questions?active=false" },
     { label: "Streams", value: data.streamCount, color: "text-slate-800", to: "/admin/streams" },
     { label: "Exams", value: data.examCount, color: "text-slate-800", to: "/admin/exams" },
@@ -28,18 +36,38 @@ export function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-800">Admin Dashboard</h1>
-        <Link
-          to="/admin/datasets/upload"
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
-        >
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="text-sm font-semibold text-slate-500">The question bank at a glance</p>
+          <h1 className="font-display text-[clamp(28px,4vw,40px)] font-extrabold leading-tight text-slate-800">
+            Admin dashboard
+          </h1>
+        </div>
+        <Link to="/admin/datasets/upload" className="btn-primary">
           Upload dataset
         </Link>
       </div>
 
+      {openCount > 0 && (
+        <Link
+          to="/admin/requests"
+          className="card flex items-center gap-3 !border-amber-400 p-4 transition hover:-translate-y-0.5"
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+            <Inbox size={20} />
+          </span>
+          <span className="flex-1 text-sm">
+            <b className="text-slate-800">
+              {openCount} open {openCount === 1 ? "request" : "requests"}
+            </b>
+            <span className="block text-slate-500">Students are waiting to hear back.</span>
+          </span>
+          <ArrowRight size={18} className="text-slate-500" />
+        </Link>
+      )}
+
       {data.totalQuestions === 0 && (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+        <div className="card !border-amber-400 !bg-amber-100 p-4 text-sm font-semibold text-amber-800">
           The question bank is empty. Students cannot practice until you import a dataset.
         </div>
       )}
@@ -49,11 +77,11 @@ export function AdminDashboardPage() {
           const body = (
             <>
               <p className="text-xs text-slate-500">{s.label}</p>
-              <p className={`text-xl font-semibold ${s.color}`}>{s.value}</p>
+              <p className={`font-display text-2xl font-extrabold ${s.color}`}>{s.value}</p>
             </>
           );
           return s.to ? (
-            <Link key={s.label} to={s.to} className="card p-4 transition hover:-translate-y-0.5 hover:shadow-md">
+            <Link key={s.label} to={s.to} className="card p-4 transition hover:-translate-y-0.5">
               {body}
             </Link>
           ) : (
@@ -85,7 +113,7 @@ export function AdminDashboardPage() {
       </div>
 
       <div className="card p-4">
-        <h2 className="mb-2 text-sm font-semibold text-slate-700">Latest dataset</h2>
+        <h2 className="mb-2 text-sm font-bold text-slate-800">Latest dataset</h2>
         {data.latestDataset ? (
           <div className="flex items-center justify-between text-sm">
             <div>
@@ -97,7 +125,7 @@ export function AdminDashboardPage() {
                 {data.latestDataset.activeQuestionCount} of {data.latestDataset.questionCount} questions active
               </p>
             </div>
-            <Link to="/admin/datasets" className="text-sm text-slate-600 underline hover:text-slate-800">
+            <Link to="/admin/datasets" className="text-sm font-bold text-indigo-600 hover:underline">
               All datasets
             </Link>
           </div>

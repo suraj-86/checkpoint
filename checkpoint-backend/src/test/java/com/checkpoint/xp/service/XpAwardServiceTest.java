@@ -204,4 +204,25 @@ class XpAwardServiceTest {
             assertThat(withNine.xpChange()).isLessThan(0);
         }
     }
+
+    @Nested
+    @DisplayName("XP breakdown on the result")
+    class Breakdown {
+
+        @Test
+        @DisplayName("reports the performance band and separates answer XP from the streak bonus")
+        void breakdownIsReported() {
+            when(studentStatsRepository.findByUserId(userId)).thenReturn(
+                    Optional.of(StudentStats.builder().userId(userId).totalXp(10_000).build()));
+            PracticeSession s = session(SessionType.DAILY);
+            when(attemptRepository.findBySessionIdAndPrimaryTrue(s.getId()))
+                    .thenReturn(List.of(correctAttempt(Difficulty.MEDIUM, true)));
+
+            XpAwardService.AwardResult result = service.award(s);
+
+            assertThat(result.performanceBand()).isEqualTo("EXCELLENT");
+            assertThat(result.performancePercent()).isEqualTo(100.0);
+            assertThat(result.sessionXp()).isEqualTo(result.xpChange() - result.streakMilestoneBonus());
+        }
+    }
 }

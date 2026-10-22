@@ -84,6 +84,8 @@ public class SessionDetailService {
                     QuestionTypeCodec.encode(q.getQuestionType()),
                     q.getDifficulty().name(),
                     q.getTopic().getName(),
+                    q.getTopic().getId(),
+                    q.getTopic().getSubject() == null ? null : q.getTopic().getSubject().getName(),
                     q.getSubtopic(),
                     optionsOf(q),
                     status,

@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ChevronRight, Search, X } from "lucide-react";
+import { Chip } from "../../../components/ui/Chip";
 import { inputClass, secondaryButton } from "../../../components/ui/styles";
 import { formatDateTime } from "../../../lib/format";
 import { useStudentCatalog } from "../../catalog/hooks/useStudentCatalog";
-import { searchHistory } from "../api/progressApi";
+import { getActivity, searchHistory } from "../api/progressApi";
+import { HistoryCalendar } from "../components/HistoryCalendar";
 import type { HistoryFilters, SessionHistoryItem } from "../types/progress.types";
 
 const EMPTY: HistoryFilters = {
@@ -20,10 +22,10 @@ const EMPTY: HistoryFilters = {
   sort: "newest",
 };
 
-const STATUS_LABELS: Record<string, { text: string; className: string }> = {
-  COMPLETED: { text: "Completed", className: "bg-emerald-100 text-emerald-700" },
-  IN_PROGRESS: { text: "In progress", className: "bg-sky-100 text-sky-700" },
-  ABANDONED: { text: "Ended early", className: "bg-amber-100 text-amber-700" },
+const STATUS_LABELS: Record<string, { text: string; tone: "good" | "pri" | "warn" }> = {
+  COMPLETED: { text: "Completed", tone: "good" },
+  IN_PROGRESS: { text: "In progress", tone: "pri" },
+  ABANDONED: { text: "Ended early", tone: "warn" },
 };
 
 function useDebounced<T>(value: T, ms: number): T {
@@ -43,20 +45,20 @@ function Row({ item }: { item: SessionHistoryItem }) {
     <li>
       <Link
         to={s.status === "IN_PROGRESS" ? "/practice/active" : `/progress/sessions/${s.sessionId}`}
-        className="group card flex flex-wrap items-center justify-between gap-3 p-4 transition hover:-translate-y-0.5 hover:shadow-md"
+        className="group card flex flex-wrap items-center justify-between gap-3 p-4 transition hover:-translate-y-0.5"
       >
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-medium text-slate-800">
+            <span className="font-bold text-slate-800">
               {s.sessionType === "DAILY" ? "Daily Session" : "Fast Practice"}
             </span>
-            {label && <span className={`rounded-full px-2 py-0.5 text-xs ${label.className}`}>{label.text}</span>}
+            {label && <Chip tone={label.tone}>{label.text}</Chip>}
             <span className="text-xs text-slate-400">{formatDateTime(s.completedAt ?? s.startedAt)}</span>
           </div>
           {item.topics.length > 0 && (
             <div className="mt-1.5 flex flex-wrap gap-1.5">
               {item.topics.map((t) => (
-                <span key={t} className="rounded-md bg-indigo-50 px-1.5 py-0.5 text-xs text-indigo-700">
+                <span key={t} className="rounded-lg bg-indigo-100 px-2 py-0.5 text-xs font-semibold text-indigo-700">
                   {t}
                 </span>
               ))}
@@ -87,6 +89,7 @@ export function HistoryPage() {
   const debouncedText = useDebounced(filters.q, 400);
   const effective = { ...filters, q: debouncedText };
 
+  const { data: activity } = useQuery({ queryKey: ["progress-activity", 371], queryFn: () => getActivity(371) });
   const { data: catalog } = useStudentCatalog();
   const subjectOptions = catalog?.subjects ?? [];
   const topicOptions = subjectOptions
@@ -106,13 +109,29 @@ export function HistoryPage() {
   const active = JSON.stringify(filters) !== JSON.stringify(EMPTY);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
+    <div className="grid gap-5">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-800">Session history</h1>
-        <p className="text-sm text-slate-500">
-          Find any past session, then open it to revise the questions and your answers.
-        </p>
+        <p className="text-sm font-semibold text-slate-500">Revise what you practised</p>
+        <h1 className="font-display text-[clamp(28px,4vw,40px)] font-extrabold leading-tight text-slate-800">History</h1>
       </div>
+
+      <div className="grid items-start gap-5 xl:grid-cols-[360px_1fr]">
+      <div className="grid gap-5 xl:sticky xl:top-5">
+        {activity ? (
+          <HistoryCalendar
+            data={activity}
+            selected={filters.fromDate && filters.fromDate === filters.toDate ? filters.fromDate : ""}
+            onPick={(date) => {
+              setPage(0);
+              setFilters((f) => ({ ...f, fromDate: date, toDate: date }));
+            }}
+          />
+        ) : (
+          <div className="card p-5 text-sm text-slate-500">Loading calendar...</div>
+        )}
+      </div>
+
+      <div className="min-w-0 space-y-5">
 
       <div className="card space-y-3 p-4">
         <div className="relative">
@@ -239,7 +258,7 @@ export function HistoryPage() {
                     const n = Number(e.target.value);
                     if (n >= 1 && n <= data.totalPages) setPage(n - 1);
                   }}
-                  className="w-16 rounded-lg border border-slate-200 bg-white/80 px-2 py-1 text-center text-sm"
+                  className="w-16 rounded-xl border-2 border-slate-300 bg-white/80 px-2 py-1 text-center text-sm font-bold"
                   aria-label="Page number"
                 />
                 of {data.totalPages}
@@ -256,6 +275,8 @@ export function HistoryPage() {
           )}
         </>
       )}
+      </div>
+      </div>
     </div>
   );
 }

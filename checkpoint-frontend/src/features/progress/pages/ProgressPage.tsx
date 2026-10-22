@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { BookMarked, CheckCircle2, ChevronRight, Target } from "lucide-react";
-import { Donut } from "../../../components/ui/Donut";
-import { StatCard } from "../../../components/ui/StatCard";
+import { ChevronRight } from "lucide-react";
 import { secondaryButton } from "../../../components/ui/styles";
 import { formatDateTime } from "../../../lib/format";
 import {
   getActivity,
+  getMastery,
   getOverallProgress,
   getProfile,
   getSessionHistory,
 } from "../api/progressApi";
 import { LevelProgressCard } from "../../../components/ui/LevelProgressCard";
+import { ActivityHeatmap } from "../components/ActivityHeatmap";
+import { KpiRow, WeakestCard } from "../components/ProgressCards";
 import { ActivityChart } from "../components/ActivityChart";
 import { XpTrendChart } from "../components/XpTrendChart";
 import { MasteryMap } from "../components/MasteryMap";
@@ -27,76 +28,47 @@ export function ProgressPage() {
 
   const { data: overall } = useQuery({ queryKey: ["progress-overall"], queryFn: getOverallProgress });
   const { data: profile } = useQuery({ queryKey: ["profile"], queryFn: getProfile });
-  const { data: activity } = useQuery({ queryKey: ["progress-activity", 30], queryFn: () => getActivity(30) });
+  const { data: mastery } = useQuery({ queryKey: ["progress-mastery"], queryFn: getMastery });
+  const { data: activity } = useQuery({ queryKey: ["progress-activity", 371], queryFn: () => getActivity(371) });
   const { data: history } = useQuery({
     queryKey: ["progress-sessions", page],
     queryFn: () => getSessionHistory(page, 10),
   });
 
-  const onTrack = overall ? Math.max(0, overall.stableCount - overall.overdueCount) : 0;
-
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-slate-800">Your Progress</h1>
+    <div className="grid grid-cols-1 gap-4">
+      <div>
+        <p className="text-sm font-semibold text-slate-500">Your knowledge map</p>
+        <h1 className="font-display text-[clamp(28px,4vw,40px)] font-extrabold leading-tight text-slate-800">Progress</h1>
+      </div>
 
       {profile && <LevelProgressCard totalXp={profile.totalXp} progress={profile.levelProgress} />}
-
-      {overall && (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <StatCard
-            icon={Target}
-            tone="indigo"
-            label="Questions attempted"
-            value={overall.distinctQuestionsAttempted}
-            hint={`${overall.totalAttempts} answers in total`}
-          />
-
-          <div className="card flex items-center gap-4 p-4">
-            <Donut value={Number(overall.overallAccuracy)} size={72} stroke={8} />
-            <div>
-              <p className="text-sm text-slate-500">Overall accuracy</p>
-              <p className="text-xs text-slate-500">
-                {overall.correctAttempts} correct, {overall.wrongAttempts} wrong
-              </p>
-            </div>
-          </div>
-
-          <StatCard
-            icon={BookMarked}
-            tone="rose"
-            label="Due for review"
-            value={overall.dueForReviewCount}
-            hint={`${overall.needsReviewCount} missed last time, ${overall.overdueCount} overdue`}
-          />
-          <StatCard
-            icon={CheckCircle2}
-            tone="emerald"
-            label="On track"
-            value={onTrack}
-            hint="Answered correctly, next review scheduled"
-          />
-        </div>
-      )}
-
-      <div className="card p-5">
-        <h2 className="text-sm font-semibold text-slate-700">Activity, last 30 days</h2>
-        <div className="mt-3">
-          {activity ? <ActivityChart data={activity} days={30} /> : <p className="text-sm text-slate-400">Loading...</p>}
-        </div>
-      </div>
-
-      <div className="card p-5">
-        <h2 className="text-sm font-semibold text-slate-700">XP growth, last 30 days</h2>
-        <div className="mt-3">
-          {activity && profile ? (
-            <XpTrendChart data={activity} days={30} currentXp={profile.totalXp} />
-          ) : (
-            <p className="text-sm text-slate-400">Loading...</p>
-          )}
-        </div>
-      </div>
+      {overall && <KpiRow overall={overall} />}
 
       <MasteryMap />
+
+      <h2 className="mt-2 font-display text-2xl font-bold text-slate-800">Analytics</h2>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <div className="card p-5 lg:col-span-2">
+          <b className="text-sm text-slate-800">Activity, last year</b>
+          <div className="mt-3">{activity ? <ActivityHeatmap data={activity} /> : <p className="text-sm text-slate-500">Loading...</p>}</div>
+        </div>
+        <WeakestCard mastery={mastery} />
+        <div className="card p-5">
+          <b className="text-sm text-slate-800">Sessions per day, last 30 days</b>
+          <div className="mt-3">{activity ? <ActivityChart data={activity} days={30} /> : <p className="text-sm text-slate-500">Loading...</p>}</div>
+        </div>
+        <div className="card p-5 lg:col-span-2">
+          <b className="text-sm text-slate-800">XP growth, last 30 days</b>
+          <div className="mt-3">
+            {activity && profile ? (
+              <XpTrendChart data={activity} days={30} currentXp={profile.totalXp} />
+            ) : (
+              <p className="text-sm text-slate-500">Loading...</p>
+            )}
+          </div>
+        </div>
+      </div>
 
       <div className="card p-5">
         <div className="flex items-center justify-between">

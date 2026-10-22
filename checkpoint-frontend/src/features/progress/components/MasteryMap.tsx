@@ -1,529 +1,412 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, type PointerEvent } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, ChevronRight } from "lucide-react";
-import { primaryButton } from "../../../components/ui/styles";
+import { Minus, Plus, Sprout } from "lucide-react";
 import { getMastery } from "../api/progressApi";
 import { useStudentCatalog } from "../../catalog/hooks/useStudentCatalog";
-import type { MasteryResponse, MasteryTier, TopicMastery } from "../types/progress.types";
+import type { SubjectMastery, TopicMastery } from "../types/progress.types";
+import { ATTENTION, StreamPanel, SubjectPanel, TIER_LABEL, TopicPanel, buildGroups, sum, tierFor } from "./MasteryPanels";
+import { SHADES, toneFor } from "./treeGeometry";
 
-const TIERS: Record<MasteryTier, { label: string; tile: string; bar: string; chip: string }> = {
-  NOT_STARTED: {
-    label: "Not started",
-    tile: "border-dashed border-slate-200 bg-white/50",
-    bar: "bg-slate-300",
-    chip: "bg-slate-100 text-slate-600",
-  },
-  STARTED: {
-    label: "Just started",
-    tile: "border-sky-200 bg-sky-50/60",
-    bar: "bg-sky-400",
-    chip: "bg-sky-100 text-sky-700",
-  },
-  NEEDS_WORK: {
-    label: "Needs work",
-    tile: "border-rose-200 bg-rose-50/60",
-    bar: "bg-rose-400",
-    chip: "bg-rose-100 text-rose-700",
-  },
-  GROWING: {
-    label: "Getting there",
-    tile: "border-amber-200 bg-amber-50/60",
-    bar: "bg-amber-400",
-    chip: "bg-amber-100 text-amber-700",
-  },
-  STRONG: {
-    label: "Strong",
-    tile: "border-emerald-200 bg-emerald-50/60",
-    bar: "bg-emerald-500",
-    chip: "bg-emerald-100 text-emerald-700",
-  },
+type Selection = { kind: "stream" } | { kind: "subject"; id: string } | { kind: "topic"; id: string };
+type Filter = "all" | "needs";
+
+const W = 900;
+const H = 560;
+const HUB = { x: 100, y: 280, r: 46 };
+const CARD_X = 220;
+const CARD_W = 250;
+const TOPIC_X = 640;
+const TOPIC_W = 235;
+
+const short = (name: string, max: number) => (name.length > max ? `${name.slice(0, max - 1)}…` : name);
+const curve = (x1: number, y1: number, x2: number, y2: number) => {
+  const mid = (x1 + x2) / 2;
+  return `M${x1} ${y1} C${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`;
 };
-
-const TIER_ORDER: MasteryTier[] = ["NEEDS_WORK", "GROWING", "STRONG", "STARTED", "NOT_STARTED"];
-
-function practiceLink(t: TopicMastery) {
-  return `/practice?subject=${t.subjectId}&topic=${t.topicId}`;
-}
-
-function Tile({ topic }: { topic: TopicMastery }) {
-  const tier = TIERS[topic.tier];
-  const tried = topic.tier !== "NOT_STARTED";
-  return (
-    <Link
-      to={practiceLink(topic)}
-      className={`group block rounded-xl border p-3 transition hover:-translate-y-0.5 hover:shadow-md hover:shadow-slate-200/70 ${tier.tile}`}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <p className="text-sm font-medium text-slate-800">{topic.topicName}</p>
-        <ArrowRight size={14} className="mt-1 shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" />
-      </div>
-      <span className={`mt-1.5 inline-block rounded-full px-2 py-0.5 text-[11px] font-medium ${tier.chip}`}>{tier.label}</span>
-      <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-white/80">
-        <div
-          className={`h-full rounded-full transition-all duration-700 ease-out ${tier.bar}`}
-          style={{ width: `${tried ? Math.max(4, topic.accuracy) : 0}%` }}
-        />
-      </div>
-      <p className="mt-1.5 text-xs text-slate-500">
-        {tried
-          ? `${topic.accuracy}% correct · ${topic.questionsSeen} of ${topic.activeQuestions} questions tried`
-          : `${topic.activeQuestions} questions waiting`}
-      </p>
-    </Link>
-  );
-}
-
-const TIER_COLOR: Record<MasteryTier, string> = {
-  NOT_STARTED: "#cbd5e1",
-  STARTED: "#38bdf8",
-  NEEDS_WORK: "#fb7185",
-  GROWING: "#fbbf24",
-  STRONG: "#10b981",
-};
-
-type NodeKind = "root" | "stream" | "subject" | "topic";
-
-interface MapNode {
-  id: string;
-  kind: NodeKind;
-  name: string;
-  activeQuestions: number;
-  questionsSeen: number;
-  answers: number;
-  correct: number;
-  accuracy: number;
-  stable: number;
-  tier: MasteryTier;
-  practice: string | null;
-  children: MapNode[];
-}
-
-function tierFor(answers: number, correct: number): MasteryTier {
-  if (answers <= 0) return "NOT_STARTED";
-  if (answers < 3) return "STARTED";
-  const accuracy = Math.round((correct * 100) / answers);
-  if (accuracy >= 80) return "STRONG";
-  if (accuracy >= 60) return "GROWING";
-  return "NEEDS_WORK";
-}
-
-function group(id: string, kind: NodeKind, name: string, children: MapNode[], practice: string | null): MapNode {
-  const sum = (f: (n: MapNode) => number) => children.reduce((a, n) => a + f(n), 0);
-  const answers = sum((n) => n.answers);
-  const correct = sum((n) => n.correct);
-  return {
-    id,
-    kind,
-    name,
-    activeQuestions: sum((n) => n.activeQuestions),
-    questionsSeen: sum((n) => n.questionsSeen),
-    answers,
-    correct,
-    accuracy: answers === 0 ? 0 : Math.round((correct * 100) / answers),
-    stable: sum((n) => n.stable),
-    tier: tierFor(answers, correct),
-    practice,
-    children,
-  };
-}
-
-function buildTree(data: MasteryResponse, streams: { id: string; name: string; subjectIds: string[] }[]): MapNode {
-  const subjects = data.subjects.map((s) =>
-    group(
-      s.subjectId,
-      "subject",
-      s.subjectName,
-      s.topics.map((t) => ({
-        id: t.topicId,
-        kind: "topic" as const,
-        name: t.topicName,
-        activeQuestions: t.activeQuestions,
-        questionsSeen: t.questionsSeen,
-        answers: t.answers,
-        correct: t.correct,
-        accuracy: t.accuracy,
-        stable: t.stableQuestions,
-        tier: t.tier,
-        practice: practiceLink(t),
-        children: [],
-      })),
-      `/practice?subject=${s.subjectId}`
-    )
-  );
-  const bySubject = new Map(subjects.map((s) => [s.id, s]));
-
-  const streamNodes: MapNode[] = [];
-  const used = new Set<string>();
-  for (const st of streams) {
-    const kids = st.subjectIds.map((id) => bySubject.get(id)).filter((x): x is MapNode => !!x);
-    if (kids.length === 0) continue;
-    kids.forEach((k) => used.add(k.id));
-    streamNodes.push(group(st.id, "stream", st.name, kids, `/practice?stream=${st.id}`));
-  }
-  const orphans = subjects.filter((s) => !used.has(s.id));
-  if (orphans.length > 0 && streamNodes.length > 0) {
-    streamNodes.push(group("__other", "stream", "Other subjects", orphans, null));
-  }
-  const top = streamNodes.length > 0 ? streamNodes : subjects;
-  return group("__root", "root", "Everything", top, null);
-}
-
-const COLS = 4;
-const W = 800;
-const ROW_H = 175;
-const R = 30;
-const HUB_R = 38;
-const HUB_Y = 60;
-const FIRST_ROW_Y = 215;
-
-function short(name: string) {
-  return name.length > 16 ? `${name.slice(0, 15)}…` : name;
-}
-
-function childLabel(n: MapNode) {
-  if (n.kind === "stream") return `${n.children.length} subject${n.children.length === 1 ? "" : "s"}`;
-  if (n.kind === "subject") return `${n.children.length} topic${n.children.length === 1 ? "" : "s"}`;
-  return "";
-}
-
-function Ring({
-  node,
-  x,
-  y,
-  r,
-  selected,
-  faded,
-  label,
-  onClick,
-}: {
-  node: MapNode;
-  x: number;
-  y: number;
-  r: number;
-  selected: boolean;
-  faded: boolean;
-  label: boolean;
-  onClick: () => void;
-}) {
-  const color = TIER_COLOR[node.tier];
-  const circumference = 2 * Math.PI * r;
-  const coverage = node.activeQuestions === 0 ? 0 : Math.min(1, node.questionsSeen / node.activeQuestions);
-  return (
-    <g
-      role="button"
-      tabIndex={0}
-      aria-label={`${node.name}, ${TIERS[node.tier].label}`}
-      aria-pressed={selected}
-      onClick={onClick}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-      className="cursor-pointer outline-none"
-      style={{ opacity: faded ? 0.25 : 1, transition: "opacity 0.2s" }}
-    >
-      {node.tier === "NEEDS_WORK" && <circle cx={x} cy={y} r={r + 8} fill="none" stroke={color} strokeWidth={2} className="node-pulse" />}
-      {selected && <circle cx={x} cy={y} r={r + 10} fill="none" stroke="#6366f1" strokeWidth={2} strokeDasharray="4 4" />}
-      <circle cx={x} cy={y} r={r} fill="white" stroke="#e2e8f0" strokeWidth={6} />
-      <circle
-        cx={x}
-        cy={y}
-        r={r}
-        fill="none"
-        stroke={color}
-        strokeWidth={6}
-        strokeLinecap="round"
-        strokeDasharray={`${circumference * coverage} ${circumference}`}
-        transform={`rotate(-90 ${x} ${y})`}
-        style={{ transition: "stroke-dasharray 0.7s ease-out" }}
-      />
-      <text x={x} y={y + 5} textAnchor="middle" fontSize={14} fontWeight={600} fill="#334155">
-        {node.answers === 0 ? "–" : node.accuracy}
-      </text>
-      {label && (
-        <>
-          <text x={x} y={y + r + 22} textAnchor="middle" fontSize={13} fontWeight={500} fill="#334155">
-            {short(node.name)}
-          </text>
-          {childLabel(node) && (
-            <text x={x} y={y + r + 38} textAnchor="middle" fontSize={11} fill="#94a3b8">
-              {childLabel(node)}
-            </text>
-          )}
-        </>
-      )}
-    </g>
-  );
-}
-
-function NodeGraph({
-  hub,
-  selectedId,
-  onPick,
-  dim,
-}: {
-  hub: MapNode;
-  selectedId: string;
-  onPick: (n: MapNode) => void;
-  dim: MasteryTier | "";
-}) {
-  const kids = hub.children;
-  const cols = Math.min(COLS, Math.max(1, kids.length));
-  const step = W / (cols + 1);
-  const rows = Math.ceil(kids.length / cols);
-  const height = FIRST_ROW_Y + (rows - 1) * ROW_H + 80;
-  const pos = kids.map((_, i) => ({
-    x: step * ((i % cols) + 1),
-    y: FIRST_ROW_Y + Math.floor(i / cols) * ROW_H + (i % 2 === 0 ? 0 : 20),
-  }));
-
-  return (
-    <svg viewBox={`0 0 ${W} ${height}`} className="w-full" role="group" aria-label={`${hub.name} breakdown`}>
-      {pos.map((p, i) => (
-        <path
-          key={kids[i].id}
-          d={`M ${W / 2} ${HUB_Y + HUB_R} C ${W / 2} ${(HUB_Y + p.y) / 2 + 30}, ${p.x} ${(HUB_Y + p.y) / 2 - 10}, ${p.x} ${p.y - R - 4}`}
-          fill="none"
-          stroke="#c7d2fe"
-          strokeWidth={2}
-          strokeLinecap="round"
-          opacity={0.8}
-        />
-      ))}
-      <Ring node={hub} x={W / 2} y={HUB_Y} r={HUB_R} selected={false} faded={false} label={false} onClick={() => undefined} />
-      <text x={W / 2} y={HUB_Y + HUB_R + 22} textAnchor="middle" fontSize={14} fontWeight={600} fill="#1e293b">
-        {short(hub.name)}
-      </text>
-      {kids.map((k, i) => (
-        <Ring
-          key={k.id}
-          node={k}
-          x={pos[i].x}
-          y={pos[i].y}
-          r={R}
-          selected={k.id === selectedId}
-          faded={dim !== "" && k.tier !== dim}
-          label
-          onClick={() => onPick(k)}
-        />
-      ))}
-    </svg>
-  );
-}
-
-const KIND_LABEL: Record<NodeKind, string> = { root: "Overview", stream: "Stream", subject: "Subject", topic: "Topic" };
-
-function Detail({ node }: { node: MapNode }) {
-  const tier = TIERS[node.tier];
-  const tried = node.answers > 0;
-  const counts = new Map<MasteryTier, number>();
-  node.children.forEach((c) => counts.set(c.tier, (counts.get(c.tier) ?? 0) + 1));
-  const weakest = node.children
-    .filter((c) => c.tier === "NEEDS_WORK")
-    .sort((a, b) => a.accuracy - b.accuracy)[0];
-  const childWord = node.kind === "stream" ? "subjects" : node.kind === "subject" ? "topics" : "items";
-
-  return (
-    <div className="rounded-2xl border border-slate-100 bg-white/70 p-5">
-      <p className="text-xs text-slate-400">{KIND_LABEL[node.kind]}</p>
-      <h3 className="mt-0.5 text-lg font-semibold text-slate-800">{node.name}</h3>
-      <span className={`mt-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${tier.chip}`}>{tier.label}</span>
-      <dl className="mt-4 space-y-2 text-sm">
-        <div className="flex justify-between">
-          <dt className="text-slate-500">Accuracy</dt>
-          <dd className="font-medium text-slate-800">{tried ? `${node.accuracy}%` : "–"}</dd>
-        </div>
-        <div className="flex justify-between">
-          <dt className="text-slate-500">Questions tried</dt>
-          <dd className="font-medium text-slate-800">
-            {node.questionsSeen} of {node.activeQuestions}
-          </dd>
-        </div>
-        <div className="flex justify-between">
-          <dt className="text-slate-500">Answers given</dt>
-          <dd className="font-medium text-slate-800">
-            {node.correct} correct of {node.answers}
-          </dd>
-        </div>
-        <div className="flex justify-between">
-          <dt className="text-slate-500">Well remembered</dt>
-          <dd className="font-medium text-slate-800">{node.stable}</dd>
-        </div>
-      </dl>
-
-      {node.children.length > 0 && (
-        <div className="mt-4 border-t border-slate-100 pt-3">
-          <p className="text-xs text-slate-500">
-            {node.children.length} {childWord}
-          </p>
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            {TIER_ORDER.filter((t) => counts.get(t)).map((t) => (
-              <span key={t} className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${TIERS[t].chip}`}>
-                {counts.get(t)} {TIERS[t].label.toLowerCase()}
-              </span>
-            ))}
-          </div>
-          {weakest && (
-            <p className="mt-2 text-xs text-slate-500">
-              Weakest: <span className="font-medium text-slate-700">{weakest.name}</span> ({weakest.accuracy}%)
-            </p>
-          )}
-        </div>
-      )}
-
-      <p className="mt-4 text-xs text-slate-500">
-        {node.tier === "NOT_STARTED"
-          ? "Nothing tried here yet. A short session is a good start."
-          : node.tier === "NEEDS_WORK"
-            ? "This needs attention. A short session will help it stick."
-            : node.tier === "STRONG"
-              ? "Looking strong. Keep it fresh with the occasional review."
-              : "Keep going. The ring fills as you try more questions."}
-      </p>
-      {node.practice && (
-        <Link to={node.practice} className={`${primaryButton} mt-4 inline-flex items-center gap-2`}>
-          Practise {node.kind === "topic" ? "this topic" : "this " + node.kind} <ArrowRight size={14} />
-        </Link>
-      )}
-    </div>
-  );
-}
 
 export function MasteryMap() {
   const { data, isLoading, isError } = useQuery({ queryKey: ["progress-mastery"], queryFn: getMastery });
   const { data: catalog } = useStudentCatalog();
-  const [pathIds, setPathIds] = useState<string[]>([]);
-  const [selectedId, setSelectedId] = useState("");
-  const [tierFilter, setTierFilter] = useState<MasteryTier | "">("");
+  const [streamId, setStreamId] = useState("");
+  const [openSubjectId, setOpenSubjectId] = useState("");
+  const [selection, setSelection] = useState<Selection>({ kind: "stream" });
+  const [filter, setFilter] = useState<Filter>("all");
+  const [vb, setVb] = useState({ x: 0, y: 0, w: W, h: H });
+  const drag = useRef<{ px: number; py: number; vx: number; vy: number } | null>(null);
 
-  const root = useMemo(() => (data ? buildTree(data, catalog?.streams ?? []) : null), [data, catalog]);
+  const groups = useMemo(() => buildGroups(data, catalog?.streams ?? []), [data, catalog]);
+  const group = groups.find((g) => g.id === streamId) ?? groups[0];
 
   if (isLoading) {
     return (
       <div className="card p-5">
-        <h2 className="text-sm font-semibold text-slate-700">Mastery map</h2>
-        <p className="mt-3 text-sm text-slate-400">Loading...</p>
+        <h2 className="text-sm font-bold text-slate-800">Mastery map</h2>
+        <p className="mt-3 text-sm text-slate-500">Loading...</p>
       </div>
     );
   }
-  if (isError || !data || !root) {
+  if (isError || !data) {
     return (
       <div className="card p-5">
-        <h2 className="text-sm font-semibold text-slate-700">Mastery map</h2>
+        <h2 className="text-sm font-bold text-slate-800">Mastery map</h2>
         <p className="mt-3 text-sm text-red-600">Could not load your mastery map. Try refreshing.</p>
       </div>
     );
   }
-
-  const trail: MapNode[] = [];
-  let hub = root;
-  for (const id of pathIds) {
-    const next = hub.children.find((c) => c.id === id);
-    if (!next) break;
-    trail.push(next);
-    hub = next;
+  if (!group) {
+    return (
+      <div className="card p-5">
+        <h2 className="text-sm font-bold text-slate-800">Mastery map</h2>
+        <p className="mt-3 text-sm text-slate-500">No topics are available yet. Once questions are added, your map grows here.</p>
+      </div>
+    );
   }
-  const selected = hub.children.find((c) => c.id === selectedId) ?? null;
-  const panelNode = selected ?? hub;
 
-  const counts = new Map<MasteryTier, number>();
-  hub.children.forEach((c) => counts.set(c.tier, (counts.get(c.tier) ?? 0) + 1));
+  const allSubjects = group.subjects;
+  const subjects = filter === "needs" ? allSubjects.filter((s) => tierFor(s.answers, s.correct) === "NEEDS_WORK") : allSubjects;
+  const answers = sum(allSubjects, (s) => s.answers);
+  const correct = sum(allSubjects, (s) => s.correct);
+  const streamTier = tierFor(answers, correct);
+  const streamAccuracy = answers === 0 ? 0 : Math.round((correct * 100) / answers);
 
-  function pick(n: MapNode) {
-    setTierFilter("");
-    if (n.children.length > 0) {
-      setPathIds([...trail.map((t) => t.id), n.id]);
-      setSelectedId("");
-    } else {
-      setSelectedId(n.id);
+  const n = subjects.length;
+  const spacing = Math.min(84, 500 / Math.max(n, 1));
+  const cardH = Math.max(34, Math.min(60, spacing - 8));
+  const compact = cardH < 46;
+  const yOf = (i: number) => H / 2 - ((n - 1) * spacing) / 2 + i * spacing;
+
+  const openSubject = subjects.find((s) => s.subjectId === openSubjectId);
+  const openIndex = openSubject ? subjects.indexOf(openSubject) : -1;
+  const topics: TopicMastery[] = openSubject
+    ? [...openSubject.topics].sort((a, b) => ATTENTION[a.tier] - ATTENTION[b.tier] || a.topicName.localeCompare(b.topicName))
+    : [];
+  const topicSpacing = Math.min(64, 500 / Math.max(topics.length, 1));
+  const topicH = Math.max(30, Math.min(46, topicSpacing - 8));
+  const topicY = (k: number) => H / 2 - ((topics.length - 1) * topicSpacing) / 2 + k * topicSpacing;
+
+  const subjectById = new Map<string, SubjectMastery>(allSubjects.map((s) => [s.subjectId, s]));
+  const topicById = new Map<string, TopicMastery>();
+  allSubjects.forEach((s) => s.topics.forEach((t) => topicById.set(t.topicId, t)));
+
+  function pickSubject(id: string) {
+    setOpenSubjectId(id);
+    setSelection({ kind: "subject", id });
+  }
+
+  function zoom(factor: number) {
+    setVb((v) => {
+      const w = Math.max(320, Math.min(W, v.w * factor));
+      const h = (w * H) / W;
+      const x = Math.max(0, Math.min(W - w, v.x + (v.w - w) / 2));
+      const y = Math.max(0, Math.min(H - h, v.y + (v.h - h) / 2));
+      return { x, y, w, h };
+    });
+  }
+
+  function onPointerDown(e: PointerEvent<SVGSVGElement>) {
+    if (vb.w >= W || (e.target as Element).closest("[data-node]")) return;
+    drag.current = { px: e.clientX, py: e.clientY, vx: vb.x, vy: vb.y };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+  function onPointerMove(e: PointerEvent<SVGSVGElement>) {
+    const d = drag.current;
+    if (!d) return;
+    const k = vb.w / e.currentTarget.getBoundingClientRect().width;
+    setVb((v) => ({
+      ...v,
+      x: Math.max(0, Math.min(W - v.w, d.vx - (e.clientX - d.px) * k)),
+      y: Math.max(0, Math.min(H - v.h, d.vy - (e.clientY - d.py) * k)),
+    }));
+  }
+
+  const nodeKey = (fn: () => void) => (e: { key: string; preventDefault: () => void }) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      fn();
     }
-  }
-
-  function goTo(depth: number) {
-    setPathIds(trail.slice(0, depth).map((t) => t.id));
-    setSelectedId("");
-    setTierFilter("");
-  }
+  };
 
   return (
-    <div className="space-y-6">
-      {data.weakest.length > 0 && (
-        <div className="card border-rose-100 p-5">
-          <h2 className="text-sm font-semibold text-slate-700">Focus on these next</h2>
-          <p className="text-xs text-slate-500">Your lowest-scoring topics. A short session here moves the needle most.</p>
-          <div className="mt-3 grid gap-3 sm:grid-cols-3">
-            {data.weakest.map((t) => (
-              <div key={t.topicId}>
-                <p className="mb-1 text-xs text-slate-400">{t.subjectName}</p>
-                <Tile topic={t} />
-              </div>
+    <section className="grid grid-cols-1 gap-3" aria-label="Mastery map">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="text-sm font-semibold text-slate-500">Pick a subject to fan out its topics</p>
+          <h2 className="font-display text-2xl font-bold text-slate-800">Mastery map</h2>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {groups.length > 1 &&
+            groups.map((g) => (
+              <button
+                key={g.id}
+                onClick={() => {
+                  setStreamId(g.id);
+                  setOpenSubjectId("");
+                  setSelection({ kind: "stream" });
+                  setVb({ x: 0, y: 0, w: W, h: H });
+                }}
+                aria-pressed={g.id === group.id}
+                className={`rounded-full border-2 px-4 py-1.5 text-sm font-bold transition ${
+                  g.id === group.id
+                    ? "border-indigo-500 bg-indigo-500 text-white"
+                    : "border-slate-300 bg-slate-100 text-slate-600 hover:border-indigo-400"
+                }`}
+              >
+                {g.name}
+              </button>
             ))}
+          <Link to="/garden" className="btn-secondary !py-1.5">
+            <Sprout size={15} />
+            Garden view
+          </Link>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="card relative overflow-hidden p-0">
+          <div className="flex flex-wrap items-center justify-between gap-2 p-3">
+            <div className="flex gap-2" role="group" aria-label="Filter">
+              {(
+                [
+                  ["all", "All"],
+                  ["needs", "Needs work"],
+                ] as const
+              ).map(([id, label]) => (
+                <button
+                  key={id}
+                  onClick={() => {
+                    setFilter(id);
+                    setOpenSubjectId("");
+                  }}
+                  aria-pressed={filter === id}
+                  className={`rounded-full border-2 px-4 py-1 text-sm font-bold transition ${
+                    filter === id ? "border-amber-400 bg-amber-300 text-slate-900" : "border-slate-300 bg-slate-100 text-slate-600"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => zoom(1.25)} aria-label="Zoom out" className="btn-secondary !px-3 !py-1">
+                <Minus size={14} />
+              </button>
+              <button onClick={() => setVb({ x: 0, y: 0, w: W, h: H })} className="btn-secondary !px-3 !py-1">
+                Reset
+              </button>
+              <button onClick={() => zoom(0.8)} aria-label="Zoom in" className="btn-secondary !px-3 !py-1">
+                <Plus size={14} />
+              </button>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+          <svg
+            viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`}
+            className={`block w-full min-w-[720px] touch-pan-x touch-pan-y select-none lg:min-w-0 ${vb.w < W ? "cursor-grab" : ""}`}
+            role="group"
+            aria-label={`Mastery map for ${group.name}`}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={() => (drag.current = null)}
+            onPointerLeave={() => (drag.current = null)}
+          >
+            <defs>
+              <radialGradient id="mm-hub" cx="35%" cy="30%">
+                <stop offset="0" stopColor="#d9ccff" />
+                <stop offset="1" stopColor="#7a58e6" />
+              </radialGradient>
+            </defs>
+
+            {subjects.map((s, i) => {
+              const tone = toneFor(tierFor(s.answers, s.correct));
+              const active = s.subjectId === openSubjectId;
+              return (
+                <path
+                  key={`l-${s.subjectId}`}
+                  d={curve(HUB.x + HUB.r, HUB.y, CARD_X, yOf(i))}
+                  fill="none"
+                  stroke={SHADES[tone][0]}
+                  strokeWidth={active ? 4 : 2.5}
+                  opacity={active ? 1 : 0.65}
+                />
+              );
+            })}
+
+            {openSubject &&
+              topics.map((t, k) => (
+                <path
+                  key={`tl-${t.topicId}`}
+                  d={curve(CARD_X + CARD_W, yOf(openIndex), TOPIC_X, topicY(k))}
+                  fill="none"
+                  stroke={SHADES[toneFor(t.tier)][0]}
+                  strokeWidth={2.5}
+                  opacity={0.8}
+                />
+              ))}
+
+            <g
+              data-node
+              tabIndex={0}
+              role="button"
+              aria-label={`${group.name} stream`}
+              className="cursor-pointer outline-none"
+              onClick={() => {
+                setOpenSubjectId("");
+                setSelection({ kind: "stream" });
+              }}
+              onKeyDown={nodeKey(() => {
+                setOpenSubjectId("");
+                setSelection({ kind: "stream" });
+              })}
+            >
+              <circle cx={HUB.x} cy={HUB.y} r={HUB.r + 22} fill="none" stroke="rgb(var(--line))" strokeDasharray="3 5" />
+              <circle cx={HUB.x} cy={HUB.y} r={HUB.r} fill="url(#mm-hub)" stroke={selection.kind === "stream" ? "#fff" : "none"} strokeWidth={3} />
+              <text x={HUB.x} y={HUB.y + 6} textAnchor="middle" fontSize={17} fontWeight={800} fill="#fff">
+                {answers > 0 ? `${streamAccuracy}%` : "–"}
+              </text>
+              <text x={HUB.x} y={HUB.y + HUB.r + 40} textAnchor="middle" fontSize={14} fontWeight={800} style={{ fill: "rgb(var(--ink))" }}>
+                {short(group.name, 20)}
+              </text>
+              <text x={HUB.x} y={HUB.y + HUB.r + 56} textAnchor="middle" fontSize={11} style={{ fill: "rgb(var(--ink) / 0.65)" }}>
+                stream mastery
+              </text>
+            </g>
+
+            {subjects.map((s, i) => {
+              const tier = tierFor(s.answers, s.correct);
+              const tone = toneFor(tier);
+              const y = yOf(i);
+              const active = s.subjectId === openSubjectId;
+              const started = s.answers > 0;
+              return (
+                <g
+                  key={s.subjectId}
+                  data-node
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`${s.subjectName}, ${TIER_LABEL[tier]}`}
+                  aria-pressed={active}
+                  className="cursor-pointer outline-none"
+                  onClick={() => pickSubject(s.subjectId)}
+                  onKeyDown={nodeKey(() => pickSubject(s.subjectId))}
+                >
+                  <rect
+                    x={CARD_X}
+                    y={y - cardH / 2}
+                    width={CARD_W}
+                    height={cardH}
+                    rx={16}
+                    strokeWidth={active ? 3 : 2}
+                    strokeDasharray={started ? undefined : "5 4"}
+                    style={{ fill: "rgb(var(--panel))", stroke: active ? "#8b6cf0" : SHADES[tone][0] }}
+                  />
+                  <rect x={CARD_X + 8} y={y - cardH / 2 + 8} width={5} height={cardH - 16} rx={2.5} fill={SHADES[tone][0]} />
+                  <text
+                    x={CARD_X + 24}
+                    y={compact ? y + 5 : y + 2}
+                    fontSize={compact ? 15 : 22}
+                    fontWeight={800}
+                    style={{ fill: "rgb(var(--ink))" }}
+                  >
+                    {started ? `${s.accuracy}%` : "–"}
+                  </text>
+                  {!compact && (
+                    <text x={CARD_X + 24} y={y + 19} fontSize={12} style={{ fill: "rgb(var(--ink) / 0.7)" }}>
+                      {short(s.subjectName, 16)}
+                    </text>
+                  )}
+                  {compact && (
+                    <text x={CARD_X + 74} y={y + 5} fontSize={12} fontWeight={700} style={{ fill: "rgb(var(--ink))" }}>
+                      {short(s.subjectName, 20)}
+                    </text>
+                  )}
+                  <text x={CARD_X + CARD_W - 12} y={y - (compact ? -4 : 6)} textAnchor="end" fontSize={11} style={{ fill: "rgb(var(--ink) / 0.65)" }}>
+                    {compact ? s.topics.length : `${s.topics.length} ${s.topics.length === 1 ? "topic" : "topics"}`}
+                  </text>
+                  {!compact && tier === "NEEDS_WORK" && (
+                    <text x={CARD_X + CARD_W - 12} y={y + 19} textAnchor="end" fontSize={11} fontWeight={800} fill="#d6558a">
+                      needs work
+                    </text>
+                  )}
+                </g>
+              );
+            })}
+
+            {openSubject &&
+              topics.map((t, k) => {
+                const tone = toneFor(t.tier);
+                const y = topicY(k);
+                const picked = selection.kind === "topic" && selection.id === t.topicId;
+                const started = t.answers > 0;
+                return (
+                  <g
+                    key={t.topicId}
+                    data-node
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`${t.topicName}, ${TIER_LABEL[t.tier]}`}
+                    className="cursor-pointer outline-none"
+                    onClick={() => setSelection({ kind: "topic", id: t.topicId })}
+                    onKeyDown={nodeKey(() => setSelection({ kind: "topic", id: t.topicId }))}
+                  >
+                    <rect
+                      x={TOPIC_X}
+                      y={y - topicH / 2}
+                      width={TOPIC_W}
+                      height={topicH}
+                      rx={topicH / 2}
+                      strokeWidth={picked ? 3 : 2}
+                      strokeDasharray={started ? undefined : "5 4"}
+                      style={{ fill: "rgb(var(--panel))", stroke: picked ? "#8b6cf0" : SHADES[tone][0] }}
+                    />
+                    <circle cx={TOPIC_X + 18} cy={y} r={6} fill={SHADES[tone][1]} />
+                    <text x={TOPIC_X + 32} y={y + 4} fontSize={13} fontWeight={800} style={{ fill: "rgb(var(--ink))" }}>
+                      {short(t.topicName, 20)}
+                    </text>
+                    <text x={TOPIC_X + TOPIC_W - 16} y={y + 4} textAnchor="end" fontSize={13} fontWeight={800} style={{ fill: "rgb(var(--ink))" }}>
+                      {started ? `${t.accuracy}%` : "–"}
+                    </text>
+                  </g>
+                );
+              })}
+
+            {n === 0 && (
+              <text x={W / 2} y={H / 2} textAnchor="middle" fontSize={16} style={{ fill: "rgb(var(--ink) / 0.7)" }}>
+                No subjects need work right now. Nice.
+              </text>
+            )}
+          </svg>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 px-4 pb-3 text-[13px] font-semibold text-slate-500">
+            {(["strong", "gold", "rose", "idle"] as const).map((tone) => (
+              <span key={tone} className="flex items-center gap-1.5">
+                <i className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: SHADES[tone][1] }} />
+                {tone === "strong" ? "Strong" : tone === "gold" ? "Getting there" : tone === "rose" ? "Needs work" : "Not started or just started"}
+              </span>
+            ))}
+            <span>Dashed means not tried yet. Zoom in, then drag to move.</span>
           </div>
         </div>
-      )}
 
-      <div className="card p-5">
-        <h2 className="text-sm font-semibold text-slate-700">Mastery map</h2>
-        <p className="text-xs text-slate-500">
-          Tap a node to see its analysis and open what is inside it. The ring shows how much you have tried, the colour how well you know it.
-        </p>
-
-        {root.children.length === 0 ? (
-          <p className="mt-5 text-sm text-slate-400">No topics are available yet.</p>
-        ) : (
-          <>
-            <nav className="mt-4 flex flex-wrap items-center gap-1 text-sm" aria-label="Map location">
-              <button
-                type="button"
-                onClick={() => goTo(0)}
-                className={`rounded-lg px-2 py-1 transition hover:bg-indigo-50 ${trail.length === 0 ? "font-semibold text-slate-800" : "text-indigo-600"}`}
-              >
-                All
-              </button>
-              {trail.map((t, i) => (
-                <span key={t.id} className="flex items-center gap-1">
-                  <ChevronRight size={14} className="text-slate-300" />
-                  <button
-                    type="button"
-                    onClick={() => goTo(i + 1)}
-                    className={`rounded-lg px-2 py-1 transition hover:bg-indigo-50 ${
-                      i === trail.length - 1 ? "font-semibold text-slate-800" : "text-indigo-600"
-                    }`}
-                  >
-                    {t.name}
-                  </button>
-                </span>
-              ))}
-            </nav>
-
-            <div className="mt-3 grid gap-5 lg:grid-cols-3">
-              <div className="rounded-2xl border border-slate-100 bg-white/60 p-3 lg:col-span-2">
-                <NodeGraph hub={hub} selectedId={selected?.id ?? ""} onPick={pick} dim={tierFilter} />
-                <div className="mt-2 flex flex-wrap gap-2 px-1 pb-1">
-                  {TIER_ORDER.filter((t) => counts.get(t)).map((t) => (
-                    <button
-                      type="button"
-                      key={t}
-                      onClick={() => setTierFilter(tierFilter === t ? "" : t)}
-                      aria-pressed={tierFilter === t}
-                      className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition ${
-                        tierFilter === t ? "border-indigo-400 bg-indigo-50 text-indigo-700" : "border-transparent text-slate-600 hover:bg-slate-100"
-                      }`}
-                    >
-                      <span className="h-2.5 w-2.5 rounded-full" style={{ background: TIER_COLOR[t] }} />
-                      {TIERS[t].label} ({counts.get(t)})
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <Detail node={panelNode} />
-            </div>
-          </>
-        )}
+        <aside className="card grid content-start gap-3 p-5" aria-live="polite">
+          {selection.kind === "topic" && topicById.get(selection.id) ? (
+            <TopicPanel topic={topicById.get(selection.id)!} />
+          ) : selection.kind === "subject" && subjectById.get(selection.id) ? (
+            <SubjectPanel subject={subjectById.get(selection.id)!} onPick={(id) => setSelection({ kind: "topic", id })} />
+          ) : (
+            <StreamPanel
+              name={group.name}
+              subjects={allSubjects}
+              tier={streamTier}
+              answers={answers}
+              correct={correct}
+              onPick={pickSubject}
+            />
+          )}
+        </aside>
       </div>
-    </div>
+    </section>
   );
 }

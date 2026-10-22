@@ -5,6 +5,8 @@ import { getDatasets, restoreQuestion, retireQuestion, searchQuestions } from ".
 import { getCatalog } from "../api/catalogApi";
 import { CATALOG_KEY } from "../hooks/useCatalogActions";
 import { SearchBox } from "../components/catalogUi";
+import { QuestionPreview } from "../components/QuestionPreview";
+import { Chip } from "../../../components/ui/Chip";
 import type { AdminQuestion, QuestionFilters } from "../types/admin.types";
 import { messageFromError, prettify } from "../utils/format";
 
@@ -22,7 +24,8 @@ const EMPTY_FILTERS: QuestionFilters = {
   q: "",
 };
 
-const selectClass = "rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm";
+const selectClass =
+  "rounded-xl border-2 border-slate-300 bg-white/80 px-2 py-1.5 text-sm font-semibold text-slate-800 focus:border-indigo-500 focus:outline-none";
 
 export function QuestionBrowserPage() {
   const queryClient = useQueryClient();
@@ -114,7 +117,10 @@ export function QuestionBrowserPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold text-slate-800">Question browser</h1>
+      <div>
+        <p className="text-sm font-semibold text-slate-500">Browse, preview and retire questions</p>
+        <h1 className="font-display text-[clamp(26px,3.5vw,36px)] font-extrabold leading-tight text-slate-800">Question browser</h1>
+      </div>
 
       <div className="flex flex-wrap items-center gap-3 card p-3">
         <SearchBox value={searchText} onChange={setSearchText} placeholder="Search question text, ID or subtopic" />
@@ -203,7 +209,7 @@ export function QuestionBrowserPage() {
       </div>
 
       {actionError && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{actionError}</div>
+        <div className="rounded-2xl border-2 border-rose-400 bg-rose-500/10 p-3 text-sm font-semibold text-rose-700">{actionError}</div>
       )}
 
       {isLoading && <p className="text-sm text-slate-400">Loading...</p>}
@@ -250,13 +256,7 @@ export function QuestionBrowserPage() {
                       <td className="whitespace-nowrap px-3 py-2">{prettify(q.difficulty)}</td>
                       <td className="max-w-xs truncate px-3 py-2">{q.questionText}</td>
                       <td className="px-3 py-2">
-                        <span
-                          className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                            q.active ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"
-                          }`}
-                        >
-                          {q.active ? "Active" : "Retired"}
-                        </span>
+                        <Chip tone={q.active ? "good" : "warn"}>{q.active ? "Active" : "Retired"}</Chip>
                       </td>
                       <td className="px-3 py-2 text-right">
                         <button
@@ -265,7 +265,7 @@ export function QuestionBrowserPage() {
                             handleToggle(q);
                           }}
                           disabled={toggleMutation.isPending}
-                          className="rounded-md border border-slate-300 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-50"
+                          className="btn-secondary !px-3 !py-1 text-xs"
                         >
                           {q.active ? "Retire" : "Restore"}
                         </button>
@@ -274,7 +274,7 @@ export function QuestionBrowserPage() {
                     {expanded && (
                       <tr className="border-b border-slate-100 bg-slate-50">
                         <td colSpan={8} className="px-4 py-3">
-                          <QuestionDetail question={q} />
+                          <QuestionPreview question={q} />
                         </td>
                       </tr>
                     )}
@@ -291,7 +291,7 @@ export function QuestionBrowserPage() {
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="rounded-md border border-slate-300 bg-white px-3 py-1.5 hover:bg-slate-100 disabled:opacity-40"
+            className="btn-secondary"
           >
             Previous
           </button>
@@ -301,53 +301,11 @@ export function QuestionBrowserPage() {
           <button
             onClick={() => setPage((p) => Math.min(data.totalPages - 1, p + 1))}
             disabled={page >= data.totalPages - 1}
-            className="rounded-md border border-slate-300 bg-white px-3 py-1.5 hover:bg-slate-100 disabled:opacity-40"
+            className="btn-secondary"
           >
             Next
           </button>
         </div>
-      )}
-    </div>
-  );
-}
-
-function QuestionDetail({ question }: { question: AdminQuestion }) {
-  const data = (question.answerData ?? {}) as Record<string, unknown>;
-  const options = Array.isArray(data.options) ? (data.options as string[]) : null;
-  const accepted = Array.isArray(data.acceptedAnswers) ? (data.acceptedAnswers as string[]) : null;
-  const correct = data.correctAnswer;
-
-  return (
-    <div className="space-y-2 text-sm text-slate-700">
-      <p>{question.questionText}</p>
-
-      {options && (
-        <ul className="space-y-1">
-          {options.map((o) => (
-            <li key={o} className={o === correct ? "font-medium text-green-700" : ""}>
-              {o === correct ? "✓ " : "• "}
-              {o}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {!options && correct !== undefined && (
-        <p>
-          <span className="font-medium">Correct answer:</span> {String(correct)}
-        </p>
-      )}
-
-      {accepted && (
-        <p>
-          <span className="font-medium">Accepted answers:</span> {accepted.join(", ")}
-        </p>
-      )}
-
-      {question.explanation && (
-        <p className="text-slate-500">
-          <span className="font-medium text-slate-700">Explanation:</span> {question.explanation}
-        </p>
       )}
     </div>
   );
