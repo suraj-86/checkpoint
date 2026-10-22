@@ -35,3 +35,14 @@ export async function organiseSubject(subjectId: string, moves: OrganiseMove[]):
   const { data } = await apiClient.post<OrganiseResult>(`/api/admin/catalog/subjects/${subjectId}/organise`, { moves });
   return data;
 }
+
+export interface MergeResult {
+  questionsMoved: number;
+  topicsRemoved: number;
+  topicName: string;
+}
+
+export async function mergeTopics(targetId: string, sourceIds: string[], newName: string): Promise<MergeResult> {
+  const { data } = await apiClient.post<MergeResult>("/api/admin/catalog/topics/merge", { targetId, sourceIds, newName });
+  return data;
+}

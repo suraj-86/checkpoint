@@ -8,6 +8,7 @@ import {
   Inbox,
   Layers,
   FolderTree,
+  Merge,
   LayoutDashboard,
   Library,
   LifeBuoy,
@@ -25,7 +26,6 @@ export interface NavEntry {
   to: string;
   label: string;
   icon: LucideIcon;
-  /** Shown in the phone's bottom tab bar (students only). */
   tab?: boolean;
   group?: string;
 }
@@ -49,6 +49,7 @@ export const adminNav: NavEntry[] = [
   { to: "/admin/topics", label: "Topics", icon: Tag, group: "Catalog" },
   { to: "/admin/datasets/upload", label: "Upload", icon: Upload, group: "Content" },
   { to: "/admin/organise", label: "Organise", icon: FolderTree, group: "Content" },
+  { to: "/admin/merge", label: "Merge topics", icon: Merge, group: "Content" },
   { to: "/admin/datasets", label: "Datasets", icon: Database, group: "Content" },
   { to: "/admin/questions", label: "Questions", icon: ListChecks, group: "Content" },
   { to: "/admin/rewards", label: "Rewards", icon: Gift, group: "People" },
