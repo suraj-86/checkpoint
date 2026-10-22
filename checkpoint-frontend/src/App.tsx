@@ -26,6 +26,7 @@ import { SubjectsPage } from "./features/admin/pages/SubjectsPage";
 import { ExamsPage } from "./features/admin/pages/ExamsPage";
 import { TopicsPage } from "./features/admin/pages/TopicsPage";
 import { RewardsPage } from "./features/rewards/pages/RewardsPage";
+import { OrganisePage } from "./features/admin/pages/OrganisePage";
 import { RewardsAdminPage } from "./features/admin/pages/RewardsAdminPage";
 import { AdminAccountPage } from "./features/account/pages/AdminAccountPage";
 
@@ -84,6 +85,7 @@ function App() {
         <Route path="/admin/datasets" element={<DatasetHistoryPage />} />
         <Route path="/admin/datasets/upload" element={<DatasetUploadPage />} />
         <Route path="/admin/questions" element={<QuestionBrowserPage />} />
+        <Route path="/admin/organise" element={<OrganisePage />} />
         <Route path="/admin/rewards" element={<RewardsAdminPage />} />
         <Route path="/admin/requests" element={<SupportRequestsPage />} />
         <Route path="/admin/account" element={<AdminAccountPage />} />
