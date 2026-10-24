@@ -17,6 +17,46 @@ The result should feel similar in spirit to a modern learning product while rema
 
 ---
 
+## Current status (V3, "Lavender Garden")
+
+Checkpoint is live: **https://checkpoint-blond-eta.vercel.app**
+
+### What is in the app
+
+- A **mastery map** (stream, subject, topic) and a **Garden** view that show what is strong and what to practise next.
+- Three themes: **Morning**, **Dawn** and **Night**, with a mascot.
+- **Rewards**: chests, stickers, skins and XP boosts.
+- A **Focus** timer with a daily target.
+- **History** with a calendar and search, and an **Analytics** heatmap.
+- Daily Session and Fast Practice, with a question palette, skip, a timer and an optional "how sure are you?" check.
+- An admin console with dataset upload and validation, **Organise** by subtopic, **Merge topics**, and dataset retire, restore and delete.
+
+### Question bank
+
+About **7,100 active questions** across **11 subjects** and **83 topics**, all in one stream (Computer Science):
+
+| Subject | Questions |
+|---|---|
+| Java | 2,086 |
+| Data Structures and Algorithms | 1,153 |
+| Python | 927 |
+| C | 733 |
+| Linux and Bash | 380 |
+| JavaScript | 378 |
+| C++ | 347 |
+| Computer Networks | 336 |
+| Git | 330 |
+| Operating Systems | 250 |
+| SQL | 245 |
+
+The mix is about 5,670 multiple choice, 958 true/false and 537 fill-in-the-blank questions, from easy to expert. Counts change as datasets are added.
+
+### Hosting
+
+Frontend on Vercel, backend on Render and database on Neon, all on free tiers.
+
+---
+
 ## V1 philosophy
 
 Checkpoint V1 should be:
